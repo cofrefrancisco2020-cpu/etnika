@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Étnika Ecoaventura | Tours y Experiencias en La Araucanía, Chile</title>
+  <meta name="description" content="Agencia de turismo aventura en Malalcahuello y La Araucanía. Trekking con raquetas, volcanes, termas, bosques de araucarias y cultura Pehuenche. Guías locales certificados. ¡Reserva tu experiencia!" />
+  <meta name="keywords" content="tours Araucanía, trekking Malalcahuello, termas Curacautín, turismo aventura Chile, tours Volcán Lonquimay, experiencias naturaleza La Araucanía, ecoturismo Chile" />
+  <meta property="og:title" content="Étnika Ecoaventura | La Araucanía en su estado más puro" />
+  <meta property="og:description" content="Tours de aventura y ecoturismo en La Araucanía Andina, Chile. Volcanes, araucarias milenarias, nieve, termas y cultura local." />
+  <meta property="og:type" content="website" />
+  <link rel="canonical" href="https://turismoetnika.cl/" />
+  <link rel="stylesheet" href="style.css" />
+  <!-- Iconos via emoji nativos para evitar dependencias externas -->
+</head>
+<body>
+
+  <!-- ===================== NAV ===================== -->
+  <nav class="nav" id="mainNav">
+    <div class="container">
+      <div class="nav-inner">
+        <a href="index.html" class="nav-logo">
+          <img src="logo_etnika.png" alt="Étnika Ecoaventura" class="nav-logo-img" />
+          <span>· La Araucanía</span>
+        </a>
+        <ul class="nav-links">
+          <li><a href="#tours">Tours</a></li>
+          <li><a href="#temporadas">Temporadas</a></li>
+          <li><a href="#nosotros">Nosotros</a></li>
+          <li><a href="#galeria">Galería</a></li>
+          <li><a href="#contacto" class="btn btn-primary nav-cta">Reservar</a></li>
+        </ul>
+        <button class="hamburger" id="hamburger" aria-label="Menú">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+      <div class="nav-mobile" id="navMobile">
+        <a href="#tours">Tours &amp; Experiencias</a>
+        <a href="#temporadas">Temporadas</a>
+        <a href="#nosotros">Quiénes Somos</a>
+        <a href="#galeria">Galería</a>
+        <a href="#testimonios">Testimonios</a>
+        <a href="#contacto">Contacto &amp; Reservas</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ===================== HERO ===================== -->
+  <section class="hero" id="inicio">
+    <div class="hero-bg"></div>
+    <div class="container" style="width:100%;max-width:none;padding-inline:max(1.5rem, calc((100% - 1200px)/2 + 1.5rem));">
+      <div class="hero-content">
+        <span class="hero-badge">📍 Malalcahuello · Araucanía Andina · Chile</span>
+        <h1>La Araucanía te<br>espera, <em>salvaje<br>y auténtica</em></h1>
+        <p class="hero-subtitle">
+          Trekking con raquetas entre araucarias milenarias, volcanes nevados, 
+          termas naturales y la riqueza viva de la cultura Pehuenche. 
+          Experiencias reales, guías locales, naturaleza sin filtros.
+        </p>
+        <div class="hero-actions">
+          <a href="#tours" class="btn btn-primary">🏔 Ver Todos los Tours</a>
+          <a href="https://wa.me/56996278258?text=Hola!%20Quiero%20información%20sobre%20tours%20en%20la%20Araucanía"
+             target="_blank" rel="noopener" class="btn btn-outline">💬 Cotizar por WhatsApp</a>
+        </div>
+        <div class="hero-scroll">
+          <div class="scroll-line"></div>
+          Descubre más
+        </div>
+      </div>
+    </div>
+    <div class="hero-stats container" style="position:absolute;bottom:2rem;right:max(1.5rem, calc((100% - 1200px)/2 + 1.5rem));display:flex;flex-direction:column;gap:0.75rem;z-index:2;">
+      <div class="hero-stat">
+        <strong>+500</strong>
+        <span>Experiencias realizadas</span>
+      </div>
+      <div class="hero-stat">
+        <strong>4 Temporadas</strong>
+        <span>Aventura todo el año</span>
+      </div>
+      <div class="hero-stat">
+        <strong>100% Local</strong>
+        <span>Guías nativos certificados</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== BENEFICIOS ===================== -->
+  <section class="benefits" aria-label="Nuestros diferenciales">
+    <div class="container">
+      <div class="benefits-grid">
+        <div class="benefit-item fade-up">
+          <div class="benefit-icon">🌿</div>
+          <h3>Guías locales certificados</h3>
+          <p>Conocemos cada sendero, cada cima y cada historia de nuestra tierra. Experiencia que no se improvisa.</p>
+        </div>
+        <div class="benefit-item fade-up" style="transition-delay:0.1s">
+          <div class="benefit-icon">🏔</div>
+          <h3>Rutas únicas en la Araucanía</h3>
+          <p>Acceso a senderos y parajes exclusivos que difícilmente encontrarás con otra agencia de la región.</p>
+        </div>
+        <div class="benefit-item fade-up" style="transition-delay:0.2s">
+          <div class="benefit-icon">🤝</div>
+          <h3>Atención 100% personalizada</h3>
+          <p>Grupos reducidos para que vivas una experiencia íntima y a tu ritmo. Sin aglomeraciones.</p>
+        </div>
+        <div class="benefit-item fade-up" style="transition-delay:0.3s">
+          <div class="benefit-icon">♻️</div>
+          <h3>Turismo responsable</h3>
+          <p>Comprometidos con la conservación del territorio y el bienestar de las comunidades locales Pehuenche y Mapuche.</p>
+        </div>
+        <div class="benefit-item fade-up" style="transition-delay:0.4s">
+          <div class="benefit-icon">📅</div>
+          <h3>Todo el año</h3>
+          <p>Invierno con nieve y raquetas, verano con trekking y volcanes, primavera y otoño con magia única.</p>
+        </div>
+        <div class="benefit-item fade-up" style="transition-delay:0.5s">
+          <div class="benefit-icon">🔒</div>
+          <h3>Seguridad garantizada</h3>
+          <p>Equipamiento certificado, protocolos de seguridad actualizados y cobertura de seguro incluida.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== TOURS ===================== -->
+  <section class="tours" id="tours" aria-labelledby="tours-title">
+    <div class="container">
+      <div class="section-header centered fade-up">
+        <span class="overline">Nuestras Experiencias</span>
+        <h2 id="tours-title">Tours que te cambian por dentro</h2>
+        <div class="divider centered"></div>
+        <p>Cada salida es una aventura diseñada para conectarte con la Araucanía más auténtica. Desde caminatas familiares hasta expediciones técnicas en volcanes.</p>
+      </div>
+
+      <div class="tours-grid">
+
+        <!-- Tour 1 -->
+        <div class="tour-card fade-up">
+          <div class="tour-img">
+            <img src="https://images.unsplash.com/photo-1491555103944-7c647fd857e6?w=600&auto=format&fit=crop&q=75"
+                 alt="Trekking con raquetas de nieve Reserva Malalcahuello" loading="lazy" />
+            <span class="tour-badge">⭐ Más Popular</span>
+            <span class="tour-season">🌨 Invierno</span>
+          </div>
+          <div class="tour-body">
+            <h3>Trekking con Raquetas — Araucaria Milenaria</h3>
+            <p>La experiencia invernal más icónica de la región. Caminamos por la Reserva Nacional Malalcahuello entre lengas, ñirres y coihues hasta llegar a una araucaria de más de 2.000 años. Una experiencia que solo la nieve hace posible.</p>
+            <div class="tour-meta">
+              <span class="tour-meta-item"><span class="icon">⏱</span> 4–5 horas</span>
+              <span class="tour-meta-item"><span class="icon">📏</span> 3 km c/r</span>
+              <span class="tour-meta-item"><span class="icon">💪</span> Moderado</span>
+              <span class="tour-meta-item"><span class="icon">👥</span> Máx. 10 pax</span>
+            </div>
+            <a href="https://wa.me/56996278258?text=Hola!%20Me%20interesa%20el%20Trekking%20con%20Raquetas%20a%20la%20Araucaria%20Milenaria"
+               target="_blank" rel="noopener" class="btn btn-verde" style="width:100%;justify-content:center;">
+              💬 Consultar Disponibilidad
+            </a>
+          </div>
+        </div>
+
+        <!-- Tour 2 -->
+        <div class="tour-card fade-up" style="transition-delay:0.1s">
+          <div class="tour-img">
+            <img src="https://images.unsplash.com/photo-1564769625392-651b89c25b44?w=600&auto=format&fit=crop&q=75"
+                 alt="Trekking Volcán Lonquimay y Cráter Navidad" loading="lazy" />
+            <span class="tour-season">☀️ Verano</span>
+          </div>
+          <div class="tour-body">
+            <h3>Ascenso Volcán Lonquimay — Cráter Navidad</h3>
+            <p>Un clásico de la Araucanía Andina. Subimos por laderas volcánicas entre bosques nativos hasta alcanzar el imponente Cráter Navidad, con vistas panorámicas de 360° que lo dicen todo. Experiencia cumbre, en todo sentido.</p>
+            <div class="tour-meta">
+              <span class="tour-meta-item"><span class="icon">⏱</span> Día completo</span>
+              <span class="tour-meta-item"><span class="icon">🏔</span> 1.890 m.s.n.m.</span>
+              <span class="tour-meta-item"><span class="icon">💪</span> Exigente</span>
+              <span class="tour-meta-item"><span class="icon">👥</span> Máx. 8 pax</span>
+            </div>
+            <a href="https://wa.me/56996278258?text=Hola!%20Me%20interesa%20el%20tour%20al%20Volcán%20Lonquimay%20y%20Cráter%20Navidad"
+               target="_blank" rel="noopener" class="btn btn-verde" style="width:100%;justify-content:center;">
+              💬 Consultar Disponibilidad
+            </a>
+          </div>
+        </div>
+
+        <!-- Tour 3 -->
+        <div class="tour-card fade-up" style="transition-delay:0.2s">
+          <div class="tour-img">
+            <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600&auto=format&fit=crop&q=75"
+                 alt="Termas naturales y bosque nativo Araucanía" loading="lazy" />
+            <span class="tour-season">🍂 Todo el Año</span>
+          </div>
+          <div class="tour-body">
+            <h3>Ruta Termal + Bosque Nativo</h3>
+            <p>Un día de trekking suave por senderos de bosque nativo, con llegada a termas naturales escondidas entre la montaña. Ideal para familias o grupos que buscan desconectar sin sacrificar la aventura. Relax 100% natural.</p>
+            <div class="tour-meta">
+              <span class="tour-meta-item"><span class="icon">⏱</span> 6–7 horas</span>
+              <span class="tour-meta-item"><span class="icon">💪</span> Fácil–Moderado</span>
+              <span class="tour-meta-item"><span class="icon">👨‍👩‍👧</span> Familiar</span>
+              <span class="tour-meta-item"><span class="icon">👥</span> Máx. 12 pax</span>
+            </div>
+            <a href="https://wa.me/56996278258?text=Hola!%20Me%20interesa%20la%20Ruta%20Termal%20y%20Bosque%20Nativo"
+               target="_blank" rel="noopener" class="btn btn-verde" style="width:100%;justify-content:center;">
+              💬 Consultar Disponibilidad
+            </a>
+          </div>
+        </div>
+
+        <!-- Tour 4 -->
+        <div class="tour-card fade-up">
+          <div class="tour-img">
+            <img src="https://images.unsplash.com/photo-1517649763962-0c623066013b?w=600&auto=format&fit=crop&q=75"
+                 alt="Mountain bike araucarias Malalcahuello" loading="lazy" />
+            <span class="tour-season">🌸 Primavera–Verano</span>
+          </div>
+          <div class="tour-body">
+            <h3>Mountain Bike — Circuito Araucarias</h3>
+            <p>Pedalea entre volcanes y araucarias en uno de los entornos más espectaculares de Chile. Rutas de nivel variable para grupos de aventureros que quieren sentir la Araucanía a toda velocidad (o a buen ritmo). Bicicletas incluidas.</p>
+            <div class="tour-meta">
+              <span class="tour-meta-item"><span class="icon">⏱</span> 3–4 horas</span>
+              <span class="tour-meta-item"><span class="icon">🚵</span> 18–30 km</span>
+              <span class="tour-meta-item"><span class="icon">💪</span> Moderado</span>
+              <span class="tour-meta-item"><span class="icon">🚲</span> Bici incluida</span>
+            </div>
+            <a href="https://wa.me/56996278258?text=Hola!%20Me%20interesa%20el%20Mountain%20Bike%20en%20Malalcahuello"
+               target="_blank" rel="noopener" class="btn btn-verde" style="width:100%;justify-content:center;">
+              💬 Consultar Disponibilidad
+            </a>
+          </div>
+        </div>
+
+        <!-- Tour 5 -->
+        <div class="tour-card fade-up" style="transition-delay:0.1s">
+          <div class="tour-img">
+            <img src="https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?w=600&auto=format&fit=crop&q=75"
+                 alt="Cultura Pehuenche Mapuche experiencia ancestral" loading="lazy" />
+            <span class="tour-badge">🌱 Turismo Cultural</span>
+            <span class="tour-season">🍂 Todo el Año</span>
+          </div>
+          <div class="tour-body">
+            <h3>Experiencia Pehuenche — Territorio y Memoria</h3>
+            <p>Una inmersión en la cosmovisión Pehuenche/Mapuche de la Araucanía Andina. Visitamos comunidades locales, conocemos tradiciones ancestrales, la recolección del piñón y la relación profunda entre el pueblo y el bosque sagrado.</p>
+            <div class="tour-meta">
+              <span class="tour-meta-item"><span class="icon">⏱</span> Medio día</span>
+              <span class="tour-meta-item"><span class="icon">🌿</span> Cultural</span>
+              <span class="tour-meta-item"><span class="icon">💪</span> Fácil</span>
+              <span class="tour-meta-item"><span class="icon">👥</span> Máx. 10 pax</span>
+            </div>
+            <a href="https://wa.me/56996278258?text=Hola!%20Me%20interesa%20la%20Experiencia%20Pehuenche"
+               target="_blank" rel="noopener" class="btn btn-verde" style="width:100%;justify-content:center;">
+              💬 Consultar Disponibilidad
+            </a>
+          </div>
+        </div>
+
+        <!-- Tour 6 -->
+        <div class="tour-card fade-up" style="transition-delay:0.2s">
+          <div class="tour-img">
+            <img src="https://images.unsplash.com/photo-1444703686981-a3abbc4d4fe3?w=600&auto=format&fit=crop&q=75"
+                 alt="Astroturismo Araucanía observación estrellas" loading="lazy" />
+            <span class="tour-badge">✨ Nocturno</span>
+            <span class="tour-season">🍂 Todo el Año</span>
+          </div>
+          <div class="tour-body">
+            <h3>Astroturismo Mapuche — El Cielo Ancestral</h3>
+            <p>La Araucanía Andina tiene uno de los cielos más limpios del sur de Chile. Una noche bajo las estrellas interpretada desde la cosmovisión Mapuche: constelaciones, leyendas y la Vía Láctea que toca la cima de los volcanes.</p>
+            <div class="tour-meta">
+              <span class="tour-meta-item"><span class="icon">⏱</span> 2–3 horas</span>
+              <span class="tour-meta-item"><span class="icon">🌙</span> Nocturno</span>
+              <span class="tour-meta-item"><span class="icon">💪</span> Fácil</span>
+              <span class="tour-meta-item"><span class="icon">👥</span> Máx. 15 pax</span>
+            </div>
+            <a href="https://wa.me/56996278258?text=Hola!%20Me%20interesa%20el%20Astroturismo%20Mapuche"
+               target="_blank" rel="noopener" class="btn btn-verde" style="width:100%;justify-content:center;">
+              💬 Consultar Disponibilidad
+            </a>
+          </div>
+        </div>
+
+      </div>
+
+      <div style="text-align:center;margin-top:3rem;" class="fade-up">
+        <p style="color:var(--gris-texto);margin-bottom:1.25rem;">¿Buscas un tour a medida o para grupos corporativos? Lo diseñamos especialmente para ti.</p>
+        <a href="#contacto" class="btn btn-primary">📋 Solicitar Tour Personalizado</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== TEMPORADAS ===================== -->
+  <section class="seasons" id="temporadas" aria-labelledby="temporadas-title">
+    <div class="container">
+      <div class="section-header centered fade-up">
+        <span class="overline">Cuándo Venir</span>
+        <h2 id="temporadas-title">La Araucanía es increíble en todas sus estaciones</h2>
+        <div class="divider centered"></div>
+        <p>Cada temporada tiene su propio carácter, su propia magia y sus propias experiencias. El secreto está en que aquí siempre hay algo extraordinario que vivir.</p>
+      </div>
+
+      <div class="seasons-tabs" role="tablist">
+        <button class="season-tab active" data-tab="invierno" role="tab">❄️ Invierno</button>
+        <button class="season-tab" data-tab="verano" role="tab">☀️ Verano</button>
+        <button class="season-tab" data-tab="otono" role="tab">🍂 Otoño</button>
+        <button class="season-tab" data-tab="primavera" role="tab">🌸 Primavera</button>
+      </div>
+
+      <!-- INVIERNO -->
+      <div class="season-panel active" id="panel-invierno" role="tabpanel">
+        <div class="season-image fade-up">
+          <img src="img_pancho.jpg"
+               alt="Guía Étnika Ecoaventura en cima nevada Malalcahuello" loading="lazy" />
+        </div>
+        <div class="season-info fade-up">
+          <span class="overline">Junio — Agosto</span>
+          <h3>El reino de la nieve y las araucarias</h3>
+          <p>El invierno transforma la Araucanía en un paisaje de postal. La nieve cubre los volcanes y los bosques de araucarias, creando escenarios únicos en el mundo. Es la temporada más mística de la región.</p>
+          <p>Con raquetas en los pies y el silencio del bosque nevado como compañía, cada caminata se convierte en una experiencia que marca para siempre.</p>
+          <div class="season-activities">
+            <span class="activity-tag">🥾 Raquetas de nieve</span>
+            <span class="activity-tag">🌲 Trekking invernal</span>
+            <span class="activity-tag">🎿 Ski y Randonée</span>
+            <span class="activity-tag">♨️ Termas bajo la nieve</span>
+            <span class="activity-tag">📸 Fotografía de paisaje</span>
+            <span class="activity-tag">🏔 Montañismo</span>
+          </div>
+          <a href="#contacto" class="btn btn-primary">Reservar para invierno</a>
+        </div>
+      </div>
+
+      <!-- VERANO -->
+      <div class="season-panel" id="panel-verano" role="tabpanel">
+        <div class="season-image fade-up">
+          <img src="https://images.unsplash.com/photo-1519331379826-f10be5486c6f?w=700&auto=format&fit=crop&q=75"
+               alt="Verano trekking volcán Araucanía Chile" loading="lazy" />
+        </div>
+        <div class="season-info fade-up">
+          <span class="overline">Diciembre — Febrero</span>
+          <h3>Volcanes, senderos abiertos y aventura sin límites</h3>
+          <p>El verano es la temporada de máxima actividad. Los senderos están despejados, los volcanes se alzan majestuosos bajo el cielo azul del sur y los ríos cobran vida. La temporada perfecta para ascensos, bike y exploración.</p>
+          <p>Es también el mejor momento para conocer las comunidades locales, vivir festividades culturales y disfrutar de la Araucanía en todo su esplendor verde.</p>
+          <div class="season-activities">
+            <span class="activity-tag">🏔 Ascenso a volcanes</span>
+            <span class="activity-tag">🚵 Mountain bike</span>
+            <span class="activity-tag">🥾 Trekking en senderos</span>
+            <span class="activity-tag">🌿 Cultura Pehuenche</span>
+            <span class="activity-tag">🏊 Ríos y cascadas</span>
+            <span class="activity-tag">🌟 Astroturismo</span>
+          </div>
+          <a href="#contacto" class="btn btn-primary">Reservar para verano</a>
+        </div>
+      </div>
+
+      <!-- OTOÑO -->
+      <div class="season-panel" id="panel-otono" role="tabpanel">
+        <div class="season-image fade-up">
+          <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=700&auto=format&fit=crop&q=75"
+               alt="Bosque nativo colores otoño Araucanía" loading="lazy" />
+        </div>
+        <div class="season-info fade-up">
+          <span class="overline">Marzo — Mayo</span>
+          <h3>Los colores del bosque nativo te dejan sin palabras</h3>
+          <p>El otoño en la Araucanía es uno de los espectáculos naturales más impresionantes de Chile. Las lengas, ñirres y coihues se tiñen de dorado, rojo y naranja en un display cromático que los fotógrafos persiguen desde todo el mundo.</p>
+          <p>También es la época de la recolección del piñón, el fruto sagrado de la araucaria, una experiencia cultural única para vivir junto a las comunidades locales.</p>
+          <div class="season-activities">
+            <span class="activity-tag">📸 Fotografía de naturaleza</span>
+            <span class="activity-tag">🌰 Recolección de piñones</span>
+            <span class="activity-tag">🥾 Trekking bosque nativo</span>
+            <span class="activity-tag">🌿 Cultura Pehuenche</span>
+            <span class="activity-tag">♨️ Termas y relax</span>
+            <span class="activity-tag">🍄 Medicina ancestral</span>
+          </div>
+          <a href="#contacto" class="btn btn-primary">Reservar para otoño</a>
+        </div>
+      </div>
+
+      <!-- PRIMAVERA -->
+      <div class="season-panel" id="panel-primavera" role="tabpanel">
+        <div class="season-image fade-up">
+          <img src="https://images.unsplash.com/photo-1462275646964-a0e3386b89fa?w=700&auto=format&fit=crop&q=75"
+               alt="Primavera flores silvestres Araucanía Chile" loading="lazy" />
+        </div>
+        <div class="season-info fade-up">
+          <span class="overline">Septiembre — Noviembre</span>
+          <h3>La tierra despierta y los senderos también</h3>
+          <p>Cuando la nieve se retira y los ríos bajan cargados de deshielo, la Araucanía cobra una vitalidad inigualable. Flores silvestres alfombran los senderos, los animales nocturnos regresan a sus rutas y el paisaje se renueva completamente.</p>
+          <p>La primavera es ideal para comenzar la temporada de ascensos, explorar nuevos circuitos de bici y disfrutar del clima más benevolente del año.</p>
+          <div class="season-activities">
+            <span class="activity-tag">🌸 Flora silvestre</span>
+            <span class="activity-tag">🦌 Avistamiento de fauna</span>
+            <span class="activity-tag">🚵 Bike de temporada</span>
+            <span class="activity-tag">🥾 Trekking primaveral</span>
+            <span class="activity-tag">🏔 Primeros ascensos</span>
+            <span class="activity-tag">📸 Fotografía de vida silvestre</span>
+          </div>
+          <a href="#contacto" class="btn btn-primary">Reservar para primavera</a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ===================== NOSOTROS ===================== -->
+  <section class="nosotros" id="nosotros" aria-labelledby="nosotros-title">
+    <div class="container">
+      <div class="nosotros-grid">
+        <div class="nosotros-image-wrap fade-up">
+          <div class="nosotros-image-main">
+            <img src="https://images.unsplash.com/photo-1551632811-561732d1e306?w=700&auto=format&fit=crop&q=75"
+                 alt="Guías locales Étnika Ecoaventura Malalcahuello" loading="lazy" />
+          </div>
+          <div class="nosotros-badge">
+            <strong>2015</strong>
+            <span>Desde</span>
+          </div>
+          <div class="nosotros-image-accent">
+            <img src="https://images.unsplash.com/photo-1568393691622-c7ba131d1b16?w=300&auto=format&fit=crop&q=75"
+                 alt="Araucaria milenaria La Araucanía" loading="lazy" />
+          </div>
+        </div>
+
+        <div class="nosotros-text fade-up">
+          <span class="overline">Quiénes Somos</span>
+          <h2 id="nosotros-title">Hijos de la Araucanía, guardianes de su aventura</h2>
+          <div class="divider"></div>
+          <p>Somos Étnika Ecoaventura, una agencia de turismo aventura con base en Curacautín, en el corazón de la Araucanía Andina. Nacimos de la pasión por nuestro territorio: sus volcanes, sus bosques milenarios y la profundidad de su cultura ancestral.</p>
+          <p>Francisco y Catalina —fundadores y guías certificados— llevan más de una década recorriendo cada rincón de la Reserva Nacional Malalcahuello, el Volcán Lonquimay y los senderos que pocos conocen. Esa experiencia directa es lo que distingue a Étnika.</p>
+          <p>No somos una plataforma ni un intermediario. Somos los mismos que te guían, los que conocen el nombre de cada árbol, los que saben cuándo el tiempo cambia y cómo leer el volcán. Turismo real, de persona a persona, en un territorio extraordinario.</p>
+
+          <div class="nosotros-values">
+            <div class="nosotros-value">Guías nativos de la región</div>
+            <div class="nosotros-value">Grupos pequeños y personalizados</div>
+            <div class="nosotros-value">Ecoturismo y respeto territorial</div>
+            <div class="nosotros-value">Vínculos con comunidades locales</div>
+            <div class="nosotros-value">Equipamiento certificado</div>
+            <div class="nosotros-value">Experiencias únicas e irrepetibles</div>
+          </div>
+
+          <div style="margin-top:2rem;display:flex;flex-wrap:wrap;gap:1rem;">
+            <a href="#contacto" class="btn btn-primary">Reserva tu Experiencia</a>
+            <a href="https://www.instagram.com/turismo_etnika" target="_blank" rel="noopener" class="btn btn-verde">📸 Ver Instagram</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== CIFRAS ===================== -->
+  <section class="cifras" aria-label="Nuestros números">
+    <div class="container">
+      <div class="cifras-grid">
+        <div class="cifra-item fade-up">
+          <div class="cifra-number">+500</div>
+          <div class="cifra-label">Experiencias Realizadas</div>
+        </div>
+        <div class="cifra-item fade-up" style="transition-delay:0.1s">
+          <div class="cifra-number">+350</div>
+          <div class="cifra-label">Viajeros Felices</div>
+        </div>
+        <div class="cifra-item fade-up" style="transition-delay:0.2s">
+          <div class="cifra-number">10+</div>
+          <div class="cifra-label">Años de Experiencia</div>
+        </div>
+        <div class="cifra-item fade-up" style="transition-delay:0.3s">
+          <div class="cifra-number">100%</div>
+          <div class="cifra-label">Guías Locales Certificados</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== GALERÍA ===================== -->
+  <section class="galeria" id="galeria" aria-labelledby="galeria-title">
+    <div class="container">
+      <div class="section-header centered fade-up">
+        <span class="overline">Galería Visual</span>
+        <h2 id="galeria-title">Imágenes que no alcanzan a describirlo</h2>
+        <div class="divider centered"></div>
+        <p>La Araucanía es tan extraordinaria que las fotos apenas hacen justicia. Pero por algo hay que empezar.</p>
+      </div>
+
+      <div class="galeria-grid fade-up">
+        <div class="galeria-item">
+          <img src="img_pancho.jpg"
+               alt="Guía Étnika Ecoaventura en cima nevada Malalcahuello" loading="lazy" />
+        </div>
+        <div class="galeria-item">
+          <img src="https://images.unsplash.com/photo-1578894381163-e72c17f2d45f?w=600&auto=format&fit=crop&q=75"
+               alt="Volcán Lonquimay Araucanía Chile" loading="lazy" />
+        </div>
+        <div class="galeria-item">
+          <img src="https://images.unsplash.com/photo-1564769625392-651b89c25b44?w=500&auto=format&fit=crop&q=75"
+               alt="Caminata trekking bosque nativo sur de Chile" loading="lazy" />
+        </div>
+        <div class="galeria-item">
+          <img src="https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?w=500&auto=format&fit=crop&q=75"
+               alt="Cultura Mapuche Pehuenche Araucanía ancestral" loading="lazy" />
+        </div>
+        <div class="galeria-item">
+          <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=700&auto=format&fit=crop&q=75"
+               alt="Termas naturales bosque sur Chile Araucanía" loading="lazy" />
+        </div>
+      </div>
+
+      <div style="text-align:center;margin-top:2rem;" class="fade-up">
+        <a href="https://www.instagram.com/turismo_etnika" target="_blank" rel="noopener" class="btn btn-verde">
+          📸 Ver más en @turismo_etnika
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== TESTIMONIOS ===================== -->
+  <section class="testimonios" id="testimonios" aria-labelledby="testimonios-title">
+    <div class="container">
+      <div class="section-header centered fade-up">
+        <span class="overline">Lo que dicen nuestros viajeros</span>
+        <h2 id="testimonios-title">Cada historia es única. Cada experiencia, real.</h2>
+        <div class="divider centered"></div>
+      </div>
+
+      <div class="testimonios-grid">
+
+        <div class="testimonio-card fade-up">
+          <div class="testimonio-quote">"</div>
+          <p class="testimonio-text">El trekking con raquetas hasta la araucaria milenaria fue la experiencia más impactante de mi vida. Entrar dentro de ese árbol de 2.000 años y escuchar solo silencio... no tengo palabras. Francisco y Cata son guías increíbles, muy atentos y con un conocimiento profundo del territorio.</p>
+          <div class="testimonio-author">
+            <div class="author-avatar">M</div>
+            <div class="author-info">
+              <strong>Marcela Fuentes</strong>
+              <span>Santiago · Viajó en julio 2024</span>
+              <div class="stars">★★★★★</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="testimonio-card fade-up" style="transition-delay:0.1s">
+          <div class="testimonio-quote">"</div>
+          <p class="testimonio-text">Vinimos en familia con niños de 10 y 13 años y fue una experiencia perfecta. La ruta termal fue ideal para todos los niveles. Los guías se adaptaron completamente a nuestro ritmo. Llegamos a las termas agotados y felices al mismo tiempo. ¡Volvemos en verano para el volcán!</p>
+          <div class="testimonio-author">
+            <div class="author-avatar">R</div>
+            <div class="author-info">
+              <strong>Ricardo &amp; Familia Soto</strong>
+              <span>Concepción · Viajó en agosto 2024</span>
+              <div class="stars">★★★★★</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="testimonio-card fade-up" style="transition-delay:0.2s">
+          <div class="testimonio-quote">"</div>
+          <p class="testimonio-text">Hice el ascenso al Cráter Navidad en enero y fue exactamente lo que buscaba: desafiante, bien guiado y con vistas que te quiebran la mandíbula. Étnika tiene una organización impecable, desde la preparación antes del tour hasta el debrief al volver. Totalmente recomendados.</p>
+          <div class="testimonio-author">
+            <div class="author-avatar">A</div>
+            <div class="author-info">
+              <strong>Andrés Morales</strong>
+              <span>Buenos Aires, Argentina · enero 2024</span>
+              <div class="stars">★★★★★</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="testimonio-card fade-up">
+          <div class="testimonio-quote">"</div>
+          <p class="testimonio-text">La experiencia Pehuenche fue reveladora. Conocer la cosmovisión de la comunidad de la mano de alguien que tiene un vínculo real con ellos es muy diferente al turismo convencional. Sentí respeto genuino en todo momento. Étnika claramente hace turismo con conciencia.</p>
+          <div class="testimonio-author">
+            <div class="author-avatar">V</div>
+            <div class="author-info">
+              <strong>Valentina Lagos</strong>
+              <span>Temuco · Viajó en otoño 2024</span>
+              <div class="stars">★★★★★</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="testimonio-card fade-up" style="transition-delay:0.1s">
+          <div class="testimonio-quote">"</div>
+          <p class="testimonio-text">Vinimos en grupo de 8 amigos para una despedida de soltero diferente. Pedimos un tour personalizado y Étnika diseñó una jornada épica con raquetas, termas y cena en el bosque. El nivel de personalización y detalle fue extraordinario. Absolutamente memorable.</p>
+          <div class="testimonio-author">
+            <div class="author-avatar">C</div>
+            <div class="author-info">
+              <strong>Cristóbal Vega y grupo</strong>
+              <span>Santiago · julio 2024</span>
+              <div class="stars">★★★★★</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="testimonio-card fade-up" style="transition-delay:0.2s">
+          <div class="testimonio-quote">"</div>
+          <p class="testimonio-text">Ya van tres veces que vengo con Étnika y cada vez descubro algo nuevo. La Araucanía es enorme y ellos la conocen de verdad. El tour de astroturismo Mapuche fue el más reciente y fue mágico: cielo despejado, constelaciones y una narración que te lleva a otro tiempo.</p>
+          <div class="testimonio-author">
+            <div class="author-avatar">P</div>
+            <div class="author-info">
+              <strong>Paula Contreras</strong>
+              <span>Osorno · Viajó 3 veces con Étnika</span>
+              <div class="stars">★★★★★</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== CONTACTO ===================== -->
+  <section class="contacto" id="contacto" aria-labelledby="contacto-title">
+    <div class="container">
+      <div class="contacto-inner">
+
+        <div class="contacto-info fade-up">
+          <span class="overline" style="color:var(--tierra-clara)">Hablemos</span>
+          <h2 id="contacto-title">¿Listo para vivir la Araucanía?</h2>
+          <div class="divider"></div>
+          <p>Cuéntanos qué tipo de experiencia buscas y te armamos la aventura perfecta. Respondemos en menos de 24 horas y con toda la información que necesitas para decidir.</p>
+
+          <div class="contact-details">
+            <div class="contact-detail">
+              <div class="contact-icon">📱</div>
+              <div>
+                <strong style="color:var(--blanco);display:block;font-size:0.78rem;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:2px;opacity:0.6;">WhatsApp / Teléfono</strong>
+                <a href="https://wa.me/56996278258" target="_blank" rel="noopener" style="color:rgba(255,255,255,0.85);">+56 9 9627 8258</a>
+              </div>
+            </div>
+            <div class="contact-detail">
+              <div class="contact-icon">✉️</div>
+              <div>
+                <strong style="color:var(--blanco);display:block;font-size:0.78rem;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:2px;opacity:0.6;">Correo electrónico</strong>
+                <a href="mailto:etnika.turismo@gmail.com" style="color:rgba(255,255,255,0.85);">etnika.turismo@gmail.com</a>
+              </div>
+            </div>
+            <div class="contact-detail">
+              <div class="contact-icon">📍</div>
+              <div>
+                <strong style="color:var(--blanco);display:block;font-size:0.78rem;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:2px;opacity:0.6;">Ubicación</strong>
+                <span style="color:rgba(255,255,255,0.75);">Calle Arica #240, Of. 3 — Curacautín, Araucanía, Chile</span>
+              </div>
+            </div>
+          </div>
+
+          <div style="margin-bottom:2rem;">
+            <p style="color:rgba(255,255,255,0.5);font-size:0.78rem;letter-spacing:0.12em;text-transform:uppercase;margin-bottom:0.75rem;">Síguenos</p>
+            <div class="contact-social">
+              <a href="https://www.instagram.com/turismo_etnika" target="_blank" rel="noopener" class="social-btn" aria-label="Instagram">📸</a>
+              <a href="https://wa.me/56996278258" target="_blank" rel="noopener" class="social-btn" aria-label="WhatsApp">💬</a>
+              <a href="mailto:etnika.turismo@gmail.com" class="social-btn" aria-label="Email">✉️</a>
+            </div>
+          </div>
+
+          <a href="https://wa.me/56996278258?text=Hola!%20Quiero%20reservar%20un%20tour%20con%20Étnika%20Ecoaventura"
+             target="_blank" rel="noopener" class="btn btn-whatsapp" style="font-size:1rem;padding:1rem 2rem;">
+            💬 Escribir por WhatsApp ahora
+          </a>
+        </div>
+
+        <!-- FORMULARIO — Listo para Formspree -->
+        <div class="form-container fade-up">
+          <h3>Formulario de Contacto</h3>
+          <!-- 
+            Para conectar con Formspree:
+            1. Crea una cuenta en formspree.io
+            2. Obtén tu endpoint: https://formspree.io/f/TU_ID
+            3. Agrega action="https://formspree.io/f/TU_ID" method="POST" al form
+          -->
+          <form id="contactForm" novalidate>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="nombre">Nombre *</label>
+                <input type="text" id="nombre" name="nombre" placeholder="Tu nombre" required />
+              </div>
+              <div class="form-group">
+                <label for="email">Correo *</label>
+                <input type="email" id="email" name="email" placeholder="tu@correo.com" required />
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="telefono">Teléfono</label>
+                <input type="tel" id="telefono" name="telefono" placeholder="+56 9 XXXX XXXX" />
+              </div>
+              <div class="form-group">
+                <label for="personas">N° de Personas</label>
+                <input type="number" id="personas" name="personas" placeholder="Ej: 4" min="1" />
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="tour">Tour de interés</label>
+              <select id="tour" name="tour">
+                <option value="">Seleccionar tour...</option>
+                <option value="raquetas">Trekking Raquetas — Araucaria Milenaria</option>
+                <option value="volcan">Ascenso Volcán Lonquimay — Cráter Navidad</option>
+                <option value="termal">Ruta Termal + Bosque Nativo</option>
+                <option value="bike">Mountain Bike — Circuito Araucarias</option>
+                <option value="pehuenche">Experiencia Pehuenche</option>
+                <option value="astro">Astroturismo Mapuche</option>
+                <option value="personalizado">Tour Personalizado / Grupo</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="fecha">Fecha tentativa</label>
+              <input type="date" id="fecha" name="fecha" />
+            </div>
+            <div class="form-group">
+              <label for="mensaje">Mensaje</label>
+              <textarea id="mensaje" name="mensaje" placeholder="Cuéntanos más sobre la experiencia que buscas..."></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;padding:1rem;">
+              ✉️ Enviar Consulta
+            </button>
+            <p id="formMsg" style="display:none;margin-top:1rem;text-align:center;color:var(--tierra-clara);font-size:0.88rem;"></p>
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== FOOTER ===================== -->
+  <footer>
+    <div class="container">
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <a href="index.html" class="nav-logo" style="font-size:1.2rem;margin-bottom:0.75rem;">
+            <img src="logo_etnika.png" alt="Étnika Ecoaventura" class="nav-logo-img" style="height:36px;" />
+            <span style="font-size:0.55rem;">· La Araucanía</span>
+          </a>
+          <p>Agencia de turismo aventura y ecoturismo ubicada en Curacautín, Araucanía, Chile. Guías locales certificados, experiencias únicas en volcanes, bosques nativos y territorios ancestrales.</p>
+          <div style="margin-top:1.25rem;display:flex;gap:0.6rem;">
+            <a href="https://www.instagram.com/turismo_etnika" target="_blank" rel="noopener"
+               style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);color:rgba(255,255,255,0.6);width:36px;height:36px;display:flex;align-items:center;justify-content:center;border-radius:3px;font-size:0.95rem;transition:all 0.3s;">📸</a>
+            <a href="https://wa.me/56996278258" target="_blank" rel="noopener"
+               style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);color:rgba(255,255,255,0.6);width:36px;height:36px;display:flex;align-items:center;justify-content:center;border-radius:3px;font-size:0.95rem;transition:all 0.3s;">💬</a>
+          </div>
+        </div>
+
+        <div class="footer-col">
+          <h4>Tours</h4>
+          <ul>
+            <li><a href="#tours">Raquetas — Araucaria Milenaria</a></li>
+            <li><a href="#tours">Volcán Lonquimay</a></li>
+            <li><a href="#tours">Ruta Termal</a></li>
+            <li><a href="#tours">Mountain Bike</a></li>
+            <li><a href="#tours">Experiencia Pehuenche</a></li>
+            <li><a href="#tours">Astroturismo</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Contacto</h4>
+          <ul>
+            <li><a href="tel:+56996278258">+56 9 9627 8258</a></li>
+            <li><a href="mailto:etnika.turismo@gmail.com">etnika.turismo@gmail.com</a></li>
+            <li><a href="https://www.instagram.com/turismo_etnika" target="_blank" rel="noopener">@turismo_etnika</a></li>
+            <li style="color:rgba(255,255,255,0.35);font-size:0.85rem;margin-top:0.75rem;">Calle Arica #240, Of. 3<br>Curacautín, La Araucanía<br>Chile</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <span>© 2025 Étnika Ecoaventura. Todos los derechos reservados.</span>
+        <span>Hecho con ❤️ en Curacautín, La Araucanía · Chile</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- BOTÓN FLOTANTE WHATSAPP -->
+  <a href="https://wa.me/56996278258?text=Hola!%20Quiero%20información%20sobre%20tours%20en%20la%20Araucanía"
+     target="_blank" rel="noopener"
+     class="float-whatsapp"
+     aria-label="Contáctanos por WhatsApp">
+    💬
+  </a>
+
+  <script src="script.js"></script>
+</body>
+</html>
