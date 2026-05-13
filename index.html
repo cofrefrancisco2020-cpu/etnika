@@ -14,54 +14,13 @@
 
 <!-- ══════ LOADER ══════ -->
 <div id="loader" role="status" aria-label="Cargando">
-  <svg class="loader-logo loader-logo-animated" viewBox="0 0 1295 1408" role="img" aria-label="Etnika" preserveAspectRatio="xMidYMid meet">
-    <defs>
-      <clipPath id="loader-walker-body-clip" clipPathUnits="userSpaceOnUse">
-        <path d="M562 112 C677 72 820 90 917 151 C1047 232 1098 363 1073 501 C1055 604 995 664 907 666 C828 668 785 626 783 557 C781 507 800 465 783 419 C761 360 689 356 630 321 C573 287 542 226 548 164 C550 142 554 124 562 112Z" />
-      </clipPath>
-      <clipPath id="loader-walker-pack-clip" clipPathUnits="userSpaceOnUse">
-        <path d="M584 238 C688 222 766 273 779 359 C792 443 735 505 652 501 C598 499 566 473 560 432 C553 384 585 355 584 314 C583 282 560 258 584 238Z" />
-      </clipPath>
-      <clipPath id="loader-walker-arm-clip" clipPathUnits="userSpaceOnUse">
-        <path d="M810 293 C885 307 944 353 999 362 C1029 368 1047 393 1036 421 C1025 449 990 448 958 432 C911 409 867 398 821 389 C786 382 771 354 780 326 C786 307 797 295 810 293Z" />
-      </clipPath>
-      <clipPath id="loader-walker-pole-clip" clipPathUnits="userSpaceOnUse">
-        <path d="M934 269 L991 269 L1068 724 L1010 724 Z" />
-      </clipPath>
-      <clipPath id="loader-walker-front-leg-clip" clipPathUnits="userSpaceOnUse">
-        <path d="M777 482 C846 492 912 550 933 622 C966 735 896 820 808 842 C748 857 704 826 708 769 C711 720 743 683 746 640 C750 588 728 532 777 482Z" />
-      </clipPath>
-      <clipPath id="loader-walker-back-leg-clip" clipPathUnits="userSpaceOnUse">
-        <path d="M617 420 C700 420 763 484 763 570 C763 665 710 731 648 750 C599 766 564 736 572 687 C580 640 615 613 617 568 C619 516 582 457 617 420Z" />
-      </clipPath>
-      <clipPath id="loader-walker-head-clip" clipPathUnits="userSpaceOnUse">
-        <path d="M806 111 C908 90 974 126 992 190 C1003 230 1035 236 1055 252 C1012 273 995 272 959 269 C933 296 904 318 864 319 C812 319 781 291 773 248 C762 191 773 132 806 111Z" />
-      </clipPath>
-    </defs>
-    <image href="assets/logo_etnika.png" width="1295" height="1408" />
-    <g class="loader-walker-shadow">
-      <image href="assets/logo_etnika.png" width="1295" height="1408" clip-path="url(#loader-walker-body-clip)" />
-      <image href="assets/logo_etnika.png" width="1295" height="1408" clip-path="url(#loader-walker-pack-clip)" />
-      <image href="assets/logo_etnika.png" width="1295" height="1408" clip-path="url(#loader-walker-head-clip)" />
-    </g>
-    <g class="loader-walker-body">
-      <image href="assets/logo_etnika.png" width="1295" height="1408" clip-path="url(#loader-walker-body-clip)" />
-      <image href="assets/logo_etnika.png" width="1295" height="1408" clip-path="url(#loader-walker-pack-clip)" />
-      <image href="assets/logo_etnika.png" width="1295" height="1408" clip-path="url(#loader-walker-head-clip)" />
-    </g>
-    <g class="loader-walker-arm">
-      <image href="assets/logo_etnika.png" width="1295" height="1408" clip-path="url(#loader-walker-arm-clip)" />
-    </g>
-    <g class="loader-walker-pole">
-      <image href="assets/logo_etnika.png" width="1295" height="1408" clip-path="url(#loader-walker-pole-clip)" />
-    </g>
-    <g class="loader-walker-leg loader-walker-front-leg">
-      <image href="assets/logo_etnika.png" width="1295" height="1408" clip-path="url(#loader-walker-front-leg-clip)" />
-    </g>
-    <g class="loader-walker-leg loader-walker-back-leg">
-      <image href="assets/logo_etnika.png" width="1295" height="1408" clip-path="url(#loader-walker-back-leg-clip)" />
-    </g>
-  </svg>
+  <div class="loader-logo loader-logo-video" aria-hidden="true">
+    <video autoplay muted loop playsinline preload="auto" poster="assets/logo_etnika.png">
+      <source src="assets/etnika-logo-walking-loader.mp4" type="video/mp4" />
+    </video>
+    <img src="assets/logo_etnika.png" alt="" />
+  </div>
+  <span class="sr-only">Cargando ETNIKA</span>
   <div id="loader-bar"><div id="loader-fill"></div></div>
   <div id="loader-pct">0%</div>
 </div>
@@ -917,7 +876,10 @@
           <div class="wc-row"><span class="wc-lbl">Sensación</span><span id="wc-feel">--°C</span></div>
           <div class="wc-row"><span class="wc-lbl">Humedad</span><span id="wc-hum">--%</span></div>
           <div class="wc-row"><span class="wc-lbl">Viento</span><span id="wc-wind">-- km/h</span></div>
+          <div class="wc-row"><span class="wc-lbl">Ráfagas</span><span id="wc-gust">-- km/h</span></div>
           <div class="wc-row"><span class="wc-lbl">Precip.</span><span id="wc-precip">-- mm</span></div>
+          <div class="wc-row"><span class="wc-lbl">Prob. lluvia</span><span id="wc-rain">--%</span></div>
+          <div class="wc-row"><span class="wc-lbl">UV máx.</span><span id="wc-uv">--</span></div>
         </div>
       </div>
 

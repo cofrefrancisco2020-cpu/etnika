@@ -342,6 +342,18 @@
 
   const DIAS_ES = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'];
 
+  function safeNumber(value, fallback = 0) {
+    return Number.isFinite(value) ? value : fallback;
+  }
+
+  function activityTip({ rain, gust, uv, snow }) {
+    if (gust >= 55) return 'Viento fuerte: confirma la salida guiada.';
+    if (snow > 0) return 'Posible nieve: revisa ruta y cadenas.';
+    if (rain >= 70) return 'Alta probabilidad de lluvia: lleva impermeable.';
+    if (uv >= 7) return 'UV alto: bloqueador, lentes y gorro.';
+    return 'Condiciones útiles para planificar tu actividad.';
+  }
+
   function renderWeather(data) {
     const c = data.current;
     const d = data.daily;
@@ -354,7 +366,10 @@
     document.getElementById('wc-feel').textContent  = Math.round(c.apparent_temperature) + '°C';
     document.getElementById('wc-hum').textContent   = c.relative_humidity_2m + '%';
     document.getElementById('wc-wind').textContent  = Math.round(c.wind_speed_10m) + ' km/h';
+    document.getElementById('wc-gust').textContent  = Math.round(safeNumber(c.wind_gusts_10m)) + ' km/h';
     document.getElementById('wc-precip').textContent = (c.precipitation ?? 0).toFixed(1) + ' mm';
+    document.getElementById('wc-rain').textContent = Math.round(safeNumber(d.precipitation_probability_max?.[0])) + '%';
+    document.getElementById('wc-uv').textContent = safeNumber(d.uv_index_max?.[0]).toFixed(1);
 
     // Pronóstico 5 días
     const forecastEl = document.getElementById('wc-forecast');
@@ -370,7 +385,15 @@
         <span class="wc-day-icon">${fi}</span>
         <span class="wc-day-max">${Math.round(d.temperature_2m_max[i])}°</span>
         <span class="wc-day-min">${Math.round(d.temperature_2m_min[i])}°</span>
+        <span class="wc-day-extra">${Math.round(safeNumber(d.precipitation_probability_max?.[i]))}% lluvia</span>
+        <span class="wc-day-extra">${Math.round(safeNumber(d.wind_gusts_10m_max?.[i]))} km/h ráf.</span>
       `;
+      div.title = activityTip({
+        rain: safeNumber(d.precipitation_probability_max?.[i]),
+        gust: safeNumber(d.wind_gusts_10m_max?.[i]),
+        uv: safeNumber(d.uv_index_max?.[i]),
+        snow: safeNumber(d.snowfall_sum?.[i])
+      });
       forecastEl.appendChild(div);
     }
   }
@@ -382,8 +405,9 @@
     const url = 'https://api.open-meteo.com/v1/forecast'
       + '?latitude=-38.42&longitude=-71.58'
       + '&current=temperature_2m,relative_humidity_2m,apparent_temperature,'
-      + 'weather_code,wind_speed_10m,precipitation'
-      + '&daily=temperature_2m_max,temperature_2m_min,weather_code,precipitation_sum'
+      + 'weather_code,wind_speed_10m,wind_gusts_10m,precipitation'
+      + '&daily=temperature_2m_max,temperature_2m_min,weather_code,precipitation_sum,'
+      + 'precipitation_probability_max,wind_gusts_10m_max,uv_index_max,snowfall_sum'
       + '&timezone=America%2FSantiago&forecast_days=5';
 
     fetch(url)
