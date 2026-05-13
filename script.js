@@ -305,6 +305,102 @@
   }
 
   /* ─────────────────────────────────────────
+     CLIMA — Open-Meteo (sin API key)
+     Coordenadas: Malalcahuello −38.42, −71.58
+  ───────────────────────────────────────── */
+  const WMO_CODES = {
+    0:  ['☀️',  'Despejado'],
+    1:  ['🌤️', 'Mayormente despejado'],
+    2:  ['⛅',  'Parcialmente nublado'],
+    3:  ['☁️',  'Nublado'],
+    45: ['🌫️', 'Niebla'],
+    48: ['🌫️', 'Niebla con escarcha'],
+    51: ['🌦️', 'Llovizna ligera'],
+    53: ['🌦️', 'Llovizna moderada'],
+    55: ['🌧️', 'Llovizna intensa'],
+    61: ['🌧️', 'Lluvia ligera'],
+    63: ['🌧️', 'Lluvia moderada'],
+    65: ['🌧️', 'Lluvia intensa'],
+    71: ['🌨️', 'Nieve ligera'],
+    73: ['🌨️', 'Nieve moderada'],
+    75: ['❄️',  'Nieve intensa'],
+    77: ['🌨️', 'Granizo de nieve'],
+    80: ['🌦️', 'Chubascos ligeros'],
+    81: ['🌧️', 'Chubascos moderados'],
+    82: ['⛈️',  'Chubascos fuertes'],
+    85: ['🌨️', 'Chubascos de nieve'],
+    86: ['❄️',  'Chubascos de nieve fuertes'],
+    95: ['⛈️',  'Tormenta eléctrica'],
+    96: ['⛈️',  'Tormenta con granizo'],
+    99: ['⛈️',  'Tormenta intensa con granizo'],
+  };
+
+  function wmoInfo(code) {
+    // Buscar código exacto o fallback al más cercano
+    return WMO_CODES[code] || WMO_CODES[Math.floor(code / 10) * 10] || ['🌡️', 'Variable'];
+  }
+
+  const DIAS_ES = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'];
+
+  function renderWeather(data) {
+    const c = data.current;
+    const d = data.daily;
+    const [icon, desc] = wmoInfo(c.weather_code);
+
+    // Actual
+    document.getElementById('wc-icon').textContent  = icon;
+    document.getElementById('wc-temp').textContent  = Math.round(c.temperature_2m) + '°';
+    document.getElementById('wc-desc').textContent  = desc;
+    document.getElementById('wc-feel').textContent  = Math.round(c.apparent_temperature) + '°C';
+    document.getElementById('wc-hum').textContent   = c.relative_humidity_2m + '%';
+    document.getElementById('wc-wind').textContent  = Math.round(c.wind_speed_10m) + ' km/h';
+    document.getElementById('wc-precip').textContent = (c.precipitation ?? 0).toFixed(1) + ' mm';
+
+    // Pronóstico 5 días
+    const forecastEl = document.getElementById('wc-forecast');
+    if (!forecastEl) return;
+    forecastEl.innerHTML = '';
+    for (let i = 0; i < 5; i++) {
+      const date  = new Date(d.time[i] + 'T12:00:00');
+      const [fi, ] = wmoInfo(d.weather_code[i]);
+      const div = document.createElement('div');
+      div.className = 'wc-day';
+      div.innerHTML = `
+        <span class="wc-day-name">${DIAS_ES[date.getDay()]}</span>
+        <span class="wc-day-icon">${fi}</span>
+        <span class="wc-day-max">${Math.round(d.temperature_2m_max[i])}°</span>
+        <span class="wc-day-min">${Math.round(d.temperature_2m_min[i])}°</span>
+      `;
+      forecastEl.appendChild(div);
+    }
+  }
+
+  function initWeather() {
+    const card = document.getElementById('weather-card');
+    if (!card) return;
+
+    const url = 'https://api.open-meteo.com/v1/forecast'
+      + '?latitude=-38.42&longitude=-71.58'
+      + '&current=temperature_2m,relative_humidity_2m,apparent_temperature,'
+      + 'weather_code,wind_speed_10m,precipitation'
+      + '&daily=temperature_2m_max,temperature_2m_min,weather_code,precipitation_sum'
+      + '&timezone=America%2FSantiago&forecast_days=5';
+
+    fetch(url)
+      .then(r => {
+        if (!r.ok) throw new Error('HTTP ' + r.status);
+        return r.json();
+      })
+      .then(data => renderWeather(data))
+      .catch(() => {
+        const icon = document.getElementById('wc-icon');
+        const desc = document.getElementById('wc-desc');
+        if (icon) icon.textContent = '🌡️';
+        if (desc) desc.textContent = 'No se pudo cargar el clima. Intenta más tarde.';
+      });
+  }
+
+  /* ─────────────────────────────────────────
      INICIALIZACIÓN
   ───────────────────────────────────────── */
   function init() {
@@ -314,6 +410,7 @@
     initSmoothScroll();
     initReveal();
     initGallery();
+    initWeather();
 
     // Mostrar primer caption inmediatamente
     if (captions.length) captions[0].classList.add('active');
