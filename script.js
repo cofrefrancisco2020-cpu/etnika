@@ -12,6 +12,7 @@
   const TOTAL_FRAMES = 119;
   const FRAMES_DIR   = 'frames/';
   const SCROLL_MULT  = 7;   // 700vh total (hero-frame-section height: 700vh)
+  const MOBILE_FRAME_FOCUS_X = 0.63;
 
   const pad = n => String(n).padStart(4, '0');
   const frameSrc = i => `${FRAMES_DIR}frames_${pad(i + 1)}.png`;
@@ -58,6 +59,7 @@
     if (!img || !img.naturalWidth || !ctx) return;
     const iW = img.naturalWidth,  iH = img.naturalHeight;
     const cA = vpW / vpH,         iA = iW / iH;
+    const focusX = vpW <= 768 ? MOBILE_FRAME_FOCUS_X : 0.5;
     let sx, sy, sw, sh;
     if (cA > iA) {
       sw = iW;
@@ -68,7 +70,7 @@
       sh = iH;
       sw = iH * cA;
       sy = 0;
-      sx = (iW - sw) / 2;
+      sx = Math.max(0, Math.min(iW - sw, (iW - sw) * focusX));
     }
     ctx.drawImage(img, sx, sy, sw, sh, 0, 0, vpW, vpH);
   }
