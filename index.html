@@ -14,7 +14,35 @@
 
 <!-- ══════ LOADER ══════ -->
 <div id="loader" role="status" aria-label="Cargando">
-  <img src="assets/logo_etnika.png" alt="Etnika" class="loader-logo" />
+  <svg class="loader-logo loader-logo-animated" viewBox="0 0 1295 1408" role="img" aria-label="Etnika" preserveAspectRatio="xMidYMid meet">
+    <defs>
+      <clipPath id="loader-walker-clip" clipPathUnits="userSpaceOnUse">
+        <path d="M588 116 C742 112 925 112 1042 280 C1104 366 1131 472 1115 601 C1092 792 1017 837 944 831 C888 826 856 786 858 727 C861 662 888 616 880 550 C872 478 806 466 735 450 C653 431 596 378 580 302 C566 232 568 166 588 116Z" />
+      </clipPath>
+      <clipPath id="loader-walker-leg-front-clip" clipPathUnits="userSpaceOnUse">
+        <path d="M744 544 C834 536 906 589 920 676 C936 774 853 835 793 841 C741 846 706 816 706 767 C707 712 736 677 735 630 C734 593 724 570 744 544Z" />
+      </clipPath>
+      <clipPath id="loader-walker-leg-back-clip" clipPathUnits="userSpaceOnUse">
+        <path d="M616 472 C704 462 766 509 771 596 C775 676 729 734 681 745 C640 755 606 733 600 691 C593 645 615 614 610 572 C606 535 591 500 616 472Z" />
+      </clipPath>
+      <clipPath id="loader-walker-pole-clip" clipPathUnits="userSpaceOnUse">
+        <path d="M927 272 L989 270 L1058 720 L1015 724 Z" />
+      </clipPath>
+    </defs>
+    <image href="assets/logo_etnika.png" width="1295" height="1408" />
+    <g class="loader-walker">
+      <image href="assets/logo_etnika.png" width="1295" height="1408" clip-path="url(#loader-walker-clip)" />
+    </g>
+    <g class="loader-walker-leg loader-walker-leg-front">
+      <image href="assets/logo_etnika.png" width="1295" height="1408" clip-path="url(#loader-walker-leg-front-clip)" />
+    </g>
+    <g class="loader-walker-leg loader-walker-leg-back">
+      <image href="assets/logo_etnika.png" width="1295" height="1408" clip-path="url(#loader-walker-leg-back-clip)" />
+    </g>
+    <g class="loader-walker-pole">
+      <image href="assets/logo_etnika.png" width="1295" height="1408" clip-path="url(#loader-walker-pole-clip)" />
+    </g>
+  </svg>
   <div id="loader-bar"><div id="loader-fill"></div></div>
   <div id="loader-pct">0%</div>
 </div>
@@ -857,33 +885,11 @@
       <h2 class="reveal d1">Revisa el clima<br /><em>antes de tu aventura</em></h2>
       <p class="reveal d2">Malalcahuello tiene las 4 estaciones claramente definidas. Planifica bien tu visita y consulta las condiciones de la ruta.</p>
     </div>
-    <div class="clima-widget reveal d2" id="weather-card">
-
-      <!-- Clima actual -->
-      <div class="wc-current">
-        <div class="wc-left">
-          <div class="wc-icon" id="wc-icon">⏳</div>
-          <div class="wc-temp" id="wc-temp">--°</div>
-          <div class="wc-desc" id="wc-desc">Cargando…</div>
-        </div>
-        <div class="wc-right">
-          <div class="wc-row"><span class="wc-lbl">Sensación</span><span id="wc-feel">--°C</span></div>
-          <div class="wc-row"><span class="wc-lbl">Humedad</span><span id="wc-hum">--%</span></div>
-          <div class="wc-row"><span class="wc-lbl">Viento</span><span id="wc-wind">-- km/h</span></div>
-          <div class="wc-row"><span class="wc-lbl">Precip.</span><span id="wc-precip">-- mm</span></div>
-        </div>
-      </div>
-
-      <!-- Pronóstico 5 días -->
-      <div class="wc-forecast" id="wc-forecast">
-        <!-- Días generados por JS -->
-      </div>
-
-      <div class="wc-footer">
-        <span>📍 Malalcahuello, 972 msnm</span>
-        <a href="https://open-meteo.com" target="_blank" rel="noopener">Open-Meteo</a>
-      </div>
-
+    <div class="clima-widget reveal d2">
+      <a class="weatherwidget-io" href="https://forecast7.com/es/n38d65n71d52/malalcahuello/" data-label_1="MALALCAHUELLO" data-label_2="CLIMA ACTUAL" data-theme="weather_one" data-basecolor="#0d2b1e" data-textcolor="#e8f4e8" data-highcolor="#4caf82" data-lowcolor="#82c4a0" data-suncolor="#f5c542" data-mooncolor="#c8deff" data-cloudcolor="#aac0aa" data-cloudfill="#0d2b1e" data-raincolor="#82c4a0" data-snowcolor="#e8f4e8">MALALCAHUELLO CLIMA</a>
+      <script>
+      !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src='https://weatherwidget.io/js/widget.min.js';fjs.parentNode.insertBefore(js,fjs);}}(document,'script','weatherwidget-io-js');
+      </script>
     </div>
   </div>
 </section>
