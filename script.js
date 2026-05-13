@@ -22,6 +22,7 @@
   const loader      = document.getElementById('loader');
   const loaderFill  = document.getElementById('loader-fill');
   const loaderPct   = document.getElementById('loader-pct');
+  const loaderVideo = document.querySelector('.loader-logo-video video');
   const canvas      = document.getElementById('frame-canvas');
   const ctx         = canvas ? canvas.getContext('2d', { alpha: false }) : null;
   const heroSection = document.querySelector('.hero-frame-section');
@@ -30,6 +31,8 @@
   const burger      = document.getElementById('burger');
   const mobileNav   = document.getElementById('mobile-nav');
   const captions    = document.querySelectorAll('.hcap');
+  const loaderStart = performance.now();
+  const MIN_LOADER_TIME = 2400;
 
   /* ─────────────────────────────────────────
      UTILIDAD: tamaño canvas con DPR
@@ -76,6 +79,31 @@
   const frames = new Array(TOTAL_FRAMES).fill(null);
   let loadedCount = 0;
   let allLoaded   = false;
+
+  function startLoaderVideo() {
+    if (!loaderVideo) return;
+    loaderVideo.muted = true;
+    loaderVideo.loop = true;
+    loaderVideo.playsInline = true;
+    loaderVideo.currentTime = 0;
+    const playAttempt = loaderVideo.play();
+    if (playAttempt && typeof playAttempt.catch === 'function') {
+      playAttempt.catch(() => {});
+    }
+  }
+
+  function waitForMinimumLoaderTime() {
+    const elapsed = performance.now() - loaderStart;
+    const remaining = Math.max(0, MIN_LOADER_TIME - elapsed);
+    return new Promise(resolve => setTimeout(resolve, remaining));
+  }
+
+  function hideLoader() {
+    if (!loader) return;
+    loader.style.opacity = '0';
+    loader.style.visibility = 'hidden';
+    setTimeout(() => { loader.style.display = 'none'; }, 650);
+  }
 
   function preloadFrames() {
     return new Promise(resolve => {
@@ -428,6 +456,7 @@
      INICIALIZACIÓN
   ───────────────────────────────────────── */
   function init() {
+    startLoaderVideo();
     sizeCanvas();
     initBurger();
     initFilters();
@@ -440,18 +469,14 @@
     if (captions.length) captions[0].classList.add('active');
 
     // Precargar frames y luego arrancar
-    preloadFrames().then(() => {
+    Promise.all([preloadFrames(), waitForMinimumLoaderTime()]).then(() => {
       allLoaded = true;
       updateMetrics();
       currentIdx = -1;
       drawFrame(0);
 
       // Ocultar loader con fade
-      if (loader) {
-        loader.style.opacity    = '0';
-        loader.style.visibility = 'hidden';
-        setTimeout(() => { loader.style.display = 'none'; }, 650);
-      }
+      hideLoader();
 
       // Listeners de scroll y resize
       window.addEventListener('scroll', onScroll,     { passive: true });
