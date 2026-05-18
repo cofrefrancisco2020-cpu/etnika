@@ -13,7 +13,8 @@
   const FRAMES_DIR   = 'frames/';
   const MOBILE_FRAME_FOCUS_X = 0.63;
   // Duración de un ciclo completo del hero en ms (~12 segundos)
-  const HERO_CYCLE_MS = 12000;
+  const HERO_TARGET_FPS = 30;
+  const HERO_CYCLE_MS = Math.round((TOTAL_FRAMES / HERO_TARGET_FPS) * 1000);
 
   const pad = n => String(n).padStart(4, '0');
   const frameSrc = i => `${FRAMES_DIR}frames_${pad(i + 1)}.png`;
@@ -163,7 +164,7 @@
 
   /* ─────────────────────────────────────────
      ANIMACIÓN AUTOMÁTICA DEL HERO (loop fluido)
-     - Ciclo de 12 segundos, loop infinito
+     - Ciclo a ~30 fps, loop infinito
      - Captions cambian automáticamente según progreso
   ───────────────────────────────────────── */
   let heroAnimRaf = null;
