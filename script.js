@@ -13,7 +13,8 @@
   const FRAMES_DIR   = 'frames/';
   const MOBILE_FRAME_FOCUS_X = 0.63;
   // Duración de un ciclo completo del hero en ms (~12 segundos)
-  const HERO_CYCLE_MS = 12000;
+  const HERO_CYCLE_MS = 8500;
+  const FIRST_PAINT_FRAME = 0;
 
   const pad = n => String(n).padStart(4, '0');
   const frameSrc = i => `${FRAMES_DIR}frames_${pad(i + 1)}.png`;
@@ -32,7 +33,7 @@
   const mobileNav   = document.getElementById('mobile-nav');
   const captions    = document.querySelectorAll('.hcap');
   const loaderStart = performance.now();
-  const MIN_LOADER_TIME = 2400;
+  const MIN_LOADER_TIME = 1200;
 
   /* ─────────────────────────────────────────
      UTILIDAD: tamaño canvas con DPR
@@ -85,6 +86,12 @@
     loaderVideo.muted = true;
     loaderVideo.loop = true;
     loaderVideo.playsInline = true;
+    loaderVideo.preload = 'auto';
+    loaderVideo.load();
+    loaderVideo.playbackRate = 1.08;
+    loaderVideo.addEventListener('loadedmetadata', () => {
+      loaderVideo.playbackRate = 1.08;
+    }, { once: true });
     loaderVideo.currentTime = 0;
     const playAttempt = loaderVideo.play();
     if (playAttempt && typeof playAttempt.catch === 'function') {
@@ -105,28 +112,47 @@
     setTimeout(() => { loader.style.display = 'none'; }, 650);
   }
 
-  function preloadFrames() {
+  function updateLoaderProgress() {
+    const pct = Math.round((loadedCount / TOTAL_FRAMES) * 100);
+    if (loaderFill) loaderFill.style.width = pct + '%';
+    if (loaderPct)  loaderPct.textContent  = pct + '%';
+  }
+
+  function loadFrame(idx, priority = 'auto') {
     return new Promise(resolve => {
-      for (let i = 0; i < TOTAL_FRAMES; i++) {
-        const img  = new Image();
-        const idx  = i;
-        img.onload = img.onerror = () => {
-          loadedCount++;
-          const pct = Math.round((loadedCount / TOTAL_FRAMES) * 100);
-          if (loaderFill) loaderFill.style.width = pct + '%';
-          if (loaderPct)  loaderPct.textContent  = pct + '%';
-          if (img.naturalWidth) frames[idx] = img;
-          if (loadedCount === TOTAL_FRAMES) resolve();
-        };
-        img.src = frameSrc(i);
-        frames[i] = img; // referencia inmediata para evitar GC
+      if (frames[idx] && frames[idx].naturalWidth) {
+        resolve(frames[idx]);
+        return;
       }
+
+      const img = new Image();
+      img.decoding = 'async';
+      if ('fetchPriority' in img) img.fetchPriority = priority;
+      img.onload = img.onerror = () => {
+        loadedCount++;
+        updateLoaderProgress();
+        if (img.naturalWidth) frames[idx] = img;
+        resolve(img.naturalWidth ? img : null);
+      };
+      img.src = frameSrc(idx);
+      frames[idx] = img; // referencia inmediata para evitar GC
     });
+  }
+
+  function preloadFirstFrame() {
+    return loadFrame(FIRST_PAINT_FRAME, 'high');
+  }
+
+  function preloadFramesInBackground() {
+    for (let i = 0; i < TOTAL_FRAMES; i++) {
+      if (i === FIRST_PAINT_FRAME) continue;
+      loadFrame(i, i < 12 ? 'high' : 'auto');
+    }
   }
 
   /* ─────────────────────────────────────────
      ANIMACIÓN AUTOMÁTICA DEL HERO (loop fluido)
-     - Ciclo de 12 segundos, loop infinito
+     - Ciclo de 8.5 segundos, loop infinito
      - Captions cambian automáticamente según progreso
   ───────────────────────────────────────── */
   let heroAnimRaf = null;
@@ -512,7 +538,7 @@
     if (captions.length) captions[0].classList.add('active');
 
     // Precargar frames y arrancar animación automática
-    Promise.all([preloadFrames(), waitForMinimumLoaderTime()]).then(() => {
+    Promise.all([preloadFirstFrame(), waitForMinimumLoaderTime()]).then(() => {
       // Dibujar primer frame
       if (frames[0] && frames[0].naturalWidth) drawCover(frames[0]);
 
@@ -521,6 +547,7 @@
 
       // Arrancar animación automática en loop
       startHeroAnim();
+      preloadFramesInBackground();
 
       // Listeners generales
       window.addEventListener('scroll', onScrollHeader, { passive: true });

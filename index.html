@@ -7,7 +7,8 @@
   <title>ETNIKA Eco & Aventura · Malalcahuello · Araucanía</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="preload" href="assets/etnika-logo-walking-loader.mp4" as="video" type="video/mp4" />
+  <link rel="preload" href="assets/etnika-logo-walking-loader.mp4" as="video" type="video/mp4" fetchpriority="high" />
+  <link rel="preload" href="frames/frames_0001.png" as="image" type="image/png" fetchpriority="high" />
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:wght@300;400;500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
 </head>
@@ -16,7 +17,7 @@
 <!-- ══════ LOADER ══════ -->
 <div id="loader" role="status" aria-label="Cargando">
   <div class="loader-logo loader-logo-video" aria-hidden="true">
-    <video autoplay muted loop playsinline preload="auto" poster="assets/logo_etnika.png">
+    <video autoplay muted loop playsinline preload="auto" poster="assets/logo_etnika.png" fetchpriority="high">
       <source src="assets/etnika-logo-walking-loader.mp4" type="video/mp4" />
     </video>
     <img src="assets/logo_etnika.png" alt="" />
