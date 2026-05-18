@@ -249,14 +249,14 @@ a { color: inherit; text-decoration: none; }
 ═══════════════════════════════════════════ */
 .hero-frame-section {
   position: relative;
-  height: 700vh;
+  height: 100vh;
+  min-height: 500px;
   background: var(--negro);
 }
 #sticky-stage {
-  position: sticky;
-  top: 0;
-  width: 100vw;
-  height: 100vh;
+  position: relative;
+  width: 100%;
+  height: 100%;
   overflow: hidden;
 }
 #frame-canvas {
@@ -340,38 +340,8 @@ a { color: inherit; text-decoration: none; }
 }
 .hero-cta-btn:hover { background: var(--verde-claro); transform: translateY(-2px); }
 
-/* Scroll hint */
-.hero-scroll-hint {
-  position: absolute;
-  bottom: 2.5rem;
-  right: 3rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: .5rem;
-  z-index: 6;
-  transition: opacity .4s;
-}
-.hero-scroll-hint.gone { opacity: 0; pointer-events: none; }
-.scroll-line {
-  width: 1px;
-  height: 50px;
-  background: linear-gradient(to bottom, transparent, var(--verde-claro));
-  animation: scrollLine 1.8s ease-in-out infinite;
-}
-@keyframes scrollLine {
-  0% { transform: scaleY(0); transform-origin: top; }
-  50% { transform: scaleY(1); transform-origin: top; }
-  51% { transform: scaleY(1); transform-origin: bottom; }
-  100% { transform: scaleY(0); transform-origin: bottom; }
-}
-.hero-scroll-hint span {
-  font-family: var(--font-mono);
-  font-size: .6rem;
-  letter-spacing: .2em;
-  text-transform: uppercase;
-  color: rgba(240,235,227,.5);
-}
+/* Scroll hint — oculto en modo automático */
+.hero-scroll-hint { display: none; }
 
 /* ═══════════════════════════════════════════
    NOSOTROS
@@ -802,6 +772,146 @@ a { color: inherit; text-decoration: none; }
   flex-direction: column;
   gap: 1.4rem;
 }
+
+/* Versión compacta del clima dentro de Nosotros */
+.nosotros-weather-card {
+  background: linear-gradient(135deg, rgba(27,67,50,.95), rgba(45,106,79,.85));
+  border: 1px solid rgba(82,183,136,.3);
+  border-radius: 8px;
+  overflow: hidden;
+  padding: 1.2rem 1.4rem;
+  display: flex;
+  flex-direction: column;
+  gap: .9rem;
+  margin-top: 2.5rem;
+  padding-top: 2.5rem;
+  border-top: 1px solid rgba(0,0,0,.08);
+  /* reset del border-top anterior — lo hacemos con un wrapper */
+}
+/* Wrapper para no perder el border-top de .nosotros-stats */
+.nosotros-clima-wrap {
+  margin-top: 2.5rem;
+  padding-top: 2.5rem;
+  border-top: 1px solid rgba(0,0,0,.08);
+}
+.nosotros-clima-card {
+  background: linear-gradient(135deg, rgba(27,67,50,.92), rgba(45,106,79,.78));
+  border: 1px solid rgba(82,183,136,.3);
+  border-radius: 6px;
+  padding: 1rem 1.3rem;
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  flex-wrap: wrap;
+}
+.nos-wc-main {
+  display: flex;
+  align-items: center;
+  gap: .8rem;
+  flex-shrink: 0;
+}
+.nos-wc-icon { font-size: 2.2rem; line-height: 1; }
+.nos-wc-temp {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  font-weight: 900;
+  color: #fff;
+  line-height: 1;
+}
+.nos-wc-desc {
+  font-size: .72rem;
+  color: var(--verde-claro);
+  letter-spacing: .04em;
+  margin-top: .15rem;
+}
+.nos-wc-details {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .4rem .9rem;
+  flex: 1;
+  min-width: 140px;
+}
+.nos-wc-row {
+  display: flex;
+  gap: .35rem;
+  font-size: .75rem;
+  align-items: center;
+}
+.nos-wc-lbl { color: rgba(255,255,255,.5); }
+.nos-wc-val { color: #fff; font-weight: 500; }
+.nos-wc-forecast {
+  display: flex;
+  gap: .4rem;
+  width: 100%;
+  overflow-x: auto;
+  padding-bottom: .1rem;
+}
+.nos-wc-day {
+  background: rgba(0,0,0,.18);
+  border-radius: 4px;
+  padding: .4rem .5rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: .15rem;
+  align-items: center;
+  min-width: 44px;
+  flex-shrink: 0;
+}
+.nos-wc-day-name { font-size: .58rem; letter-spacing: .06em; text-transform: uppercase; color: rgba(255,255,255,.45); }
+.nos-wc-day-icon { font-size: 1.1rem; line-height: 1; }
+.nos-wc-day-max { font-size: .78rem; font-weight: 700; color: #fff; }
+.nos-wc-day-min { font-size: .65rem; color: var(--verde-claro); }
+.nos-wc-footer {
+  font-size: .62rem;
+  color: rgba(255,255,255,.3);
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: .3rem;
+}
+.nos-wc-footer a { color: rgba(82,183,136,.6); }
+.nos-wc-footer a:hover { color: var(--verde-claro); }
+
+/* Estadísticas dentro de la sección Clima */
+.clima-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  justify-content: center;
+}
+.clima-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.2rem;
+}
+.clima-stat-card {
+  background: rgba(255,255,255,.07);
+  border: 1px solid rgba(82,183,136,.18);
+  border-radius: 6px;
+  padding: 1.5rem 1rem;
+  text-align: center;
+  transition: border-color var(--trans), background var(--trans);
+}
+.clima-stat-card:hover {
+  border-color: rgba(82,183,136,.45);
+  background: rgba(255,255,255,.1);
+}
+.clima-stat-num {
+  font-family: var(--font-display);
+  font-size: 2.6rem;
+  font-weight: 900;
+  color: var(--verde-claro);
+  line-height: 1;
+  display: block;
+}
+.clima-stat-label {
+  font-size: .8rem;
+  color: rgba(255,255,255,.55);
+  letter-spacing: .04em;
+  margin-top: .4rem;
+  display: block;
+}
 .wc-current {
   display: flex;
   gap: 2rem;
@@ -1136,6 +1246,7 @@ a { color: inherit; text-decoration: none; }
   .nosotros-inner { grid-template-columns: 1fr; }
   .nosotros-imgs { height: 320px; order: -1; }
   .nosotros-stats { gap: 1.5rem; }
+  .clima-stats-grid { grid-template-columns: repeat(3, 1fr); }
 
   .act-grid { grid-template-columns: 1fr; padding: 0 1.5rem; }
   .act-header { padding: 0 1.5rem; }
@@ -1180,5 +1291,6 @@ a { color: inherit; text-decoration: none; }
   .wc-current { flex-direction: column; gap: 1.2rem; }
   .wc-left { align-items: flex-start; min-width: 0; }
   .wc-right { width: 100%; }
-  .hero-scroll-hint { right: 1rem; bottom: 1.5rem; }
+  .clima-stats-grid { grid-template-columns: 1fr; gap: .8rem; }
+  .nosotros-clima-card { flex-direction: column; align-items: flex-start; }
 }

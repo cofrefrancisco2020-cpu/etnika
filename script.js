@@ -1,6 +1,6 @@
 /* ═══════════════════════════════════════════
    ETNIKA ECO & AVENTURA — script.js
-   Scroll frames · Filtros · Reveal · Header
+   Hero automático · Filtros · Reveal · Header
 ═══════════════════════════════════════════ */
 
 (() => {
@@ -11,8 +11,9 @@
   ───────────────────────────────────────── */
   const TOTAL_FRAMES = 119;
   const FRAMES_DIR   = 'frames/';
-  const SCROLL_MULT  = 7;   // 700vh total (hero-frame-section height: 700vh)
   const MOBILE_FRAME_FOCUS_X = 0.63;
+  // Duración de un ciclo completo del hero en ms (~12 segundos)
+  const HERO_CYCLE_MS = 12000;
 
   const pad = n => String(n).padStart(4, '0');
   const frameSrc = i => `${FRAMES_DIR}frames_${pad(i + 1)}.png`;
@@ -26,8 +27,6 @@
   const loaderVideo = document.querySelector('.loader-logo-video video');
   const canvas      = document.getElementById('frame-canvas');
   const ctx         = canvas ? canvas.getContext('2d', { alpha: false }) : null;
-  const heroSection = document.querySelector('.hero-frame-section');
-  const scrollHint  = document.getElementById('scroll-hint');
   const header      = document.getElementById('header');
   const burger      = document.getElementById('burger');
   const mobileNav   = document.getElementById('mobile-nav');
@@ -80,7 +79,6 @@
   ───────────────────────────────────────── */
   const frames = new Array(TOTAL_FRAMES).fill(null);
   let loadedCount = 0;
-  let allLoaded   = false;
 
   function startLoaderVideo() {
     if (!loaderVideo) return;
@@ -127,56 +125,43 @@
   }
 
   /* ─────────────────────────────────────────
-     LÓGICA DE SCROLL → FRAME
+     ANIMACIÓN AUTOMÁTICA DEL HERO (loop fluido)
+     - Ciclo de 12 segundos, loop infinito
+     - Captions cambian automáticamente según progreso
   ───────────────────────────────────────── */
+  let heroAnimRaf = null;
+  let heroStartTs = null;
   let currentIdx  = -1;
-  let rafPending  = false;
-  let targetIdx   = 0;
-  let sectionTop  = 0;
-  let scrollRange = 0;
 
-  function updateMetrics() {
-    if (!heroSection) return;
-    sectionTop  = heroSection.offsetTop;
-    scrollRange = heroSection.offsetHeight - window.innerHeight;
-  }
-
-  function getProgress() {
-    const scrolled = window.scrollY - sectionTop;
-    return Math.max(0, Math.min(1, scrolled / scrollRange));
-  }
-
-  function drawFrame(idx) {
-    if (idx === currentIdx) return;
-    if (!frames[idx] || !frames[idx].naturalWidth) return;
-    currentIdx = idx;
-    drawCover(frames[idx]);
-  }
-
-  function onScroll() {
-    const progress = getProgress();
-    targetIdx = Math.min(TOTAL_FRAMES - 1, Math.floor(progress * TOTAL_FRAMES));
-
-    // Ocultar scroll hint una vez que el usuario hace scroll
-    if (window.scrollY > 40 && scrollHint) {
-      scrollHint.classList.add('gone');
-    }
-
-    // Actualizar captions según progreso
+  function updateCaptionsAuto(raw) {
+    // raw = 0 a 1 (posición en el ciclo actual)
     captions.forEach(cap => {
       const from = parseFloat(cap.dataset.from);
       const to   = parseFloat(cap.dataset.to);
-      const active = progress >= from && progress < to;
-      cap.classList.toggle('active', active);
+      cap.classList.toggle('active', raw >= from && raw < to);
     });
+  }
 
-    if (!rafPending) {
-      rafPending = true;
-      requestAnimationFrame(() => {
-        drawFrame(targetIdx);
-        rafPending = false;
-      });
+  function heroTick(ts) {
+    if (!heroStartTs) heroStartTs = ts;
+    const elapsed = ts - heroStartTs;
+    const raw     = (elapsed % HERO_CYCLE_MS) / HERO_CYCLE_MS; // 0 → 1, loop
+
+    const idx = Math.min(TOTAL_FRAMES - 1, Math.floor(raw * TOTAL_FRAMES));
+
+    if (idx !== currentIdx && frames[idx] && frames[idx].naturalWidth) {
+      currentIdx = idx;
+      drawCover(frames[idx]);
     }
+
+    updateCaptionsAuto(raw);
+    heroAnimRaf = requestAnimationFrame(heroTick);
+  }
+
+  function startHeroAnim() {
+    if (heroAnimRaf) cancelAnimationFrame(heroAnimRaf);
+    heroStartTs = null;
+    heroAnimRaf = requestAnimationFrame(heroTick);
   }
 
   /* ─────────────────────────────────────────
@@ -208,25 +193,47 @@
 
   /* ─────────────────────────────────────────
      FILTROS DE ACTIVIDADES
+     - "all" → solo cards con data-featured="true", ordenadas por data-order
+     - categoría específica → todas las cards de esa categoría
   ───────────────────────────────────────── */
   function initFilters() {
     const filterBtns = document.querySelectorAll('.filter-btn');
     const cards      = document.querySelectorAll('.act-card');
     if (!filterBtns.length) return;
 
-    filterBtns.forEach(btn => {
-      btn.addEventListener('click', () => {
-        filterBtns.forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
+    function applyFilter(cat) {
+      if (cat === 'all') {
+        const grid = document.getElementById('act-grid');
+        // Obtener solo las 7 cards destacadas y ordenarlas
+        const featured = Array.from(cards).filter(c => c.dataset.featured === 'true');
+        featured.sort((a, b) => parseInt(a.dataset.order) - parseInt(b.dataset.order));
 
-        const cat = btn.dataset.cat;
+        // Ocultar todas primero
+        cards.forEach(card => card.classList.add('hidden'));
+        // Mostrar y reordenar las destacadas en el DOM
+        featured.forEach(card => {
+          card.classList.remove('hidden');
+          if (grid) grid.appendChild(card);
+        });
+      } else {
         cards.forEach(card => {
-          if (cat === 'all' || card.dataset.cat === cat) {
+          if (card.dataset.cat === cat) {
             card.classList.remove('hidden');
           } else {
             card.classList.add('hidden');
           }
         });
+      }
+    }
+
+    // Estado inicial: mostrar solo las 7 destacadas
+    applyFilter('all');
+
+    filterBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        filterBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        applyFilter(btn.dataset.cat);
       });
     });
   }
@@ -263,11 +270,13 @@
     clearTimeout(resizeTimer);
     resizeTimer = setTimeout(() => {
       sizeCanvas();
-      updateMetrics();
-      // Redibujar frame actual
-      const saved = currentIdx >= 0 ? currentIdx : 0;
-      currentIdx = -1;
-      drawFrame(saved);
+      // Redibujar frame actual al cambiar tamaño
+      if (currentIdx >= 0 && frames[currentIdx] && frames[currentIdx].naturalWidth) {
+        const saved = currentIdx;
+        currentIdx = -1;
+        drawCover(frames[saved]);
+        currentIdx = saved;
+      }
     }, 100);
   }
 
@@ -366,7 +375,6 @@
   };
 
   function wmoInfo(code) {
-    // Buscar código exacto o fallback al más cercano
     return WMO_CODES[code] || WMO_CODES[Math.floor(code / 10) * 10] || ['🌡️', 'Variable'];
   }
 
@@ -389,49 +397,78 @@
     const d = data.daily;
     const [icon, desc] = wmoInfo(c.weather_code);
 
-    // Actual
-    document.getElementById('wc-icon').textContent  = icon;
-    document.getElementById('wc-temp').textContent  = Math.round(c.temperature_2m) + '°';
-    document.getElementById('wc-desc').textContent  = desc;
-    document.getElementById('wc-feel').textContent  = Math.round(c.apparent_temperature) + '°C';
-    document.getElementById('wc-hum').textContent   = c.relative_humidity_2m + '%';
-    document.getElementById('wc-wind').textContent  = Math.round(c.wind_speed_10m) + ' km/h';
-    document.getElementById('wc-gust').textContent  = Math.round(safeNumber(c.wind_gusts_10m)) + ' km/h';
-    document.getElementById('wc-precip').textContent = (c.precipitation ?? 0).toFixed(1) + ' mm';
-    document.getElementById('wc-rain').textContent = Math.round(safeNumber(d.precipitation_probability_max?.[0])) + '%';
-    document.getElementById('wc-uv').textContent = safeNumber(d.uv_index_max?.[0]).toFixed(1);
+    // Helper
+    const setEl = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
 
-    // Pronóstico 5 días
+    // ── Widget principal (sección Clima) ──
+    setEl('wc-icon',   icon);
+    setEl('wc-temp',   Math.round(c.temperature_2m) + '°');
+    setEl('wc-desc',   desc);
+    setEl('wc-feel',   Math.round(c.apparent_temperature) + '°C');
+    setEl('wc-hum',    c.relative_humidity_2m + '%');
+    setEl('wc-wind',   Math.round(c.wind_speed_10m) + ' km/h');
+    setEl('wc-gust',   Math.round(safeNumber(c.wind_gusts_10m)) + ' km/h');
+    setEl('wc-precip', (c.precipitation ?? 0).toFixed(1) + ' mm');
+    setEl('wc-rain',   Math.round(safeNumber(d.precipitation_probability_max?.[0])) + '%');
+    setEl('wc-uv',     safeNumber(d.uv_index_max?.[0]).toFixed(1));
+
+    // Pronóstico 5 días (widget principal)
     const forecastEl = document.getElementById('wc-forecast');
-    if (!forecastEl) return;
-    forecastEl.innerHTML = '';
-    for (let i = 0; i < 5; i++) {
-      const date  = new Date(d.time[i] + 'T12:00:00');
-      const [fi, ] = wmoInfo(d.weather_code[i]);
-      const div = document.createElement('div');
-      div.className = 'wc-day';
-      div.innerHTML = `
-        <span class="wc-day-name">${DIAS_ES[date.getDay()]}</span>
-        <span class="wc-day-icon">${fi}</span>
-        <span class="wc-day-max">${Math.round(d.temperature_2m_max[i])}°</span>
-        <span class="wc-day-min">${Math.round(d.temperature_2m_min[i])}°</span>
-        <span class="wc-day-extra">${Math.round(safeNumber(d.precipitation_probability_max?.[i]))}% lluvia</span>
-        <span class="wc-day-extra">${Math.round(safeNumber(d.wind_gusts_10m_max?.[i]))} km/h ráf.</span>
-      `;
-      div.title = activityTip({
-        rain: safeNumber(d.precipitation_probability_max?.[i]),
-        gust: safeNumber(d.wind_gusts_10m_max?.[i]),
-        uv: safeNumber(d.uv_index_max?.[i]),
-        snow: safeNumber(d.snowfall_sum?.[i])
-      });
-      forecastEl.appendChild(div);
+    if (forecastEl) {
+      forecastEl.innerHTML = '';
+      for (let i = 0; i < 5; i++) {
+        const date = new Date(d.time[i] + 'T12:00:00');
+        const [fi] = wmoInfo(d.weather_code[i]);
+        const div = document.createElement('div');
+        div.className = 'wc-day';
+        div.innerHTML = `
+          <span class="wc-day-name">${DIAS_ES[date.getDay()]}</span>
+          <span class="wc-day-icon">${fi}</span>
+          <span class="wc-day-max">${Math.round(d.temperature_2m_max[i])}°</span>
+          <span class="wc-day-min">${Math.round(d.temperature_2m_min[i])}°</span>
+          <span class="wc-day-extra">${Math.round(safeNumber(d.precipitation_probability_max?.[i]))}% lluvia</span>
+          <span class="wc-day-extra">${Math.round(safeNumber(d.wind_gusts_10m_max?.[i]))} km/h ráf.</span>
+        `;
+        div.title = activityTip({
+          rain: safeNumber(d.precipitation_probability_max?.[i]),
+          gust: safeNumber(d.wind_gusts_10m_max?.[i]),
+          uv:   safeNumber(d.uv_index_max?.[i]),
+          snow: safeNumber(d.snowfall_sum?.[i])
+        });
+        forecastEl.appendChild(div);
+      }
+    }
+
+    // ── Widget compacto (sección Nosotros) ──
+    setEl('nos-wc-icon', icon);
+    setEl('nos-wc-temp', Math.round(c.temperature_2m) + '°');
+    setEl('nos-wc-desc', desc);
+    setEl('nos-wc-feel', Math.round(c.apparent_temperature) + '°C');
+    setEl('nos-wc-hum',  c.relative_humidity_2m + '%');
+    setEl('nos-wc-wind', Math.round(c.wind_speed_10m) + ' km/h');
+    setEl('nos-wc-rain', Math.round(safeNumber(d.precipitation_probability_max?.[0])) + '%');
+
+    const nosForecast = document.getElementById('nos-wc-forecast');
+    if (nosForecast) {
+      nosForecast.innerHTML = '';
+      for (let i = 0; i < 5; i++) {
+        const date = new Date(d.time[i] + 'T12:00:00');
+        const [fi] = wmoInfo(d.weather_code[i]);
+        const div = document.createElement('div');
+        div.className = 'nos-wc-day';
+        div.innerHTML = `
+          <span class="nos-wc-day-name">${DIAS_ES[date.getDay()]}</span>
+          <span class="nos-wc-day-icon">${fi}</span>
+          <span class="nos-wc-day-max">${Math.round(d.temperature_2m_max[i])}°</span>
+          <span class="nos-wc-day-min">${Math.round(d.temperature_2m_min[i])}°</span>
+        `;
+        nosForecast.appendChild(div);
+      }
     }
   }
 
   function initWeather() {
-    const card = document.getElementById('weather-card');
-    if (!card) return;
-
+    // El widget del clima existe en ambas secciones; basta con uno de los IDs
     const url = 'https://api.open-meteo.com/v1/forecast'
       + '?latitude=-38.42&longitude=-71.58'
       + '&current=temperature_2m,relative_humidity_2m,apparent_temperature,'
@@ -451,6 +488,10 @@
         const desc = document.getElementById('wc-desc');
         if (icon) icon.textContent = '🌡️';
         if (desc) desc.textContent = 'No se pudo cargar el clima. Intenta más tarde.';
+        const nosDesc = document.getElementById('nos-wc-desc');
+        const nosIcon = document.getElementById('nos-wc-icon');
+        if (nosDesc) nosDesc.textContent = 'No disponible';
+        if (nosIcon) nosIcon.textContent = '🌡️';
       });
   }
 
@@ -470,23 +511,21 @@
     // Mostrar primer caption inmediatamente
     if (captions.length) captions[0].classList.add('active');
 
-    // Precargar frames y luego arrancar
+    // Precargar frames y arrancar animación automática
     Promise.all([preloadFrames(), waitForMinimumLoaderTime()]).then(() => {
-      allLoaded = true;
-      updateMetrics();
-      currentIdx = -1;
-      drawFrame(0);
+      // Dibujar primer frame
+      if (frames[0] && frames[0].naturalWidth) drawCover(frames[0]);
 
       // Ocultar loader con fade
       hideLoader();
 
-      // Listeners de scroll y resize
-      window.addEventListener('scroll', onScroll,     { passive: true });
+      // Arrancar animación automática en loop
+      startHeroAnim();
+
+      // Listeners generales
       window.addEventListener('scroll', onScrollHeader, { passive: true });
       window.addEventListener('resize', onResize);
 
-      // Procesar estado inicial (por si la página cargó en medio)
-      onScroll();
       onScrollHeader();
     });
   }

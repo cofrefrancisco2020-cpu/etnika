@@ -94,10 +94,28 @@
       <h2 class="reveal d1">Agencia 100%<br /><em>local</em> de montaña.</h2>
       <p class="reveal d2">Desde el año 2016 entregamos experiencias en la Araucanía Andina. Somos del pueblo de Malalcahuello, ubicado a 120 km de Temuco hacia la cordillera, rodeados de volcanes, ríos, bosques y las 4 estaciones claramente definidas.</p>
       <p class="reveal d3">Profesionales del turismo, dispuestos a que tus días en la Araucanía sean mágicos.</p>
-      <div class="nosotros-stats reveal d3">
-        <div class="stat"><span class="stat-num">+8</span><span class="stat-label">años de experiencia</span></div>
-        <div class="stat"><span class="stat-num">5</span><span class="stat-label">volcanes activos</span></div>
-        <div class="stat"><span class="stat-num">30+</span><span class="stat-label">actividades</span></div>
+      <div class="nosotros-clima-wrap reveal d3">
+        <!-- Clima compacto — se rellena por JS (nos-weather) -->
+        <div class="nosotros-clima-card" id="nos-weather-card">
+          <div class="nos-wc-main">
+            <div class="nos-wc-icon" id="nos-wc-icon">⏳</div>
+            <div>
+              <div class="nos-wc-temp" id="nos-wc-temp">--°</div>
+              <div class="nos-wc-desc" id="nos-wc-desc">Cargando clima…</div>
+            </div>
+          </div>
+          <div class="nos-wc-details">
+            <div class="nos-wc-row"><span class="nos-wc-lbl">Sensación</span><span class="nos-wc-val" id="nos-wc-feel">--</span></div>
+            <div class="nos-wc-row"><span class="nos-wc-lbl">Humedad</span><span class="nos-wc-val" id="nos-wc-hum">--</span></div>
+            <div class="nos-wc-row"><span class="nos-wc-lbl">Viento</span><span class="nos-wc-val" id="nos-wc-wind">--</span></div>
+            <div class="nos-wc-row"><span class="nos-wc-lbl">Lluvia hoy</span><span class="nos-wc-val" id="nos-wc-rain">--</span></div>
+          </div>
+          <div class="nos-wc-forecast" id="nos-wc-forecast"></div>
+          <div class="nos-wc-footer">
+            <span>📍 Malalcahuello, 972 msnm</span>
+            <a href="#clima">Ver detalle completo ↓</a>
+          </div>
+        </div>
       </div>
     </div>
     <div class="nosotros-imgs reveal d2">
@@ -132,7 +150,7 @@
   <div class="act-grid" id="act-grid">
 
     <!-- TREKKING -->
-    <article class="act-card" data-cat="trekking">
+    <article class="act-card" data-cat="trekking" data-featured="true" data-order="1">
       <div class="act-img-wrap">
         <img src="assets/org_fb4371d41c65cf09_1582468958000__1__jpg.jpeg" alt="Araucaria Milenaria" loading="lazy" />
         <span class="act-badge">Trekking</span>
@@ -253,7 +271,7 @@
       </div>
     </article>
 
-    <article class="act-card" data-cat="volcanes">
+    <article class="act-card" data-cat="volcanes" data-featured="true" data-order="2">
       <div class="act-img-wrap">
         <img src="assets/fotocumbrevolcanlonquimaycon3personas.jpeg" alt="Volcán Lonquimay" loading="lazy" />
         <span class="act-badge vol">Montañismo</span>
@@ -334,7 +352,7 @@
     </article>
 
     <!-- TOURS VEHICULARES -->
-    <article class="act-card" data-cat="tours">
+    <article class="act-card" data-cat="tours" data-featured="true" data-order="3">
       <div class="act-img-wrap">
         <img src="assets/conguilliocamp.png" alt="Parque Conguillío" loading="lazy" />
         <span class="act-badge tour">Tour</span>
@@ -415,7 +433,7 @@
     </article>
 
     <!-- RÍO -->
-    <article class="act-card" data-cat="rio">
+    <article class="act-card" data-cat="rio" data-featured="true" data-order="4">
       <div class="act-img-wrap">
         <img src="assets/raftingriocautin.jpeg" alt="Rafting río Cautín" loading="lazy" />
         <span class="act-badge rio">Río</span>
@@ -476,7 +494,7 @@
     </article>
 
     <!-- CICLOTURISMO -->
-    <article class="act-card" data-cat="ciclo">
+    <article class="act-card" data-cat="ciclo" data-featured="true" data-order="5">
       <div class="act-img-wrap">
         <img src="assets/cicloviamalalcahuellomanzanar.jpeg" alt="Ciclovía Malalcahuello" loading="lazy" />
         <span class="act-badge ciclo">Cicloturismo</span>
@@ -557,7 +575,7 @@
       </div>
     </article>
 
-    <article class="act-card" data-cat="invernal">
+    <article class="act-card" data-cat="invernal" data-featured="true" data-order="6">
       <div class="act-img-wrap">
         <img src="assets/hikingraquetasvolcanlomquimay.jpeg" alt="Hiking con raquetas" loading="lazy" />
         <span class="act-badge inv">Invernal</span>
@@ -659,7 +677,7 @@
     </article>
 
     <!-- OTROS -->
-    <article class="act-card" data-cat="otros">
+    <article class="act-card" data-cat="otros" data-featured="true" data-order="7">
       <div class="act-img-wrap">
         <img src="assets/cabalgatas.jpeg" alt="Cabalgatas" loading="lazy" />
         <span class="act-badge otro">Cabalgata</span>
@@ -863,6 +881,24 @@
       <span class="section-tag reveal">Condiciones actuales</span>
       <h2 class="reveal d1">Revisa el clima<br /><em>antes de tu aventura</em></h2>
       <p class="reveal d2">Malalcahuello tiene las 4 estaciones claramente definidas. Planifica bien tu visita y consulta las condiciones de la ruta.</p>
+
+      <!-- Estadísticas movidas aquí -->
+      <div class="clima-stats reveal d3">
+        <div class="clima-stats-grid">
+          <div class="clima-stat-card">
+            <span class="clima-stat-num">+8</span>
+            <span class="clima-stat-label">años de experiencia</span>
+          </div>
+          <div class="clima-stat-card">
+            <span class="clima-stat-num">5</span>
+            <span class="clima-stat-label">volcanes activos</span>
+          </div>
+          <div class="clima-stat-card">
+            <span class="clima-stat-num">30+</span>
+            <span class="clima-stat-label">actividades</span>
+          </div>
+        </div>
+      </div>
     </div>
     <div class="clima-widget reveal d2" id="weather-card">
 
