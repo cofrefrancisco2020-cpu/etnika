@@ -1,0 +1,1093 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="ETNIKA Eco & Aventura — Agencia de turismo en Malalcahuello, Araucanía Andina. Trekking, volcanes, kayak, cicloturismo y más desde 2016." />
+  <title>ETNIKA Eco & Aventura · Malalcahuello · Araucanía</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preload" href="assets/etnika-logo-walking-loader.mp4" as="video" type="video/mp4" fetchpriority="high" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:wght@300;400;500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css?v=16" />
+</head>
+<body>
+
+<!-- ══════ LOADER ══════ -->
+<div id="loader" role="status" aria-label="Cargando">
+  <div class="loader-logo loader-logo-video" aria-hidden="true">
+    <video id="loader-walking-logo" autoplay muted loop playsinline preload="auto" poster="assets/logo_etnika.png" fetchpriority="high">
+      <source src="assets/etnika-logo-walking-loader.mp4" type="video/mp4" />
+    </video>
+    <img src="assets/logo_etnika.png" alt="" />
+  </div>
+  <span class="sr-only">Cargando ETNIKA</span>
+  <div id="loader-bar"><div id="loader-fill"></div></div>
+  <div id="loader-pct">0%</div>
+</div>
+<script>
+  (() => {
+    const video = document.getElementById('loader-walking-logo');
+    if (!video) return;
+    video.muted = true;
+    video.loop = true;
+    video.playsInline = true;
+    video.preload = 'auto';
+    const play = () => {
+      const attempt = video.play();
+      if (attempt && typeof attempt.catch === 'function') attempt.catch(() => {});
+    };
+    if (video.readyState >= 2) play();
+    else video.addEventListener('loadeddata', play, { once: true });
+    play();
+  })();
+</script>
+
+<!-- ══════ HEADER ══════ -->
+<header id="header">
+  <a href="#inicio" class="header-logo">
+    <img src="assets/logo_etnika.png" alt="ETNIKA" />
+  </a>
+  <nav id="main-nav">
+    <a href="#nosotros">Nosotros</a>
+    <a href="#actividades">Actividades</a>
+    <a href="#alojamiento">Alojamiento</a>
+    <a href="#clima">Clima</a>
+    <a href="#contacto" class="nav-cta">Reservar</a>
+  </nav>
+  <div class="lang-switcher" aria-label="Seleccionar idioma">
+    <button type="button" class="lang-btn active" data-lang="es" onclick="window.setEtnikaLanguage && window.setEtnikaLanguage('es')" aria-label="Español" title="Español"><span class="flag flag-es"></span><span class="lang-code">ES</span></button>
+    <button type="button" class="lang-btn" data-lang="pt" onclick="window.setEtnikaLanguage && window.setEtnikaLanguage('pt')" aria-label="Português Brasil" title="Português Brasil"><span class="flag flag-br"></span><span class="lang-code">BR</span></button>
+    <button type="button" class="lang-btn" data-lang="en" onclick="window.setEtnikaLanguage && window.setEtnikaLanguage('en')" aria-label="English" title="English"><span class="flag flag-en"></span><span class="lang-code">EN</span></button>
+  </div>
+  <button id="burger" class="burger" aria-label="Menú" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+</header>
+
+<!-- Mobile nav -->
+<nav id="mobile-nav" class="mobile-nav">
+  <a href="#nosotros">Nosotros</a>
+  <a href="#actividades">Actividades</a>
+  <a href="#alojamiento">Alojamiento</a>
+  <a href="#clima">Clima</a>
+  <a href="#contacto">Reservar</a>
+  <div class="mobile-lang-switcher" aria-label="Seleccionar idioma">
+    <button type="button" class="lang-btn active" data-lang="es" onclick="window.setEtnikaLanguage && window.setEtnikaLanguage('es')" aria-label="Español" title="Español"><span class="flag flag-es"></span><span class="lang-code">ES</span></button>
+    <button type="button" class="lang-btn" data-lang="pt" onclick="window.setEtnikaLanguage && window.setEtnikaLanguage('pt')" aria-label="Português Brasil" title="Português Brasil"><span class="flag flag-br"></span><span class="lang-code">BR</span></button>
+    <button type="button" class="lang-btn" data-lang="en" onclick="window.setEtnikaLanguage && window.setEtnikaLanguage('en')" aria-label="English" title="English"><span class="flag flag-en"></span><span class="lang-code">EN</span></button>
+  </div>
+</nav>
+
+<!-- ══════ HERO — SCROLL FRAMES ══════ -->
+<section id="inicio" class="hero-frame-section">
+  <div id="sticky-stage">
+    <canvas id="frame-canvas" aria-hidden="true"></canvas>
+    <div class="hero-overlay"></div>
+
+    <!-- Captions progresivos -->
+    <div class="hero-captions" aria-hidden="true">
+      <div class="hcap" data-from="0" data-to="0.22">
+        <span class="hcap-tag">Malalcahuello · Araucanía Andina</span>
+        <h1>Donde la<br /><em>aventura</em><br />comienza.</h1>
+      </div>
+      <div class="hcap" data-from="0.22" data-to="0.44">
+        <span class="hcap-tag">Desde 2016</span>
+        <h1>Volcanes,<br /><em>ríos</em><br />y bosques.</h1>
+      </div>
+      <div class="hcap" data-from="0.44" data-to="0.66">
+        <span class="hcap-tag">Guías Certificados</span>
+        <h1>Cada ruta,<br /><em>una historia</em><br />que contar.</h1>
+      </div>
+      <div class="hcap" data-from="0.66" data-to="1">
+        <span class="hcap-tag">ETNIKA Eco & Aventura</span>
+        <h1>Tu aventura<br /><em>te espera.</em></h1>
+        <a href="#actividades" class="hero-cta-btn">Ver experiencias</a>
+      </div>
+    </div>
+
+    <div class="hero-scroll-hint" id="scroll-hint">
+      <div class="scroll-line"></div>
+      <span>scroll</span>
+    </div>
+  </div>
+</section>
+
+<!-- ══════ NOSOTROS ══════ -->
+<section id="nosotros" class="section-nosotros">
+  <div class="nosotros-inner">
+    <div class="nosotros-text">
+      <span class="section-tag reveal">Sobre nosotros</span>
+      <h2 class="reveal d1">Agencia 100%<br /><em>local</em> de montaña.</h2>
+      <p class="reveal d2">Desde el año 2016 entregamos experiencias en la Araucanía Andina. Somos del pueblo de Malalcahuello, ubicado a 120 km de Temuco hacia la cordillera, rodeados de volcanes, ríos, bosques y las 4 estaciones claramente definidas.</p>
+      <p class="reveal d3">Profesionales del turismo, dispuestos a que tus días en la Araucanía sean mágicos.</p>
+      <div class="nosotros-clima-wrap reveal d3">
+        <!-- Clima compacto — se rellena por JS (nos-weather) -->
+        <div class="nosotros-clima-card" id="nos-weather-card">
+          <div class="nos-wc-main">
+            <div class="nos-wc-icon" id="nos-wc-icon">⏳</div>
+            <div>
+              <div class="nos-wc-temp" id="nos-wc-temp">--°</div>
+              <div class="nos-wc-desc" id="nos-wc-desc">Cargando clima…</div>
+            </div>
+          </div>
+          <div class="nos-wc-details">
+            <div class="nos-wc-row"><span class="nos-wc-lbl">Sensación</span><span class="nos-wc-val" id="nos-wc-feel">--</span></div>
+            <div class="nos-wc-row"><span class="nos-wc-lbl">Humedad</span><span class="nos-wc-val" id="nos-wc-hum">--</span></div>
+            <div class="nos-wc-row"><span class="nos-wc-lbl">Viento</span><span class="nos-wc-val" id="nos-wc-wind">--</span></div>
+            <div class="nos-wc-row"><span class="nos-wc-lbl">Lluvia hoy</span><span class="nos-wc-val" id="nos-wc-rain">--</span></div>
+          </div>
+          <div class="nos-wc-forecast" id="nos-wc-forecast"></div>
+          <div class="nos-wc-footer">
+            <span>📍 Malalcahuello, 972 msnm</span>
+            <a href="#clima">Ver detalle completo ↓</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="nosotros-imgs reveal d2">
+      <img src="assets/etnikaentorresdelpaine.jpeg" alt="Equipo Etnika en Torres del Paine" class="nos-img-main" />
+      <img src="assets/francisodeetnikavistiendopoleradeetnikamirandoelvolcanllaima.jpeg" alt="Guía Etnika" class="nos-img-sec" onerror="this.src='assets/franciscodeetnikavistiendopoleradeetnikamirandoelvolcanllaima.jpeg'" />
+    </div>
+  </div>
+</section>
+
+<!-- ══════ ACTIVIDADES ══════ -->
+<section id="actividades" class="section-actividades">
+  <div class="act-header">
+    <span class="section-tag reveal">Experiencias</span>
+    <h2 class="reveal d1">Elige tu<br /><em>aventura</em></h2>
+    <p class="reveal d2">Filtra por categoría y encuentra la experiencia perfecta para ti.</p>
+  </div>
+
+  <!-- Filtros -->
+  <div class="act-filters reveal d2" role="tablist">
+    <button class="filter-btn active" data-cat="all" role="tab">Todas</button>
+    <button class="filter-btn" data-cat="trekking" role="tab">🥾 Trekking</button>
+    <button class="filter-btn" data-cat="volcanes" role="tab">🌋 Volcanes</button>
+    <button class="filter-btn" data-cat="tours" role="tab">🚙 Tours</button>
+    <button class="filter-btn" data-cat="rio" role="tab">🛶 Río</button>
+    <button class="filter-btn" data-cat="ciclo" role="tab">🚴 Cicloturismo</button>
+    <button class="filter-btn" data-cat="invernal" role="tab">⛷️ Invernal</button>
+    <button class="filter-btn" data-cat="paquetes" role="tab">📦 Paquetes</button>
+    <button class="filter-btn" data-cat="otros" role="tab">✨ Otros</button>
+  </div>
+
+  <!-- Cards grid -->
+  <div class="act-grid" id="act-grid">
+
+    <!-- TREKKING -->
+    <article class="act-card" data-cat="trekking" data-featured="true" data-order="1">
+      <div class="act-img-wrap">
+        <img src="assets/ARAUCARIAMILENARIA.jpg" alt="Araucaria Milenaria" loading="lazy" />
+        <span class="act-badge">Trekking</span>
+        <span class="act-diff baja">Baja</span>
+      </div>
+      <div class="act-body">
+        <h3>Araucaria Milenaria + Laguna Pehuenco</h3>
+        <div class="act-meta">
+          <span>⏱ 3 hrs</span><span>📍 3 km</span><span>👨‍👩‍👧 Familiar</span>
+        </div>
+        <p>Bosques milenarios hasta una laguna de origen volcánico, con vistas al Volcán Lonquimay.</p>
+        <div class="act-includes">
+          <span>🚐 Transporte</span><span>🧗 Guía certif.</span><span>🍎 Snack</span><span>📷 Fotos</span>
+        </div>
+        <div class="act-price">Desde <strong>$35.000</strong> p/p</div>
+        <a href="https://wa.me/56996278258?text=Hola%20ETNIKA!%20Quiero%20info%20sobre%20Araucaria%20Milenaria" target="_blank" class="act-btn">Reservar</a>
+      </div>
+    </article>
+
+    <article class="act-card" data-cat="trekking">
+      <div class="act-img-wrap">
+        <img src="assets/miradordevolcanes.jpeg" alt="Mirador Sierra del Colorado" loading="lazy" />
+        <span class="act-badge">Trekking</span>
+        <span class="act-diff media">Media/Alta</span>
+      </div>
+      <div class="act-body">
+        <h3>Mirador Sierra del Colorado</h3>
+        <div class="act-meta">
+          <span>⏱ 4 hrs</span><span>📍 6 km</span><span>🦅 Obs. aves</span>
+        </div>
+        <p>Cima a 1.850 msnm con panorámica de Volcanes Lonquimay, Sierra Nevada y Llaima.</p>
+        <div class="act-includes">
+          <span>🚐 Transporte</span><span>🧗 Guía certif.</span><span>🥐 Brunch</span><span>📷 Fotos</span>
+        </div>
+        <div class="act-price">Desde <strong>$45.000</strong> p/p</div>
+        <a href="https://wa.me/56996278258?text=Hola%20ETNIKA!%20Quiero%20info%20sobre%20Mirador%20Sierra%20del%20Colorado" target="_blank" class="act-btn">Reservar</a>
+      </div>
+    </article>
+
+    <article class="act-card" data-cat="trekking">
+      <div class="act-img-wrap">
+        <img src="assets/fotoensaltolaprinsesa.jpeg" alt="Trekking Piedra Santa" loading="lazy" />
+        <span class="act-badge">Trekking</span>
+        <span class="act-diff media">Media/Alta</span>
+      </div>
+      <div class="act-body">
+        <h3>Trekking Piedra Santa</h3>
+        <div class="act-meta">
+          <span>⏱ 6 hrs</span><span>📍 15 km</span><span>🌲 3 miradores</span>
+        </div>
+        <p>Bosques de Coigues y Araucarias con vistas desde 3 miradores en la Reserva.</p>
+        <div class="act-includes">
+          <span>🚐 Transporte</span><span>🧗 Guía certif.</span><span>🥐 Brunch</span><span>📷 Fotos</span>
+        </div>
+        <div class="act-price">Desde <strong>$40.000</strong> p/p</div>
+        <a href="https://wa.me/56996278258?text=Hola%20ETNIKA!%20Quiero%20info%20sobre%20Trekking%20Piedra%20Santa" target="_blank" class="act-btn">Reservar</a>
+      </div>
+    </article>
+
+    <article class="act-card" data-cat="trekking">
+      <div class="act-img-wrap">
+        <img src="assets/fotolagunaespejo.jpeg" alt="Laguna Espejo" loading="lazy" />
+        <span class="act-badge">Trekking</span>
+        <span class="act-diff media">Media/Alta</span>
+      </div>
+      <div class="act-body">
+        <h3>Laguna Espejo + Glaciar Sierra Nevada</h3>
+        <div class="act-meta">
+          <span>⏱ 9 hrs</span><span>📍 22 km</span><span>🧊 Glaciar</span>
+        </div>
+        <p>Cascadas, lagunas y el glaciar más grande de la Araucanía en la cara Este del Sierra Nevada.</p>
+        <div class="act-includes">
+          <span>🚐 Transporte</span><span>🧗 Guía certif.</span><span>🥐 Brunch</span><span>📷 Fotos</span>
+        </div>
+        <div class="act-price">Desde <strong>$70.000</strong> p/p</div>
+        <a href="https://wa.me/56996278258?text=Hola%20ETNIKA!%20Quiero%20info%20sobre%20Laguna%20Espejo" target="_blank" class="act-btn">Reservar</a>
+      </div>
+    </article>
+
+    <article class="act-card" data-cat="trekking">
+      <div class="act-img-wrap">
+        <img src="assets/lagunaarcoirisparquenacionalconguillio.jpeg" alt="Laguna Captrén" loading="lazy" />
+        <span class="act-badge">Trekking</span>
+        <span class="act-diff baja">Baja</span>
+      </div>
+      <div class="act-body">
+        <h3>Laguna Captrén — P.N. Conguillío</h3>
+        <div class="act-meta">
+          <span>⏱ 2 hrs</span><span>📍 3.5 km</span><span>🐦 Birdwatching</span>
+        </div>
+        <p>Circuito familiar en el Parque Nacional Conguillío con vista privilegiada al Volcán Llaima.</p>
+        <div class="act-includes">
+          <span>🚐 Transporte</span><span>🧗 Guía certif.</span><span>🎟 Entrada</span><span>📷 Fotos</span>
+        </div>
+        <div class="act-price">Desde <strong>$80.000</strong> p/p</div>
+        <a href="https://wa.me/56996278258?text=Hola%20ETNIKA!%20Quiero%20info%20sobre%20Laguna%20Captr%C3%A9n" target="_blank" class="act-btn">Reservar</a>
+      </div>
+    </article>
+
+    <!-- VOLCANES -->
+    <article class="act-card" data-cat="volcanes">
+      <div class="act-img-wrap">
+        <img src="assets/fotocraternavidad.jpeg" alt="Cráter Navidad" loading="lazy" />
+        <span class="act-badge vol">Montañismo</span>
+        <span class="act-diff media">Media</span>
+      </div>
+      <div class="act-body">
+        <h3>Cráter Navidad — 1.827 msnm</h3>
+        <div class="act-meta">
+          <span>⏱ 3 hrs</span><span>📍 3 km</span><span>🌋 190 m desnivel</span>
+        </div>
+        <p>Cono parásito del Volcán Lonquimay, ideal para iniciarse en la montaña. Gases volcánicos en la cumbre.</p>
+        <div class="act-includes">
+          <span>🚐 4x4</span><span>🧗 Guía certif.</span><span>⛑ Equipo téc.</span><span>📷 Fotos</span>
+        </div>
+        <div class="act-price">Desde <strong>$70.000</strong> p/p</div>
+        <a href="https://wa.me/56996278258?text=Hola%20ETNIKA!%20Quiero%20info%20sobre%20Cr%C3%A1ter%20Navidad" target="_blank" class="act-btn">Reservar</a>
+      </div>
+    </article>
+
+    <article class="act-card" data-cat="volcanes" data-featured="true" data-order="2">
+      <div class="act-img-wrap">
+        <img src="assets/fotocumbrevolcanlonquimaycon3personas.jpeg" alt="Volcán Lonquimay" loading="lazy" />
+        <span class="act-badge vol">Montañismo</span>
+        <span class="act-diff alta">Alta</span>
+      </div>
+      <div class="act-body">
+        <h3>Ascenso Volcán Lonquimay — 2.865 msnm</h3>
+        <div class="act-meta">
+          <span>⏱ 10 hrs</span><span>📍 8 km</span><span>🧊 Glaciar interior</span>
+        </div>
+        <p>El protagonista de Malalcahuello. Una de las mejores rutas para introducirse al mundo de los volcanes.</p>
+        <div class="act-includes">
+          <span>🚐 4x4</span><span>🧗 Guía certif.</span><span>🥐 Brunch</span><span>⛑ Equipo téc.</span>
+        </div>
+        <div class="act-price">Desde <strong>$120.000</strong> p/p</div>
+        <a href="https://wa.me/56996278258?text=Hola%20ETNIKA!%20Quiero%20info%20sobre%20Volc%C3%A1n%20Lonquimay" target="_blank" class="act-btn">Reservar</a>
+      </div>
+    </article>
+
+    <article class="act-card" data-cat="volcanes">
+      <div class="act-img-wrap">
+        <img src="assets/3personasenlagunaespejo.jpeg" alt="Volcán Sierra Nevada" loading="lazy" />
+        <span class="act-badge vol">Montañismo</span>
+        <span class="act-diff media">Media/Alta</span>
+      </div>
+      <div class="act-body">
+        <h3>Ascenso Volcán Sierra Nevada — 2.554 msnm</h3>
+        <div class="act-meta">
+          <span>⏱ 9 hrs</span><span>📍 15 km</span><span>🦅 Cóndores</span>
+        </div>
+        <p>Bosque nativo, cascadas de deshielo y vistas a Lonquimay, Tolhuaca y Conguillío.</p>
+        <div class="act-includes">
+          <span>🚐 4x4</span><span>🧗 Guía certif.</span><span>🥐 Brunch</span><span>📷 Fotos</span>
+        </div>
+        <div class="act-price">Desde <strong>$120.000</strong> p/p</div>
+        <a href="https://wa.me/56996278258?text=Hola%20ETNIKA!%20Quiero%20info%20sobre%20Sierra%20Nevada" target="_blank" class="act-btn">Reservar</a>
+      </div>
+    </article>
+
+    <article class="act-card" data-cat="volcanes">
+      <div class="act-img-wrap">
+        <img src="assets/cimavolcantolhuaca.png" alt="Volcán Tolhuaca" loading="lazy" />
+        <span class="act-badge vol">Montañismo</span>
+        <span class="act-diff alta">Alta</span>
+      </div>
+      <div class="act-body">
+        <h3>Ascenso Volcán Tolhuaca — 2.806 msnm</h3>
+        <div class="act-meta">
+          <span>⏱ 10 hrs</span><span>📍 16 km</span><span>⛺ 2 días ideal</span>
+        </div>
+        <p>"Frente de Vaca" en Mapudungun. Volcán técnico que exige experiencia previa en montaña.</p>
+        <div class="act-includes">
+          <span>🚐 4x4</span><span>🧗 Guía certif.</span><span>🥐 Brunch</span><span>⛑ Equipo téc.</span>
+        </div>
+        <div class="act-price">Desde <strong>$150.000</strong> p/p</div>
+        <a href="https://wa.me/56996278258?text=Hola%20ETNIKA!%20Quiero%20info%20sobre%20Volc%C3%A1n%20Tolhuaca" target="_blank" class="act-btn">Reservar</a>
+      </div>
+    </article>
+
+    <article class="act-card" data-cat="volcanes">
+      <div class="act-img-wrap">
+        <img src="assets/fotocimavolcanlonquimaymirandoelvolcanllaima.jpeg" alt="Volcán Llaima" loading="lazy" />
+        <span class="act-badge vol">Montañismo</span>
+        <span class="act-diff alta">Alta</span>
+      </div>
+      <div class="act-body">
+        <h3>Ascenso Volcán Llaima — 3.125 msnm</h3>
+        <div class="act-meta">
+          <span>⏱ 10 hrs</span><span>📍 18 km</span><span>🌋 +1.500m desnivel</span>
+        </div>
+        <p>Uno de los volcanes más activos de Sudamérica. Solo para personas con buen estado físico y experiencia.</p>
+        <div class="act-includes">
+          <span>🚐 Transporte</span><span>🧗 Guía certif.</span><span>🥐 Brunch</span><span>⛑ Equipo téc.</span>
+        </div>
+        <div class="act-price">Desde <strong>$150.000</strong> p/p</div>
+        <a href="https://wa.me/56996278258?text=Hola%20ETNIKA!%20Quiero%20info%20sobre%20Volc%C3%A1n%20Llaima" target="_blank" class="act-btn">Reservar</a>
+      </div>
+    </article>
+
+    <!-- TOURS VEHICULARES -->
+    <article class="act-card" data-cat="tours" data-featured="true" data-order="3">
+      <div class="act-img-wrap">
+        <img src="assets/conguilliocamp.png" alt="Parque Conguillío" loading="lazy" />
+        <span class="act-badge tour">Tour</span>
+        <span class="act-diff baja">Baja/Media</span>
+      </div>
+      <div class="act-body">
+        <h3>Tour Parque Nacional Conguillío</h3>
+        <div class="act-meta">
+          <span>⏱ Full Day</span><span>📍 170 km vehículo</span><span>🌲 10 km trek</span>
+        </div>
+        <p>Lagunas, Volcán Llaima, Salto Truful-Truful y trekking a elección dentro del Parque.</p>
+        <div class="act-includes">
+          <span>🚐 4x4</span><span>🧗 Guía certif.</span><span>🍽 Alimentación</span><span>🎟 Entrada</span>
+        </div>
+        <div class="act-price">Desde <strong>$99.000</strong> p/p</div>
+        <a href="https://wa.me/56996278258?text=Hola%20ETNIKA!%20Quiero%20info%20sobre%20Tour%20Conguillio" target="_blank" class="act-btn">Reservar</a>
+      </div>
+    </article>
+
+    <article class="act-card" data-cat="tours">
+      <div class="act-img-wrap">
+        <img src="assets/fotoencuestalasraices.jpeg" alt="Cuesta Las Raíces" loading="lazy" />
+        <span class="act-badge tour">Tour</span>
+        <span class="act-diff baja">Media/Baja</span>
+      </div>
+      <div class="act-body">
+        <h3>Cuesta de Las Raíces — Mirador Patachoique</h3>
+        <div class="act-meta">
+          <span>⏱ 5 hrs</span><span>📍 8 km</span><span>🏔 Miradores</span>
+        </div>
+        <p>Camino cordillerano con vistas al Valle Pehuenche, nacimiento del Cautín y araucanas milenarias.</p>
+        <div class="act-includes">
+          <span>🚐 4x4</span><span>🧗 Guía certif.</span><span>🍎 Snack</span><span>📷 Fotos</span>
+        </div>
+        <div class="act-price">Desde <strong>$50.000</strong> p/p</div>
+        <a href="https://wa.me/56996278258?text=Hola%20ETNIKA!%20Quiero%20info%20sobre%20Cuesta%20Las%20Ra%C3%ADces" target="_blank" class="act-btn">Reservar</a>
+      </div>
+    </article>
+
+    <article class="act-card" data-cat="tours">
+      <div class="act-img-wrap">
+        <img src="assets/fotoensaltolaprinsesa.jpeg" alt="Saltos Andinos" loading="lazy" />
+        <span class="act-badge tour">Tour</span>
+        <span class="act-diff baja">Baja</span>
+      </div>
+      <div class="act-body">
+        <h3>Saltos Andinos</h3>
+        <div class="act-meta">
+          <span>⏱ 3 hrs</span><span>📍 30 km</span><span>💦 2 saltos</span>
+        </div>
+        <p>Ruta vehicular entre Curacautín y Malalcahuello visitando Salto La Princesa y Salto Del Indio.</p>
+        <div class="act-includes">
+          <span>🚐 Transporte</span><span>🧗 Guía certif.</span><span>🎟 Entrada</span><span>📷 Fotos</span>
+        </div>
+        <div class="act-price">Desde <strong>$35.000</strong> p/p</div>
+        <a href="https://wa.me/56996278258?text=Hola%20ETNIKA!%20Quiero%20info%20sobre%20Saltos%20Andinos" target="_blank" class="act-btn">Reservar</a>
+      </div>
+    </article>
+
+    <article class="act-card" data-cat="tours">
+      <div class="act-img-wrap">
+        <img src="assets/cicloviatunel_lonquimay.jpeg" alt="Tour Lonquimay" loading="lazy" />
+        <span class="act-badge tour">Tour</span>
+        <span class="act-diff baja">Baja</span>
+      </div>
+      <div class="act-body">
+        <h3>Tour Lonquimay Full Day</h3>
+        <div class="act-meta">
+          <span>⏱ Full Day</span><span>🚇 Túnel Las Raíces</span><span>🏔 Artesanías</span>
+        </div>
+        <p>Patachoike → Lonquimay → Salto Alaska → Túnel de Las Raíces. Naturaleza, cultura y aventura.</p>
+        <div class="act-includes">
+          <span>🚐 Transporte</span><span>🧗 Guía certif.</span><span>🍽 Alimentación</span><span>🎟 Entradas</span>
+        </div>
+        <div class="act-price">Desde <strong>$70.000</strong> p/p</div>
+        <a href="https://wa.me/56996278258?text=Hola%20ETNIKA!%20Quiero%20info%20sobre%20Tour%20Lonquimay" target="_blank" class="act-btn">Reservar</a>
+      </div>
+    </article>
+
+    <!-- RÍO -->
+    <article class="act-card" data-cat="rio" data-featured="true" data-order="4">
+      <div class="act-img-wrap">
+        <img src="assets/raftingriocautin.jpeg" alt="Rafting río Cautín" loading="lazy" />
+        <span class="act-badge rio">Río</span>
+        <span class="act-diff baja">Baja</span>
+      </div>
+      <div class="act-body">
+        <h3>Rafting Familiar — Río Cautín</h3>
+        <div class="act-meta">
+          <span>⏱ 2 hrs</span><span>📍 2 km</span><span>👨‍👩‍👧 Familiar</span>
+        </div>
+        <p>Sensación del verano. Rafting en el cordillerano Río Cautín con posibilidad de chapuzón y avistamiento de aves.</p>
+        <div class="act-includes">
+          <span>🚐 Transporte</span><span>🧗 Guía certif.</span><span>⛑ Equipo</span><span>📷 Fotos</span>
+        </div>
+        <div class="act-price">Desde <strong>$35.000</strong> p/p</div>
+        <a href="https://wa.me/56996278258?text=Hola%20ETNIKA!%20Quiero%20info%20sobre%20Rafting%20Caut%C3%ADn" target="_blank" class="act-btn">Reservar</a>
+      </div>
+    </article>
+
+    <article class="act-card" data-cat="rio">
+      <div class="act-img-wrap">
+        <img src="assets/kayacriocautin.jpeg" alt="Kayak Río Cautín" loading="lazy" />
+        <span class="act-badge rio">Río</span>
+        <span class="act-diff media">Media</span>
+      </div>
+      <div class="act-body">
+        <h3>Kayak Río Cautín</h3>
+        <div class="act-meta">
+          <span>⏱ 2.5 hrs</span><span>📍 6 km</span><span>🏊 +18 años</span>
+        </div>
+        <p>Para quienes buscan adrenalina. 6 km de descenso en kayak tras inducción y práctica.</p>
+        <div class="act-includes">
+          <span>🚐 Transporte</span><span>🧗 Guía certif.</span><span>⛑ Equipo</span><span>🥐 Brunch</span>
+        </div>
+        <div class="act-price">Desde <strong>$45.000</strong> p/p</div>
+        <a href="https://wa.me/56996278258?text=Hola%20ETNIKA!%20Quiero%20info%20sobre%20Kayak%20Caut%C3%ADn" target="_blank" class="act-btn">Reservar</a>
+      </div>
+    </article>
+
+    <article class="act-card" data-cat="rio">
+      <div class="act-img-wrap">
+        <img src="assets/pescariocautin.png" alt="Pesca Río Cautín" loading="lazy" />
+        <span class="act-badge rio">Río</span>
+        <span class="act-diff baja">Baja</span>
+      </div>
+      <div class="act-body">
+        <h3>Pesca Recreativa y Deportiva</h3>
+        <div class="act-meta">
+          <span>⏱ 3 hrs</span><span>🎣 Río Cautín</span><span>👨‍👩‍👧 Familiar</span>
+        </div>
+        <p>Apta para toda la familia incluidos principiantes. Inducción completa al equipo y técnica.</p>
+        <div class="act-includes">
+          <span>🚐 Transporte</span><span>🎣 Guía pesca</span><span>⛑ Equipo</span><span>📷 Fotos</span>
+        </div>
+        <div class="act-price">Desde <strong>$40.000</strong> p/p</div>
+        <a href="https://wa.me/56996278258?text=Hola%20ETNIKA!%20Quiero%20info%20sobre%20Pesca%20Caut%C3%ADn" target="_blank" class="act-btn">Reservar</a>
+      </div>
+    </article>
+
+    <!-- CICLOTURISMO -->
+    <article class="act-card" data-cat="ciclo" data-featured="true" data-order="5">
+      <div class="act-img-wrap">
+        <img src="assets/cicloviamalalcahuellomanzanar.jpeg" alt="Ciclovía Malalcahuello" loading="lazy" />
+        <span class="act-badge ciclo">Cicloturismo</span>
+        <span class="act-diff media">Media</span>
+      </div>
+      <div class="act-body">
+        <h3>Ciclovía Malalcahuello — Manzanar</h3>
+        <div class="act-meta">
+          <span>⏱ 4 hrs</span><span>📍 24 km</span><span>🚇 Túneles</span>
+        </div>
+        <p>Antigua línea férrea convertida en ciclovía, inmersa en bosque nativo con túneles y miradores.</p>
+        <div class="act-includes">
+          <span>🚲 Bici + casco</span><span>🧗 Guía certif.</span><span>🍎 Snack</span><span>📷 Fotos</span>
+        </div>
+        <div class="act-price">Desde <strong>$29.000</strong> p/p</div>
+        <a href="https://wa.me/56996278258?text=Hola%20ETNIKA!%20Quiero%20info%20sobre%20Ciclovia%20Malalcahuello" target="_blank" class="act-btn">Reservar</a>
+      </div>
+    </article>
+
+    <article class="act-card" data-cat="ciclo">
+      <div class="act-img-wrap">
+        <img src="assets/tunelcicloviamalalcamanzanar.jpeg" alt="Ciclovía Lonquimay" loading="lazy" />
+        <span class="act-badge ciclo">Cicloturismo</span>
+        <span class="act-diff baja">Baja/Media</span>
+      </div>
+      <div class="act-body">
+        <h3>Ciclovía Lonquimay — Túnel Las Raíces</h3>
+        <div class="act-meta">
+          <span>⏱ 5 hrs</span><span>📍 20 km</span><span>🚇 Túnel más largo Chile</span>
+        </div>
+        <p>Valle de Lonquimay rodeado de montañas, ríos y aves. Incluye el famoso Túnel de Las Raíces.</p>
+        <div class="act-includes">
+          <span>🚐 Transporte</span><span>🚲 Bici + casco</span><span>🧗 Guía certif.</span><span>🍎 Snack</span>
+        </div>
+        <div class="act-price">Desde <strong>$40.000</strong> p/p</div>
+        <a href="https://wa.me/56996278258?text=Hola%20ETNIKA!%20Quiero%20info%20sobre%20Ciclovia%20Lonquimay" target="_blank" class="act-btn">Reservar</a>
+      </div>
+    </article>
+
+    <!-- INVERNAL -->
+    <article class="act-card" data-cat="invernal">
+      <div class="act-img-wrap">
+        <img src="assets/fotorandone.jpeg" alt="Randonnée Splitboard" loading="lazy" />
+        <span class="act-badge inv">Invernal</span>
+        <span class="act-diff media">Media/Alta</span>
+      </div>
+      <div class="act-body">
+        <h3>Backcountry — Randonnée & Splitboard</h3>
+        <div class="act-meta">
+          <span>⏱ 7 hrs</span><span>❄️ Nieve virgen</span><span>⛷ Bajada ski/snow</span>
+        </div>
+        <p>Ascenso en trekking con equipo randonnée para luego disfrutar una bajada épica en nieve virgen.</p>
+        <div class="act-includes">
+          <span>🚐 4x4</span><span>🧗 Guía certif.</span><span>⛑ Equipo randonnée</span><span>📷 Fotos</span>
+        </div>
+        <div class="act-price">Desde <strong>$99.000</strong> p/p</div>
+        <a href="https://wa.me/56996278258?text=Hola%20ETNIKA!%20Quiero%20info%20sobre%20Randonee%20Splitboard" target="_blank" class="act-btn">Reservar</a>
+      </div>
+    </article>
+
+    <article class="act-card" data-cat="invernal">
+      <div class="act-img-wrap">
+        <img src="assets/induccionskisnowboard.png" alt="Inducción Ski Snowboard" loading="lazy" />
+        <span class="act-badge inv">Invernal</span>
+        <span class="act-diff baja">Baja</span>
+      </div>
+      <div class="act-body">
+        <h3>Inducción Ski & Snowboard</h3>
+        <div class="act-meta">
+          <span>⏱ 1–2 hrs</span><span>⛷ Desde 7 años</span><span>🏔 Corralco</span>
+        </div>
+        <p>Clases en centro Ski Corralco, Skinolimit o fuera de pista. Elige el sector que más te acomode.</p>
+        <div class="act-includes">
+          <span>🧗 Guía certif.</span><span>🎟 Ticket ski</span><span>⛷ Equipo ski/snow</span><span>🍎 Snack</span>
+        </div>
+        <div class="act-price">Desde <strong>$38.000</strong> p/p</div>
+        <a href="https://wa.me/56996278258?text=Hola%20ETNIKA!%20Quiero%20info%20sobre%20Inducci%C3%B3n%20Ski" target="_blank" class="act-btn">Reservar</a>
+      </div>
+    </article>
+
+    <article class="act-card" data-cat="invernal" data-featured="true" data-order="6">
+      <div class="act-img-wrap">
+        <img src="assets/hikingraquetasvolcanlomquimay.jpeg" alt="Hiking con raquetas" loading="lazy" />
+        <span class="act-badge inv">Invernal</span>
+        <span class="act-diff media">Media</span>
+      </div>
+      <div class="act-body">
+        <h3>Hiking con Raquetas — Volcán Lonquimay</h3>
+        <div class="act-meta">
+          <span>❄️ Nieve profunda</span><span>🌋 Volcán Lonquimay</span><span>🌄 Amanecer</span>
+        </div>
+        <p>Recorre las laderas nevadas del Lonquimay con raquetas de nieve para explorar paisajes únicos en invierno.</p>
+        <div class="act-includes">
+          <span>🚐 4x4</span><span>🧗 Guía certif.</span><span>⛑ Equipo completo</span><span>📷 Fotos</span>
+        </div>
+        <div class="act-price">Consultar</div>
+        <a href="https://wa.me/56996278258?text=Hola%20ETNIKA!%20Quiero%20info%20sobre%20Raquetas%20de%20nieve" target="_blank" class="act-btn">Reservar</a>
+      </div>
+    </article>
+
+    <!-- PAQUETES -->
+    <article class="act-card" data-cat="paquetes">
+      <div class="act-img-wrap">
+        <img src="assets/lagunablancayvolcantolhuaca.jpeg" alt="Laguna Blanca" loading="lazy" />
+        <span class="act-badge pack">Paquete</span>
+        <span class="act-diff baja">Baja/Media</span>
+      </div>
+      <div class="act-body">
+        <h3>Mirador Laguna Blanca + Cascada Escondida</h3>
+        <div class="act-meta">
+          <span>⏱ Full Day</span><span>💧 Cascada</span><span>🦜 Fauna</span>
+        </div>
+        <p>Laguna Blanca, Laguna Los Piuquenes, Laguna Los Patos y Cascada Escondida en un día completo.</p>
+        <div class="act-includes">
+          <span>🚐 Transporte</span><span>🧗 Guía certif.</span><span>🍽 Alimentación</span><span>📷 Fotos</span>
+        </div>
+        <div class="act-price">Desde <strong>$99.000</strong> p/p</div>
+        <a href="https://wa.me/56996278258?text=Hola%20ETNIKA!%20Quiero%20info%20sobre%20Laguna%20Blanca" target="_blank" class="act-btn">Reservar</a>
+      </div>
+    </article>
+
+    <article class="act-card" data-cat="paquetes">
+      <div class="act-img-wrap">
+        <img src="assets/miradordevolcanes.jpeg" alt="Mirador de Volcanes" loading="lazy" />
+        <span class="act-badge pack">Paquete</span>
+        <span class="act-diff baja">Baja</span>
+      </div>
+      <div class="act-body">
+        <h3>Tour & Trekking Mirador de Volcanes</h3>
+        <div class="act-meta">
+          <span>⏱ 2 hrs</span><span>📍 14 km</span><span>🌋 +7 volcanes</span>
+        </div>
+        <p>Vista panorámica de más de 7 volcanes, Centro Ski Corralco y formaciones geológicas volcánicas.</p>
+        <div class="act-includes">
+          <span>🚐 Transporte</span><span>🧗 Guía certif.</span><span>🍎 Snack</span><span>📷 Fotos</span>
+        </div>
+        <div class="act-price">Desde <strong>$45.000</strong> p/p</div>
+        <a href="https://wa.me/56996278258?text=Hola%20ETNIKA!%20Quiero%20info%20sobre%20Mirador%20de%20Volcanes" target="_blank" class="act-btn">Reservar</a>
+      </div>
+    </article>
+
+    <article class="act-card" data-cat="paquetes">
+      <div class="act-img-wrap">
+        <img src="assets/bateamahuidaicalma.png" alt="Icalma Camp" loading="lazy" />
+        <span class="act-badge pack">2 Días</span>
+        <span class="act-diff baja">Baja</span>
+      </div>
+      <div class="act-body">
+        <h3>Tour 2 Días — Icalma Camp</h3>
+        <div class="act-meta">
+          <span>📅 2 días 1 noche</span><span>🌲 Araucarias</span><span>🏔 Batea Mahuida</span>
+        </div>
+        <p>Lago Icalma, frontera con Argentina, alta población de araucarias y volcán Batea Mahuida.</p>
+        <div class="act-includes">
+          <span>🚐 Transporte</span><span>🧗 Guía certif.</span><span>🏕 Alojamiento</span><span>🍽 Alimentación</span>
+        </div>
+        <div class="act-price">Desde <strong>$200.000</strong> p/p</div>
+        <a href="https://wa.me/56996278258?text=Hola%20ETNIKA!%20Quiero%20info%20sobre%20Icalma%20Camp" target="_blank" class="act-btn">Reservar</a>
+      </div>
+    </article>
+
+    <article class="act-card" data-cat="paquetes">
+      <div class="act-img-wrap">
+        <img src="assets/conguilliocamp.png" alt="Conguillío Camp" loading="lazy" />
+        <span class="act-badge pack">2 Días</span>
+        <span class="act-diff baja">Baja</span>
+      </div>
+      <div class="act-body">
+        <h3>Conguillío Camp 2 Días</h3>
+        <div class="act-meta">
+          <span>📅 2 días 1 noche</span><span>🛶 Kayak</span><span>🌋 Volcán Llaima</span>
+        </div>
+        <p>Araucarias milenarias, kayak Lago Conguillío, 4 lagunas y formaciones volcánicas únicas.</p>
+        <div class="act-includes">
+          <span>🚐 4x4</span><span>🧗 Guía certif.</span><span>⛺ Set campamento</span><span>🛶 Kayak</span>
+        </div>
+        <div class="act-price">Desde <strong>$230.000</strong> p/p</div>
+        <a href="https://wa.me/56996278258?text=Hola%20ETNIKA!%20Quiero%20info%20sobre%20Conguilli%C3%B3%20Camp" target="_blank" class="act-btn">Reservar</a>
+      </div>
+    </article>
+
+    <!-- OTROS -->
+    <article class="act-card" data-cat="otros" data-featured="true" data-order="7">
+      <div class="act-img-wrap">
+        <img src="assets/cabalgatas.jpeg" alt="Cabalgatas" loading="lazy" />
+        <span class="act-badge otro">Cabalgata</span>
+        <span class="act-diff baja">Baja</span>
+      </div>
+      <div class="act-body">
+        <h3>Cabalgatas SuizAndina</h3>
+        <div class="act-meta">
+          <span>⏱ 2 hrs</span><span>🐴 Campo abierto</span><span>🏔 Vista Sierra Nevada</span>
+        </div>
+        <p>Profesora de equitación trilingüe. Cruces de esteros con vistas al Volcán Sierra Nevada.</p>
+        <div class="act-includes">
+          <span>🧗 Guía trilingüe</span><span>⛑ Equipo</span><span>📷 Fotos</span>
+        </div>
+        <div class="act-price"><strong>$40.000</strong> p/p</div>
+        <a href="https://wa.me/56996278258?text=Hola%20ETNIKA!%20Quiero%20info%20sobre%20Cabalgatas" target="_blank" class="act-btn">Reservar</a>
+      </div>
+    </article>
+
+    <article class="act-card" data-cat="otros">
+      <div class="act-img-wrap">
+        <img src="assets/canopynalcas.png" alt="Canopy Nalcas" loading="lazy" />
+        <span class="act-badge otro">Canopy</span>
+        <span class="act-diff baja">Baja</span>
+      </div>
+      <div class="act-body">
+        <h3>Canopy Hotel Las Nalcas</h3>
+        <div class="act-meta">
+          <span>⏱ 1 hr</span><span>📍 ~800 m</span><span>🌲 7 plataformas</span>
+        </div>
+        <p>Circuito seguro con cruces de río y tirolesas a 10 mts del suelo. Para romper el miedo a las alturas.</p>
+        <div class="act-includes">
+          <span>🧗 Guías certif.</span><span>⛑ Equipo técnico</span><span>📷 Fotos</span>
+        </div>
+        <div class="act-price"><strong>$25.000</strong> p/p</div>
+        <a href="https://wa.me/56996278258?text=Hola%20ETNIKA!%20Quiero%20info%20sobre%20Canopy%20Nalcas" target="_blank" class="act-btn">Reservar</a>
+      </div>
+    </article>
+
+    <article class="act-card" data-cat="otros">
+      <div class="act-img-wrap">
+        <img src="assets/termasmalalcahuello.jpeg" alt="Termas Malalcahuello" loading="lazy" />
+        <span class="act-badge otro">Termas</span>
+        <span class="act-diff baja">Baja</span>
+      </div>
+      <div class="act-body">
+        <h3>Termas de Malalcahuello</h3>
+        <div class="act-meta">
+          <span>⏱ 3 hrs</span><span>♨️ 4 piscinas</span><span>💆 Masajes</span>
+        </div>
+        <p>Aguas termales del Volcán Sierra Nevada. 4 piscinas + jacuzzi + masajes disponibles.</p>
+        <div class="act-includes">
+          <span>🚐 Transporte</span><span>🎟 Entrada termas</span><span>🧗 Guía</span>
+        </div>
+        <div class="act-price">Consultar</div>
+        <a href="https://wa.me/56996278258?text=Hola%20ETNIKA!%20Quiero%20info%20sobre%20Termas%20Malalcahuello" target="_blank" class="act-btn">Reservar</a>
+      </div>
+    </article>
+
+    <article class="act-card" data-cat="otros">
+      <div class="act-img-wrap">
+        <img src="assets/giraestudio.png" alt="Giras de Estudio" loading="lazy" />
+        <span class="act-badge otro">Giras</span>
+        <span class="act-diff baja">Baja</span>
+      </div>
+      <div class="act-body">
+        <h3>Giras de Estudio & Adulto Mayor</h3>
+        <div class="act-meta">
+          <span>📅 Días a definir</span><span>🚌 Bus privado</span><span>👩‍🏫 Staff Etnika</span>
+        </div>
+        <p>Programas completos para colegios y tercera edad: termas, senderismo, saltos andinos y artesanías.</p>
+        <div class="act-includes">
+          <span>🚌 Bus privado</span><span>🏨 Hotel</span><span>🍽 Alimentación</span><span>⛑ Seguros</span>
+        </div>
+        <div class="act-price">Consultar</div>
+        <a href="https://wa.me/56996278258?text=Hola%20ETNIKA!%20Quiero%20info%20sobre%20Giras%20de%20Estudio" target="_blank" class="act-btn">Reservar</a>
+      </div>
+    </article>
+
+    <article class="act-card" data-cat="otros">
+      <div class="act-img-wrap">
+        <img src="assets/transportefotoaeropuertotemuco.png" alt="Traslado aeropuerto Temuco" loading="lazy" />
+        <span class="act-badge otro">Traslado</span>
+        <span class="act-diff baja">Baja</span>
+      </div>
+      <div class="act-body">
+        <h3>Traslado Aeropuerto Temuco</h3>
+        <div class="act-meta">
+          <span>⏱ ~2 hrs</span><span>📍 141 km</span><span>✈️ Pickup en vuelo</span>
+        </div>
+        <p>Te esperamos en el aeropuerto de Temuco y te acompañamos hasta Malalcahuello. Disponible 24/7.</p>
+        <div class="act-includes">
+          <span>🚐 Vehículo ejecutivo</span><span>🧗 Guía certif.</span>
+        </div>
+        <div class="act-price">Desde <strong>$170.000</strong> (2–4 pax)</div>
+        <a href="https://wa.me/56996278258?text=Hola%20ETNIKA!%20Quiero%20info%20sobre%20Traslado%20Aeropuerto" target="_blank" class="act-btn">Reservar</a>
+      </div>
+    </article>
+
+  </div><!-- /act-grid -->
+</section>
+
+<!-- ══════ GALERÍA ══════ -->
+<section id="galeria" class="section-galeria">
+  <div class="galeria-header">
+    <span class="section-tag reveal">Galería</span>
+    <h2 class="reveal d1">La <em>Araucanía</em><br />en imágenes</h2>
+  </div>
+  <div class="galeria-mosaic reveal d2">
+    <img src="assets/craternavidaddesdeelcielo.jpeg" alt="Cráter Navidad desde el cielo" loading="lazy" class="g-big" />
+    <img src="assets/fotonocturnacarpavolcantolhuaca.jpeg" alt="Carpa nocturna volcán" loading="lazy" />
+    <img src="assets/cabalgatas2.jpeg" alt="Cabalgata al atardecer" loading="lazy" />
+    <img src="assets/fotonocturnacarpaenlagunaespejo.jpeg" alt="Carpa laguna espejo noche" loading="lazy" class="g-wide" />
+    <img src="assets/conguilliokayac.png" alt="Kayak Conguillío cascada" loading="lazy" />
+    <img src="assets/fotoski.jpeg" alt="Ski volcán" loading="lazy" />
+    <img src="assets/dospersonascimavolcanlonquimay.jpeg" alt="Cima volcán Lonquimay" loading="lazy" />
+    <img src="assets/randoneecerrolaplancha.jpeg" alt="Randonnée cerro" loading="lazy" />
+    <img src="assets/lagunaarcoirisparquenacionalconguillio.jpeg" alt="Laguna arcoiris" loading="lazy" class="g-big" />
+  </div>
+</section>
+
+<!-- ══════ ALOJAMIENTO ══════ -->
+<section id="alojamiento" class="section-alojamiento">
+  <div class="aloj-header">
+    <span class="section-tag reveal">Dónde quedarse</span>
+    <h2 class="reveal d1">Alojamientos<br /><em>recomendados</em></h2>
+    <p class="reveal d2">Selección de los mejores alojamientos de Malalcahuello, coordinados directamente con Etnika.</p>
+  </div>
+  <div class="aloj-grid">
+    <div class="aloj-card reveal">
+      <img src="assets/alojocasadelarbol.png" alt="Casa del Árbol" loading="lazy" />
+      <div class="aloj-info">
+        <h4>Casa del Árbol</h4>
+        <span>Cabañas & Glamping</span>
+        <a href="https://wa.me/56957064258" target="_blank">+56 9 5706 4258</a>
+      </div>
+    </div>
+    <div class="aloj-card reveal d1">
+      <img src="assets/alojoaliwen.png" alt="Cabañas Aliwen" loading="lazy" />
+      <div class="aloj-info">
+        <h4>Cabañas Aliwen</h4>
+        <span>Condominio</span>
+        <a href="https://wa.me/56994088490" target="_blank">+56 9 9408 8490</a>
+      </div>
+    </div>
+    <div class="aloj-card reveal d2">
+      <img src="assets/alojoaldeamalalcahuello.png" alt="Aldea Malalcahuello" loading="lazy" />
+      <div class="aloj-info">
+        <h4>Aldea Malalcahuello</h4>
+        <span>Cabañas</span>
+        <a href="https://wa.me/56942801888" target="_blank">+56 9 4280 1888</a>
+      </div>
+    </div>
+    <div class="aloj-card reveal d3">
+      <img src="assets/alojohoteltermasdemalalcahuello.png" alt="Hotel Termas Malalcahuello" loading="lazy" />
+      <div class="aloj-info">
+        <h4>Hotel Termas Malalcahuello</h4>
+        <span>Hotel & Spa</span>
+        <a href="https://wa.me/56966174605" target="_blank">+56 9 6617 4605</a>
+      </div>
+    </div>
+    <div class="aloj-card reveal">
+      <img src="assets/alojosuizmountai.png" alt="Suiz Mountain" loading="lazy" />
+      <div class="aloj-info">
+        <h4>Hostal SuizMountain</h4>
+        <span>Hostal</span>
+        <a href="https://wa.me/56979505809" target="_blank">+56 9 7950 5809</a>
+      </div>
+    </div>
+    <div class="aloj-card reveal d1">
+      <img src="assets/alojohoteknalcas.png" alt="Hotel Nalcas" loading="lazy" />
+      <div class="aloj-info">
+        <h4>Hotel Nalcas</h4>
+        <span>Hotel</span>
+        <a href="https://wa.me/56994337919" target="_blank">+56 9 9433 7919</a>
+      </div>
+    </div>
+    <div class="aloj-card reveal d2">
+      <img src="assets/alojo2volcanes.png" alt="2 Volcanes" loading="lazy" />
+      <div class="aloj-info">
+        <h4>2 Volcanes</h4>
+        <span>Camping & Hostal</span>
+        <a href="https://wa.me/56973315181" target="_blank">+56 9 7331 5181</a>
+      </div>
+    </div>
+    <div class="aloj-card reveal d3">
+      <img src="assets/alojoyukiyama.png" alt="Yukiyama Lodge" loading="lazy" />
+      <div class="aloj-info">
+        <h4>Yukiyama Lodge</h4>
+        <span>Lodge</span>
+        <a href="https://wa.me/56966770850" target="_blank">+56 9 6677 0850</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════ CLIMA ══════ -->
+<section id="clima" class="section-clima">
+  <div class="clima-inner">
+    <div class="clima-text">
+      <span class="section-tag reveal">Condiciones actuales</span>
+      <h2 class="reveal d1">Revisa el clima<br /><em>antes de tu aventura</em></h2>
+      <p class="reveal d2">Malalcahuello tiene las 4 estaciones claramente definidas. Planifica bien tu visita y consulta las condiciones de la ruta.</p>
+
+      <!-- Estadísticas movidas aquí -->
+      <div class="clima-stats reveal d3">
+        <div class="clima-stats-grid">
+          <div class="clima-stat-card">
+            <span class="clima-stat-num">+8</span>
+            <span class="clima-stat-label">años de experiencia</span>
+          </div>
+          <div class="clima-stat-card">
+            <span class="clima-stat-num">5</span>
+            <span class="clima-stat-label">volcanes activos</span>
+          </div>
+          <div class="clima-stat-card">
+            <span class="clima-stat-num">30+</span>
+            <span class="clima-stat-label">actividades</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="clima-widget reveal d2" id="weather-card">
+
+      <!-- Clima actual -->
+      <div class="wc-current">
+        <div class="wc-left">
+          <div class="wc-icon" id="wc-icon">⏳</div>
+          <div class="wc-temp" id="wc-temp">--°</div>
+          <div class="wc-desc" id="wc-desc">Cargando…</div>
+        </div>
+        <div class="wc-right">
+          <div class="wc-row"><span class="wc-lbl">Sensación</span><span id="wc-feel">--°C</span></div>
+          <div class="wc-row"><span class="wc-lbl">Humedad</span><span id="wc-hum">--%</span></div>
+          <div class="wc-row"><span class="wc-lbl">Viento</span><span id="wc-wind">-- km/h</span></div>
+          <div class="wc-row"><span class="wc-lbl">Ráfagas</span><span id="wc-gust">-- km/h</span></div>
+          <div class="wc-row"><span class="wc-lbl">Precip.</span><span id="wc-precip">-- mm</span></div>
+          <div class="wc-row"><span class="wc-lbl">Prob. lluvia</span><span id="wc-rain">--%</span></div>
+          <div class="wc-row"><span class="wc-lbl">UV máx.</span><span id="wc-uv">--</span></div>
+        </div>
+      </div>
+
+      <!-- Pronóstico 5 días -->
+      <div class="wc-forecast" id="wc-forecast">
+        <!-- Días generados por JS -->
+      </div>
+
+      <div class="wc-footer">
+        <span>📍 Malalcahuello, 972 msnm</span>
+        <a href="https://open-meteo.com" target="_blank" rel="noopener">Open-Meteo</a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════ RECOMENDACIONES ══════ -->
+<section id="recomendaciones" class="section-recos">
+  <div class="recos-inner">
+    <span class="section-tag reveal">Antes de venir</span>
+    <h2 class="reveal d1">Planifica<br /><em>bien tu viaje</em></h2>
+    <div class="recos-grid">
+      <div class="reco-item reveal">
+        <span class="reco-icon">🗓</span>
+        <h4>Reserva con anticipación</h4>
+        <p>Mínimo 48 hrs antes. 50% del valor confirma tu cupo.</p>
+      </div>
+      <div class="reco-item reveal d1">
+        <span class="reco-icon">🌦</span>
+        <h4>Chequea el clima</h4>
+        <p>Consulta condiciones los días previos. Si hay nieve en ruta, lleva cadenas.</p>
+      </div>
+      <div class="reco-item reveal d2">
+        <span class="reco-icon">👟</span>
+        <h4>Vestimenta adecuada</h4>
+        <p>Capas, zapatillas de trekking, polar, impermeable, gorro y guantes.</p>
+      </div>
+      <div class="reco-item reveal d3">
+        <span class="reco-icon">💚</span>
+        <h4>Cuídate y cuídanos</h4>
+        <p>Respeta la naturaleza. El uso del equipo de seguridad es obligatorio.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════ CONTACTO ══════ -->
+<section id="contacto" class="section-contacto">
+  <div class="contacto-inner">
+    <div class="contacto-text">
+      <span class="section-tag reveal">Contáctanos</span>
+      <h2 class="reveal d1">¿Listo para<br /><em>la aventura?</em></h2>
+      <p class="reveal d2">Estamos en Malalcahuello, Chile. Escríbenos y organizamos juntos tu experiencia perfecta.</p>
+      <div class="contacto-datos reveal d2">
+        <div class="dato">
+          <span>📍</span>
+          <div>
+            <strong>Dirección</strong>
+            <p>Esquina Av. Rinconada con Calle Sierra Nevada<br />Malalcahuello, Araucanía</p>
+            <img
+              src="assets/Esquina_AV_Rinconada_con_Calle%20Sierra_Nevada.jpeg"
+              alt="Referencia visual de la oficina ETNIKA en Esquina Av. Rinconada con Calle Sierra Nevada"
+              class="direccion-foto"
+              loading="lazy"
+            />
+          </div>
+        </div>
+        <div class="dato">
+          <span>📞</span>
+          <div>
+            <strong>Teléfono / WhatsApp</strong>
+            <p><a href="https://wa.me/56996278258">+56 9 9627 8258</a></p>
+          </div>
+        </div>
+        <div class="dato">
+          <span>✉️</span>
+          <div>
+            <strong>Email</strong>
+            <p><a href="mailto:etnika.turismo@gmail.com">etnika.turismo@gmail.com</a></p>
+          </div>
+        </div>
+        <div class="dato">
+          <span>🌐</span>
+          <div>
+            <strong>Web</strong>
+            <p><a href="https://www.turismoetnika.cl" target="_blank">www.turismoetnika.cl</a></p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="contacto-mapa reveal d2">
+      <div class="mapa-wrapper">
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3096.9!2d-71.5235!3d-38.6518!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9614ae5a0c00001%3A0x0!2sMalalcahuello%2C%20Chile!5e0!3m2!1ses!2scl!4v1"
+          allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+          title="Ubicación Etnika Malalcahuello">
+        </iframe>
+      </div>
+      <div class="contacto-btns">
+        <a href="https://wa.me/56996278258?text=Hola%20ETNIKA!%20Quiero%20consultar%20sobre%20actividades" target="_blank" class="btn-wa">
+          <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          Escribir por WhatsApp
+        </a>
+        <a href="mailto:etnika.turismo@gmail.com" class="btn-email">Enviar email</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════ FOOTER ══════ -->
+<footer id="footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <img src="assets/logo_etnika.png" alt="ETNIKA" />
+      <div>
+        <strong>ETNIKA Eco & Aventura</strong>
+        <p>Malalcahuello, Araucanía · Desde 2016</p>
+      </div>
+    </div>
+    <div class="footer-links">
+      <a href="#nosotros">Nosotros</a>
+      <a href="#actividades">Actividades</a>
+      <a href="#alojamiento">Alojamiento</a>
+      <a href="#clima">Clima</a>
+      <a href="#contacto">Contacto</a>
+    </div>
+    <div class="footer-social">
+      <a href="https://www.instagram.com/etnika.turismo" target="_blank" rel="noopener" aria-label="Instagram">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="20" height="20"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r=".5" fill="currentColor"/></svg>
+      </a>
+      <a href="https://wa.me/56996278258" target="_blank" rel="noopener" aria-label="WhatsApp">
+        <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      </a>
+    </div>
+    <p class="footer-copy">© 2025 ETNIKA Eco & Aventura · <em>En la tierra no hay cielo, pero hay partes de él.</em></p>
+  </div>
+</footer>
+
+<!-- ══════ WHATSAPP FLOTANTE ══════ -->
+<a href="https://wa.me/56996278258?text=Hola%20ETNIKA!%20Quiero%20consultar%20sobre%20actividades" target="_blank" rel="noopener" class="wa-float" aria-label="Contactar por WhatsApp">
+  <svg viewBox="0 0 24 24" fill="currentColor" width="28" height="28"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</a>
+
+<script src="script.js?v=16"></script>
+</body>
+</html>
