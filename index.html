@@ -16,7 +16,7 @@
 <!-- ══════ LOADER ══════ -->
 <div id="loader" role="status" aria-label="Cargando">
   <div class="loader-logo loader-logo-video" aria-hidden="true">
-    <video autoplay muted loop playsinline preload="auto" poster="assets/logo_etnika.png" fetchpriority="high">
+    <video id="loader-walking-logo" autoplay muted loop playsinline preload="auto" poster="assets/logo_etnika.png" fetchpriority="high">
       <source src="assets/etnika-logo-walking-loader.mp4" type="video/mp4" />
     </video>
     <img src="assets/logo_etnika.png" alt="" />
@@ -25,6 +25,23 @@
   <div id="loader-bar"><div id="loader-fill"></div></div>
   <div id="loader-pct">0%</div>
 </div>
+<script>
+  (() => {
+    const video = document.getElementById('loader-walking-logo');
+    if (!video) return;
+    video.muted = true;
+    video.loop = true;
+    video.playsInline = true;
+    video.preload = 'auto';
+    const play = () => {
+      const attempt = video.play();
+      if (attempt && typeof attempt.catch === 'function') attempt.catch(() => {});
+    };
+    if (video.readyState >= 2) play();
+    else video.addEventListener('loadeddata', play, { once: true });
+    play();
+  })();
+</script>
 
 <!-- ══════ HEADER ══════ -->
 <header id="header">
@@ -60,19 +77,19 @@
 
     <!-- Captions progresivos -->
     <div class="hero-captions" aria-hidden="true">
-      <div class="hcap" data-from="0" data-to="0.28">
+      <div class="hcap" data-from="0" data-to="0.22">
         <span class="hcap-tag">Malalcahuello · Araucanía Andina</span>
         <h1>Donde la<br /><em>aventura</em><br />comienza.</h1>
       </div>
-      <div class="hcap" data-from="0.28" data-to="0.56">
+      <div class="hcap" data-from="0.22" data-to="0.44">
         <span class="hcap-tag">Desde 2016</span>
         <h1>Volcanes,<br /><em>ríos</em><br />y bosques.</h1>
       </div>
-      <div class="hcap" data-from="0.56" data-to="0.82">
+      <div class="hcap" data-from="0.44" data-to="0.66">
         <span class="hcap-tag">Guías Certificados</span>
         <h1>Cada ruta,<br /><em>una historia</em><br />que contar.</h1>
       </div>
-      <div class="hcap" data-from="0.82" data-to="1">
+      <div class="hcap" data-from="0.66" data-to="1">
         <span class="hcap-tag">ETNIKA Eco & Aventura</span>
         <h1>Tu aventura<br /><em>te espera.</em></h1>
         <a href="#actividades" class="hero-cta-btn">Ver experiencias</a>
@@ -152,7 +169,7 @@
     <!-- TREKKING -->
     <article class="act-card" data-cat="trekking" data-featured="true" data-order="1">
       <div class="act-img-wrap">
-        <img src="assets/ARAUCARIAMILENARIA.png" alt="Araucaria Milenaria" loading="lazy" />
+        <img src="assets/ARAUCARIAMILENARIA.jpg" alt="Araucaria Milenaria" loading="lazy" />
         <span class="act-badge">Trekking</span>
         <span class="act-diff baja">Baja</span>
       </div>

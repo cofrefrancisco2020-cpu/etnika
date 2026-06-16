@@ -15,6 +15,7 @@
   // Duración de un ciclo completo del hero en ms (~12 segundos)
   const HERO_TARGET_FPS = 30;
   const HERO_CYCLE_MS = Math.round((TOTAL_FRAMES / HERO_TARGET_FPS) * 1000);
+  const CAPTION_CYCLE_MS = 16000;
 
   const pad = n => String(n).padStart(4, '0');
   const frameSrc = i => `${FRAMES_DIR}frames_${pad(i + 1)}.png`;
@@ -104,8 +105,12 @@
     loaderVideo.loop = true;
     loaderVideo.playsInline = true;
     loaderVideo.preload = 'auto';
-    loaderVideo.load();
-    loaderVideo.currentTime = 0;
+    if (!loaderVideo.currentSrc && loaderVideo.readyState === 0) {
+      loaderVideo.load();
+    }
+    if (loaderVideo.paused && loaderVideo.currentTime === 0) {
+      loaderVideo.currentTime = 0;
+    }
     const playAttempt = loaderVideo.play();
     if (playAttempt && typeof playAttempt.catch === 'function') {
       playAttempt.catch(markReady);
@@ -183,7 +188,8 @@
   function heroTick(ts) {
     if (!heroStartTs) heroStartTs = ts;
     const elapsed = ts - heroStartTs;
-    const raw     = (elapsed % HERO_CYCLE_MS) / HERO_CYCLE_MS; // 0 → 1, loop
+    const raw     = (elapsed % HERO_CYCLE_MS) / HERO_CYCLE_MS;
+    const captionRaw = (elapsed % CAPTION_CYCLE_MS) / CAPTION_CYCLE_MS;
 
     const idx = Math.min(TOTAL_FRAMES - 1, Math.floor(raw * TOTAL_FRAMES));
 
@@ -192,7 +198,7 @@
       drawCover(frames[idx]);
     }
 
-    updateCaptionsAuto(raw);
+    updateCaptionsAuto(captionRaw);
     heroAnimRaf = requestAnimationFrame(heroTick);
   }
 
