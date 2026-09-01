@@ -118,14 +118,21 @@ a { color: inherit; text-decoration: none; }
 .loader-logo-video video {
   z-index: 2;
   transform: scale(1.03);
+  display: block !important;
+  visibility: visible !important;
+  opacity: 0;
+  transition: opacity .12s ease;
 }
 .loader-logo-video img {
   z-index: 1;
+  opacity: 1;
+  transition: opacity .12s ease;
 }
-@media (prefers-reduced-motion: reduce) {
-  .loader-logo-video video {
-    display: none;
-  }
+.loader-logo-video.is-playing video {
+  opacity: 1;
+}
+.loader-logo-video.is-playing img {
+  opacity: 0;
 }
 #loader-bar {
   width: 220px;
@@ -717,48 +724,109 @@ a { color: inherit; text-decoration: none; }
   font-weight: 700;
 }
 .tour-prices {
-  border-top: 1px solid rgba(255,255,255,.08);
-  border-bottom: 1px solid rgba(255,255,255,.08);
+  margin: .72rem 0 .82rem;
+  border-top: 1px solid rgba(82,183,136,.28);
+  border-bottom: 1px solid rgba(82,183,136,.22);
+  overflow: hidden;
 }
-.tour-prices summary {
-  list-style: none;
-  cursor: pointer;
-  min-height: 42px;
+.price-heading {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: .75rem;
-  color: rgba(240,235,227,.82);
-  font-size: .74rem;
-  padding: .6rem 0;
-}
-.tour-prices summary::-webkit-details-marker { display: none; }
-.price-toggle {
-  flex: 0 0 auto;
-  color: var(--verde-claro);
-  font-size: .68rem;
-  font-weight: 600;
-}
-.price-close { display: none; }
-.tour-prices[open] .price-open { display: none; }
-.tour-prices[open] .price-close { display: inline; }
-.tour-price-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: .35rem .8rem;
-  padding: 0 0 .75rem;
-}
-.tour-price-row {
-  display: flex;
+  align-items: baseline;
   justify-content: space-between;
   gap: .5rem;
-  font-size: .69rem;
+  padding: .62rem .15rem .55rem;
+}
+.price-heading strong {
+  color: var(--crema);
+  font-size: .72rem;
+}
+.price-heading small {
+  color: rgba(240,235,227,.56);
+  font-size: .54rem;
+  text-align: right;
+}
+.tour-price-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  border-top: 1px solid rgba(255,255,255,.075);
+}
+.tour-price-row {
+  display: grid;
+  align-content: start;
+  gap: .18rem;
+  min-height: 86px;
+  padding: .5rem .42rem;
+  border-right: 1px solid rgba(255,255,255,.075);
+  border-bottom: 1px solid rgba(255,255,255,.075);
+  background: rgba(255,255,255,.018);
+  font-size: .62rem;
   color: rgba(240,235,227,.62);
 }
-.tour-price-row > strong {
+.tour-price-row:nth-child(3n) { border-right: 0; }
+.tour-price-row:nth-last-child(-n + 3) { border-bottom: 0; }
+.tour-price-row.is-best {
+  box-shadow: inset 0 2px 0 var(--verde-claro);
+  background: rgba(82,183,136,.09);
+}
+.price-group {
+  display: flex;
+  align-items: baseline;
+  gap: .28rem;
+}
+.price-group b {
   color: var(--crema);
-  font-size: .7rem;
+  font-size: .8rem;
+}
+.price-value {
+  min-width: 0;
+  display: grid;
+  gap: .04rem;
+}
+.price-value > strong {
+  color: var(--crema);
+  font-size: .69rem;
   white-space: nowrap;
+}
+.price-value > small {
+  color: rgba(240,235,227,.45);
+  font-size: .49rem;
+}
+.price-saving {
+  color: var(--verde-claro);
+  font-size: .5rem;
+  line-height: 1.25;
+}
+.best-price-label {
+  display: inline-block;
+  margin-top: .1rem;
+  color: #10251c;
+  background: var(--verde-claro);
+  padding: .11rem .22rem;
+  font-size: .45rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+.act-price-offer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: .32rem .45rem;
+}
+.act-price-offer .group-saving-badge {
+  color: #10251c;
+  background: var(--verde-claro);
+  padding: .18rem .32rem;
+  font-size: .57rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+@media (max-width: 420px) {
+  .price-heading { align-items: flex-start; }
+  .tour-price-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .tour-price-row:nth-child(3n) { border-right: 1px solid rgba(255,255,255,.075); }
+  .tour-price-row:nth-child(2n) { border-right: 0; }
+  .tour-price-row:nth-last-child(-n + 3) { border-bottom: 1px solid rgba(255,255,255,.075); }
+  .tour-price-row:nth-last-child(-n + 2) { border-bottom: 0; }
 }
 .act-btn {
   display: block;

@@ -35,7 +35,7 @@
   const mobileNav   = document.getElementById('mobile-nav');
   const captions    = document.querySelectorAll('.hcap');
   const loaderStart = performance.now();
-  const MIN_LOADER_TIME = 900;
+  const MIN_LOADER_TIME = 1200;
 
   /* ─────────────────────────────────────────
      UTILIDAD: tamaño canvas con DPR
@@ -93,6 +93,10 @@
       settled = true;
       resolveReady();
     };
+
+    loaderVideo.addEventListener('playing', () => {
+      loaderVideo.closest('.loader-logo-video')?.classList.add('is-playing');
+    });
 
     const readyPromise = new Promise(resolve => {
       resolveReady = resolve;
@@ -625,27 +629,48 @@
       const button = card.querySelector('.act-btn');
       if (!priceEl || !button) return;
 
+      const soloPrice = prices[0];
       const minimum = Math.min(...prices);
-      priceEl.innerHTML = `Desde <strong>${formatClp(minimum)}</strong> p/p`;
+      const bestIndex = prices.indexOf(minimum);
+      const maximumSaving = Math.max(0, Math.round((1 - minimum / soloPrice) * 100));
+      priceEl.innerHTML = `
+        <span class="act-price-offer">
+          <span>Desde</span>
+          <strong>${formatClp(minimum)}</strong>
+          <span>por persona</span>
+          <span class="group-saving-badge"><span>Ahorra hasta</span> ${maximumSaving}%</span>
+        </span>
+      `;
 
-      const details = document.createElement('details');
-      details.className = 'tour-prices';
-      details.innerHTML = `
-        <summary>
-          <span>Precios por cantidad de personas</span>
-          <span class="price-toggle price-open">Ver precios</span>
-          <span class="price-toggle price-close">Ocultar</span>
-        </summary>
+      const pricing = document.createElement('section');
+      pricing.className = 'tour-prices';
+      pricing.setAttribute('aria-label', 'Precios por cantidad de personas');
+      pricing.innerHTML = `
+        <div class="price-heading">
+          <strong>Elige tu grupo</strong>
+          <small>Ahorro comparado con la tarifa individual</small>
+        </div>
         <div class="tour-price-grid">
-          ${prices.map((price, index) => `
-            <div class="tour-price-row">
-              <span><b>${index + 1}</b> <span>${index === 0 ? 'persona' : 'personas'}</span></span>
-              <strong>${formatClp(price)} p/p</strong>
-            </div>
-          `).join('')}
+          ${prices.map((price, index) => {
+            const savingAmount = Math.max(0, soloPrice - price);
+            const savingPercent = Math.max(0, Math.round((1 - price / soloPrice) * 100));
+            const isBest = index === bestIndex;
+            return `
+              <div class="tour-price-row${isBest ? ' is-best' : ''}">
+                <span class="price-group"><b>${index + 1}</b> <span>${index === 0 ? 'persona' : 'personas'}</span></span>
+                <span class="price-value">
+                  <strong>${formatClp(price)}</strong>
+                  <small>por persona</small>
+                  ${index === 0
+                    ? '<span class="price-saving">Tarifa individual</span>'
+                    : `<span class="price-saving"><b>-${savingPercent}%</b> · <span>Ahorras</span> ${formatClp(savingAmount)}${isBest ? ' <span class="best-price-label">Mejor precio</span>' : ''}</span>`}
+                </span>
+              </div>
+            `;
+          }).join('')}
         </div>
       `;
-      card.querySelector('.act-body').insertBefore(details, button);
+      card.querySelector('.act-body').insertBefore(pricing, button);
     });
     resetI18nCache();
   }
@@ -767,6 +792,17 @@
       'Precios por cantidad de personas': 'Prices by group size',
       'Ver precios': 'View prices',
       'Ocultar': 'Hide',
+      'Arma tu grupo y ahorra': 'Build your group and save',
+      'Elige tu grupo': 'Choose your group',
+      'Más personas, menor valor por persona': 'More people, lower price per person',
+      'Ahorra hasta': 'Save up to',
+      'Hasta': 'Up to',
+      'menos por persona': 'less per person',
+      'Ahorro comparado con la tarifa individual': 'Savings compared with the individual rate',
+      'por persona': 'per person',
+      'Tarifa individual': 'Individual rate',
+      'Ahorras': 'You save',
+      'Mejor precio': 'Best price',
       'persona': 'person',
       'personas': 'people',
       'Consultar': 'Ask us',
@@ -866,6 +902,17 @@
       'Precios por cantidad de personas': 'Preços por número de pessoas',
       'Ver precios': 'Ver preços',
       'Ocultar': 'Ocultar',
+      'Arma tu grupo y ahorra': 'Monte seu grupo e economize',
+      'Elige tu grupo': 'Escolha seu grupo',
+      'Más personas, menor valor por persona': 'Mais pessoas, menor valor por pessoa',
+      'Ahorra hasta': 'Economize até',
+      'Hasta': 'Até',
+      'menos por persona': 'menos por pessoa',
+      'Ahorro comparado con la tarifa individual': 'Economia comparada com a tarifa individual',
+      'por persona': 'por pessoa',
+      'Tarifa individual': 'Tarifa individual',
+      'Ahorras': 'Você economiza',
+      'Mejor precio': 'Melhor preço',
       'persona': 'pessoa',
       'personas': 'pessoas',
       'Consultar': 'Consultar',
