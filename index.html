@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="preload" href="assets/etnika-logo-walking-loader.mp4" as="video" type="video/mp4" fetchpriority="high" />
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:wght@300;400;500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css?v=16" />
+  <link rel="stylesheet" href="styles.css?v=18" />
 </head>
 <body>
 
@@ -79,10 +79,12 @@
   </div>
 </nav>
 
-<!-- ══════ HERO — SCROLL FRAMES ══════ -->
+<!-- ══════ HERO — VIDEO OPTIMIZADO ══════ -->
 <section id="inicio" class="hero-frame-section">
   <div id="sticky-stage">
-    <canvas id="frame-canvas" aria-hidden="true"></canvas>
+    <video id="hero-video" autoplay muted loop playsinline preload="auto" poster="frames/frames_0001.png" aria-hidden="true">
+      <source src="hero-etnika-v18.mp4?v=18" type="video/mp4" />
+    </video>
     <div class="hero-overlay"></div>
 
     <!-- Captions progresivos -->
@@ -186,7 +188,7 @@
       <div class="act-body">
         <h3>Araucaria Milenaria + Laguna Pehuenco</h3>
         <div class="act-meta">
-          <span>⏱ 3 hrs</span><span>📍 3 km</span><span>👨‍👩‍👧 Familiar</span>
+          <span>⏱ 2 hrs</span><span>📍 2,6 km aprox.</span><span>👨‍👩‍👧 Familiar</span>
         </div>
         <p>Bosques milenarios hasta una laguna de origen volcánico, con vistas al Volcán Lonquimay.</p>
         <div class="act-includes">
@@ -206,7 +208,7 @@
       <div class="act-body">
         <h3>Mirador Sierra del Colorado</h3>
         <div class="act-meta">
-          <span>⏱ 4 hrs</span><span>📍 6 km</span><span>🦅 Obs. aves</span>
+          <span>⏱ 3 hrs</span><span>📍 7 km aprox.</span><span>🦅 Obs. aves</span>
         </div>
         <p>Cima a 1.850 msnm con panorámica de Volcanes Lonquimay, Sierra Nevada y Llaima.</p>
         <div class="act-includes">
@@ -282,12 +284,12 @@
       <div class="act-img-wrap">
         <img src="assets/fotocraternavidad.jpeg" alt="Cráter Navidad" loading="lazy" />
         <span class="act-badge vol">Montañismo</span>
-        <span class="act-diff media">Media</span>
+        <span class="act-diff media">Media/Alta</span>
       </div>
       <div class="act-body">
         <h3>Cráter Navidad — 1.827 msnm</h3>
         <div class="act-meta">
-          <span>⏱ 3 hrs</span><span>📍 3 km</span><span>🌋 190 m desnivel</span>
+          <span>⏱ 3 hrs</span><span>📍 6 km aprox.</span><span>🌋 Cráter Navidad</span>
         </div>
         <p>Cono parásito del Volcán Lonquimay, ideal para iniciarse en la montaña. Gases volcánicos en la cumbre.</p>
         <div class="act-includes">
@@ -322,7 +324,7 @@
       <div class="act-img-wrap">
         <img src="assets/3personasenlagunaespejo.jpeg" alt="Volcán Sierra Nevada" loading="lazy" />
         <span class="act-badge vol">Montañismo</span>
-        <span class="act-diff media">Media/Alta</span>
+        <span class="act-diff alta">Alta</span>
       </div>
       <div class="act-body">
         <h3>Ascenso Volcán Sierra Nevada — 2.554 msnm</h3>
@@ -1088,6 +1090,6 @@
   <svg viewBox="0 0 24 24" fill="currentColor" width="28" height="28"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
 </a>
 
-<script src="script.js?v=16"></script>
+<script src="script.js?v=18"></script>
 </body>
 </html>

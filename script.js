@@ -27,6 +27,7 @@
   const loaderFill  = document.getElementById('loader-fill');
   const loaderPct   = document.getElementById('loader-pct');
   const loaderVideo = document.querySelector('.loader-logo-video video');
+  const heroVideo   = document.getElementById('hero-video');
   const canvas      = document.getElementById('frame-canvas');
   const ctx         = canvas ? canvas.getContext('2d', { alpha: false }) : null;
   const header      = document.getElementById('header');
@@ -34,7 +35,7 @@
   const mobileNav   = document.getElementById('mobile-nav');
   const captions    = document.querySelectorAll('.hcap');
   const loaderStart = performance.now();
-  const MIN_LOADER_TIME = 2400;
+  const MIN_LOADER_TIME = 900;
 
   /* ─────────────────────────────────────────
      UTILIDAD: tamaño canvas con DPR
@@ -119,6 +120,48 @@
     return readyPromise;
   }
 
+  function startHeroVideo() {
+    if (!heroVideo) return Promise.resolve();
+
+    return new Promise(resolve => {
+      let settled = false;
+      const markReady = () => {
+        if (settled) return;
+        settled = true;
+        const playAttempt = heroVideo.play();
+        if (playAttempt && typeof playAttempt.catch === 'function') {
+          playAttempt.catch(() => {});
+        }
+        resolve();
+      };
+
+      if (heroVideo.readyState >= 2) markReady();
+      else {
+        heroVideo.addEventListener('loadeddata', markReady, { once: true });
+        heroVideo.addEventListener('canplay', markReady, { once: true });
+        setTimeout(markReady, 2200);
+        heroVideo.load();
+      }
+    });
+  }
+
+  function startVisualLoaderProgress() {
+    let pct = 8;
+    if (loaderFill) loaderFill.style.width = pct + '%';
+    if (loaderPct) loaderPct.textContent = pct + '%';
+    return setInterval(() => {
+      pct = Math.min(92, pct + Math.max(1, Math.round((92 - pct) * 0.14)));
+      if (loaderFill) loaderFill.style.width = pct + '%';
+      if (loaderPct) loaderPct.textContent = pct + '%';
+    }, 110);
+  }
+
+  function completeVisualLoaderProgress(timer) {
+    clearInterval(timer);
+    if (loaderFill) loaderFill.style.width = '100%';
+    if (loaderPct) loaderPct.textContent = '100%';
+  }
+
   function waitForMinimumLoaderTime() {
     const elapsed = performance.now() - loaderStart;
     const remaining = Math.max(0, MIN_LOADER_TIME - elapsed);
@@ -188,24 +231,15 @@
   function heroTick(ts) {
     if (!heroStartTs) heroStartTs = ts;
     const elapsed = ts - heroStartTs;
-    const raw     = (elapsed % HERO_CYCLE_MS) / HERO_CYCLE_MS;
     const captionRaw = (elapsed % CAPTION_CYCLE_MS) / CAPTION_CYCLE_MS;
-
-    const idx = Math.min(TOTAL_FRAMES - 1, Math.floor(raw * TOTAL_FRAMES));
-
-    if (idx !== currentIdx && frames[idx] && frames[idx].naturalWidth) {
-      currentIdx = idx;
-      drawCover(frames[idx]);
-    }
-
     updateCaptionsAuto(captionRaw);
-    heroAnimRaf = requestAnimationFrame(heroTick);
+    heroAnimRaf = setTimeout(() => heroTick(performance.now()), 100);
   }
 
   function startHeroAnim() {
-    if (heroAnimRaf) cancelAnimationFrame(heroAnimRaf);
-    heroStartTs = null;
-    heroAnimRaf = requestAnimationFrame(heroTick);
+    if (heroAnimRaf) clearTimeout(heroAnimRaf);
+    heroStartTs = performance.now();
+    heroTick(heroStartTs);
   }
 
   /* ─────────────────────────────────────────
@@ -539,6 +573,7 @@
       })
       .then(data => {
         renderWeather(data);
+        resetI18nCache();
         applyLanguage(localStorage.getItem('etnika-lang') || 'es');
       })
       .catch(() => {
@@ -550,12 +585,96 @@
         const nosIcon = document.getElementById('nos-wc-icon');
         if (nosDesc) nosDesc.textContent = 'No disponible';
         if (nosIcon) nosIcon.textContent = '🌡️';
+        resetI18nCache();
+        applyLanguage(localStorage.getItem('etnika-lang') || 'es');
       });
   }
 
   /* ─────────────────────────────────────────
      INICIALIZACIÓN
   ───────────────────────────────────────── */
+  const TOUR_PRICES = {
+    'Araucaria Milenaria + Laguna Pehuenco': [190000, 116000, 93000, 80000, 72000, 67000],
+    'Mirador Sierra del Colorado': [200000, 126000, 103000, 90000, 82000, 77000],
+    'Cráter Navidad': [250000, 150000, 115000, 99000, 89000, 82000],
+    'Ascenso Volcán Lonquimay': [380000, 217000, 165000, 170000, 147000, 132000],
+    'Ascenso Volcán Llaima': [595000, 324000, 233000, 245000, 205000, 179000],
+    'Ascenso Volcán Tolhuaca': [552000, 302000, 219000, 213000, 182000, 160000],
+    'Ascenso Volcán Sierra Nevada': [525000, 290000, 235000, 225000, 190000, 170000],
+    'Laguna Captrén': [335000, 200000, 155000, 130000, 120000, 110000],
+    'Cuesta de Las Raíces': [290000, 171000, 155000, 130000, 120000, 110000],
+    'Inducción Ski & Snowboard': [280000, 215000, 195000, 183000, 177000, 172000],
+    'Backcountry — Randonnée & Splitboard': [340000, 209000, 168000, 175000, 156000, 145000],
+    'Saltos Andinos': [160000, 90000, 67000, 56000, 48000, 45000]
+  };
+
+  function formatClp(value) {
+    return '$' + new Intl.NumberFormat('es-CL').format(value);
+  }
+
+  function initTourPricing() {
+    document.querySelectorAll('.act-card').forEach(card => {
+      const heading = card.querySelector('h3');
+      if (!heading) return;
+      const cardTitle = normalizeText(heading.textContent);
+      const match = Object.entries(TOUR_PRICES).find(([title]) => cardTitle.startsWith(title));
+      if (!match) return;
+
+      const [, prices] = match;
+      const priceEl = card.querySelector('.act-price');
+      const button = card.querySelector('.act-btn');
+      if (!priceEl || !button) return;
+
+      const minimum = Math.min(...prices);
+      priceEl.innerHTML = `Desde <strong>${formatClp(minimum)}</strong> p/p`;
+
+      const details = document.createElement('details');
+      details.className = 'tour-prices';
+      details.innerHTML = `
+        <summary>
+          <span>Precios por cantidad de personas</span>
+          <span class="price-toggle price-open">Ver precios</span>
+          <span class="price-toggle price-close">Ocultar</span>
+        </summary>
+        <div class="tour-price-grid">
+          ${prices.map((price, index) => `
+            <div class="tour-price-row">
+              <span><b>${index + 1}</b> <span>${index === 0 ? 'persona' : 'personas'}</span></span>
+              <strong>${formatClp(price)} p/p</strong>
+            </div>
+          `).join('')}
+        </div>
+      `;
+      card.querySelector('.act-body').insertBefore(details, button);
+    });
+    resetI18nCache();
+  }
+
+  function initDifficultyLabels() {
+    document.querySelectorAll('.act-diff').forEach(badge => {
+      const level = normalizeText(badge.textContent);
+      badge.innerHTML = `<small>Dificultad</small><strong>${level}</strong>`;
+      badge.setAttribute('aria-label', `Dificultad: ${level}`);
+    });
+    resetI18nCache();
+  }
+
+  function initMediaPerformance() {
+    document.querySelectorAll('img').forEach(img => {
+      img.decoding = 'async';
+      if (img.loading === 'lazy' && 'fetchPriority' in img) img.fetchPriority = 'low';
+    });
+
+    document.addEventListener('visibilitychange', () => {
+      if (!heroVideo) return;
+      if (document.hidden) heroVideo.pause();
+      else {
+        const playAttempt = heroVideo.play();
+        if (playAttempt && typeof playAttempt.catch === 'function') playAttempt.catch(() => {});
+      }
+    });
+  }
+
   const I18N = {
     en: {
       'Cargando ETNIKA': 'Loading ETNIKA',
@@ -644,6 +763,12 @@
       'Entrada termas': 'Hot springs entry',
       'Seguros': 'Insurance',
       'Desde': 'From',
+      'Dificultad': 'Difficulty',
+      'Precios por cantidad de personas': 'Prices by group size',
+      'Ver precios': 'View prices',
+      'Ocultar': 'Hide',
+      'persona': 'person',
+      'personas': 'people',
       'Consultar': 'Ask us',
       'Bosques milenarios hasta una laguna de origen volcánico, con vistas al Volcán Lonquimay.': 'Ancient forests leading to a volcanic-origin lagoon, with views of Volcán Lonquimay.',
       'El protagonista de Malalcahuello. Una de las mejores rutas para introducirse al mundo de los volcanes.': 'The landmark of Malalcahuello. One of the best routes to enter the world of volcanoes.',
@@ -703,6 +828,9 @@
       'Ver experiencias': 'Ver experiências',
       'Sobre nosotros': 'Sobre nós',
       'de montaña.': 'de montanha.',
+      'Desde 2016': 'Desde 2016',
+      'Desde el año 2016 entregamos experiencias en la Araucanía Andina. Somos del pueblo de Malalcahuello, ubicado a 120 km de Temuco hacia la cordillera, rodeados de volcanes, ríos, bosques y las 4 estaciones claramente definidas.': 'Desde 2016 entregamos experiências na Araucanía Andina. Somos do povoado de Malalcahuello, localizado a 120 km de Temuco em direção à cordilheira, rodeados por vulcões, rios, bosques e as quatro estações claramente definidas.',
+      'Profesionales del turismo, dispuestos a que tus días en la Araucanía sean mágicos.': 'Profissionais do turismo, prontos para fazer com que seus dias na Araucanía sejam mágicos.',
       'Sensación': 'Sensação',
       'Humedad': 'Umidade',
       'Viento': 'Vento',
@@ -734,6 +862,12 @@
       'Alimentación': 'Alimentação',
       'Equipo': 'Equipamento',
       'Desde': 'A partir de',
+      'Dificultad': 'Dificuldade',
+      'Precios por cantidad de personas': 'Preços por número de pessoas',
+      'Ver precios': 'Ver preços',
+      'Ocultar': 'Ocultar',
+      'persona': 'pessoa',
+      'personas': 'pessoas',
       'Consultar': 'Consultar',
       'Galería': 'Galeria',
       'en imágenes': 'em imagens',
@@ -770,6 +904,11 @@
       'Inducción Ski & Snowboard': 'Ski & Snowboard Intro Lesson',
       'Backcountry — Randonnée & Splitboard': 'Backcountry — Randonnée & Splitboard',
       'Antigua línea férrea convertida en ciclovía, inmersa en bosque nativo con túneles y miradores.': 'An old railway converted into a bike route, surrounded by native forest, tunnels, and viewpoints.',
+      'Bosques milenarios hasta una laguna de origen volcánico, con vistas al Volcán Lonquimay.': 'Ancient forests leading to a volcanic-origin lagoon, with views of Volcán Lonquimay.',
+      'Profesora de equitación trilingüe. Cruces de esteros con vistas al Volcán Sierra Nevada.': 'Trilingual riding instructor. Stream crossings with views of Volcán Sierra Nevada.',
+      'Campo abierto': 'Open field',
+      'Vista Sierra Nevada': 'Sierra Nevada view',
+      'Guía trilingüe': 'Trilingual guide',
       'Valle de Lonquimay rodeado de montañas, ríos y aves. Incluye el famoso Túnel de Las Raíces.': 'Valle de Lonquimay surrounded by mountains, rivers, and birds. Includes the famous Túnel de Las Raíces.',
       'Ascenso en trekking con equipo randonnée para luego disfrutar una bajada épica en nieve virgen.': 'A trekking ascent with randonnée gear, followed by an epic descent on untouched snow.',
       'Clases en centro Ski Corralco, Skinolimit o fuera de pista. Elige el sector que más te acomode.': 'Lessons at Ski Corralco, Skinolimit, or off-piste. Choose the area that suits you best.',
@@ -842,6 +981,11 @@
       'Inducción Ski & Snowboard': 'Aula introdutória de Ski & Snowboard',
       'Backcountry — Randonnée & Splitboard': 'Backcountry — Randonnée & Splitboard',
       'Antigua línea férrea convertida en ciclovía, inmersa en bosque nativo con túneles y miradores.': 'Antiga linha férrea transformada em ciclovia, imersa em bosque nativo com túneis e mirantes.',
+      'Bosques milenarios hasta una laguna de origen volcánico, con vistas al Volcán Lonquimay.': 'Bosques milenares até uma lagoa de origem vulcânica, com vistas para o Volcán Lonquimay.',
+      'Profesora de equitación trilingüe. Cruces de esteros con vistas al Volcán Sierra Nevada.': 'Professora de equitação trilíngue. Travessias de riachos com vistas para o Volcán Sierra Nevada.',
+      'Campo abierto': 'Campo aberto',
+      'Vista Sierra Nevada': 'Vista Sierra Nevada',
+      'Guía trilingüe': 'Guia trilíngue',
       'Valle de Lonquimay rodeado de montañas, ríos y aves. Incluye el famoso Túnel de Las Raíces.': 'Valle de Lonquimay rodeado por montanhas, rios e aves. Inclui o famoso Túnel de Las Raíces.',
       'Ascenso en trekking con equipo randonnée para luego disfrutar una bajada épica en nieve virgen.': 'Subida em trekking com equipamento de randonnée para depois curtir uma descida épica em neve virgem.',
       'Clases en centro Ski Corralco, Skinolimit o fuera de pista. Elige el sector que más te acomode.': 'Aulas no Ski Corralco, Skinolimit ou fora de pista. Escolha o setor que mais combina com você.',
@@ -917,6 +1061,27 @@
     return String(value || '').replace(/\s+/g, ' ').trim();
   }
 
+  let i18nTextNodes = null;
+  let i18nAttrElements = null;
+
+  function collectTranslatableTextNodes() {
+    const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, {
+      acceptNode(node) {
+        const parent = node.parentElement;
+        if (!parent || parent.closest('script, style, .lang-switcher, .mobile-lang-switcher')) return NodeFilter.FILTER_REJECT;
+        return normalizeText(node.nodeValue) ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT;
+      }
+    });
+    const nodes = [];
+    while (walker.nextNode()) nodes.push(walker.currentNode);
+    return nodes;
+  }
+
+  function resetI18nCache() {
+    i18nTextNodes = null;
+    i18nAttrElements = null;
+  }
+
   function getSelectedLanguage() {
     const saved = localStorage.getItem('etnika-lang');
     if (saved && I18N[saved]) return saved;
@@ -957,17 +1122,10 @@
       btn.classList.toggle('active', btn.dataset.lang === selected);
       btn.setAttribute('aria-pressed', btn.dataset.lang === selected ? 'true' : 'false');
     });
-    const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, {
-      acceptNode(node) {
-        const parent = node.parentElement;
-        if (!parent || parent.closest('script, style, .lang-switcher, .mobile-lang-switcher')) return NodeFilter.FILTER_REJECT;
-        return normalizeText(node.nodeValue) ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT;
-      }
-    });
-    const nodes = [];
-    while (walker.nextNode()) nodes.push(walker.currentNode);
-    nodes.forEach(node => translateNodeText(node, selected));
-    document.querySelectorAll('[aria-label], [title], [alt], [placeholder]').forEach(el => {
+    if (!i18nTextNodes) i18nTextNodes = collectTranslatableTextNodes();
+    if (!i18nAttrElements) i18nAttrElements = Array.from(document.querySelectorAll('[aria-label], [title], [alt], [placeholder]'));
+    i18nTextNodes.forEach(node => translateNodeText(node, selected));
+    i18nAttrElements.forEach(el => {
       translateAttribute(el, 'aria-label', selected);
       translateAttribute(el, 'title', selected);
       translateAttribute(el, 'alt', selected);
@@ -988,6 +1146,8 @@
 
   function init() {
     const loaderVideoReady = startLoaderVideo();
+    const heroVideoReady = startHeroVideo();
+    const loaderProgressTimer = startVisualLoaderProgress();
     sizeCanvas();
     initBurger();
     initFilters();
@@ -995,23 +1155,22 @@
     initReveal();
     initGallery();
     initWeather();
+    initTourPricing();
+    initDifficultyLabels();
+    initMediaPerformance();
     initLanguageSwitcher();
 
     // Mostrar primer caption inmediatamente
     if (captions.length) captions[0].classList.add('active');
 
-    // Precargar frames y arrancar animación automática
+    // El video reemplaza la descarga bloqueante de los 119 frames.
     Promise.all([
-      loaderVideoReady.then(() => preloadFrames()),
+      loaderVideoReady,
+      heroVideoReady,
       waitForMinimumLoaderTime()
     ]).then(() => {
-      // Dibujar primer frame
-      if (frames[0] && frames[0].naturalWidth) drawCover(frames[0]);
-
-      // Ocultar loader con fade
+      completeVisualLoaderProgress(loaderProgressTimer);
       hideLoader();
-
-      // Arrancar animación automática en loop
       startHeroAnim();
 
       // Listeners generales
