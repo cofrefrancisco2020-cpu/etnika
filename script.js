@@ -1528,6 +1528,23 @@
     I18N[lang] = Object.assign(I18N[lang] || {}, V20_I18N[lang]);
   });
 
+  const V23_I18N = {
+    en: {
+      'Colaboración territorial': 'Territorial collaboration',
+      'Etnika forma parte de su red de guías y operadores locales en Curacautín.': 'Etnika is part of its network of local guides and operators in Curacautín.',
+      'Explorar Kütralkura': 'Explore Kütralkura'
+    },
+    pt: {
+      'Colaboración territorial': 'Colaboração territorial',
+      'Etnika forma parte de su red de guías y operadores locales en Curacautín.': 'A Etnika faz parte de sua rede de guias e operadores locais em Curacautín.',
+      'Explorar Kütralkura': 'Explorar Kütralkura'
+    }
+  };
+
+  Object.keys(V23_I18N).forEach(lang => {
+    I18N[lang] = Object.assign(I18N[lang] || {}, V23_I18N[lang]);
+  });
+
   function normalizeText(value) {
     return String(value || '').replace(/\s+/g, ' ').trim();
   }

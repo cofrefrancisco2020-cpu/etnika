@@ -563,41 +563,71 @@ a { color: inherit; text-decoration: none; }
 .act-filters {
   display: grid;
   grid-template-columns: repeat(5, minmax(0, 1fr));
-  border: 1px solid rgba(255,255,255,.1);
+  gap: .65rem;
 }
 .filter-btn {
-  min-height: 74px;
+  position: relative;
+  isolation: isolate;
+  min-height: 154px;
   display: grid;
-  align-content: center;
-  gap: .18rem;
-  background: rgba(255,255,255,.035);
-  border: 0;
-  border-right: 1px solid rgba(255,255,255,.1);
-  color: rgba(240,235,227,.65);
-  padding: .7rem .8rem;
+  align-content: end;
+  gap: .3rem;
+  overflow: hidden;
+  background: #181b18;
+  border: 1px solid rgba(255,255,255,.14);
+  color: var(--crema);
+  padding: 1rem;
   cursor: pointer;
-  font-size: .78rem;
+  font-size: .88rem;
   text-align: left;
   font-family: var(--font-body);
-  letter-spacing: .04em;
-  transition: all var(--trans);
+  letter-spacing: 0;
+  transition: border-color var(--trans), transform var(--trans), box-shadow var(--trans);
 }
-.filter-btn:last-child { border-right: 0; }
+.filter-btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  background-image: var(--filter-image);
+  background-position: center;
+  background-size: cover;
+  transition: transform .5s ease, filter .35s ease;
+}
+.filter-btn::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(to top, rgba(5,8,6,.94) 0%, rgba(5,8,6,.4) 58%, rgba(5,8,6,.12) 100%);
+  transition: background var(--trans);
+}
+.filter-btn > span {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  font-weight: 700;
+  line-height: 1.1;
+}
 .filter-btn small {
-  color: rgba(240,235,227,.38);
+  color: rgba(240,235,227,.7);
   font-size: .56rem;
   line-height: 1.3;
   letter-spacing: 0;
 }
 .filter-btn:hover {
-  background: rgba(82,183,136,.1);
-  color: var(--verde-claro);
+  border-color: rgba(82,183,136,.7);
+  transform: translateY(-2px);
 }
+.filter-btn:hover::before { transform: scale(1.045); }
 .filter-btn.active {
-  background: var(--verde);
+  border-color: var(--verde-claro);
+  box-shadow: inset 0 0 0 1px var(--verde-claro), 0 8px 24px rgba(0,0,0,.2);
   color: #fff;
 }
-.filter-btn.active small { color: rgba(255,255,255,.66); }
+.filter-btn.active::after {
+  background: linear-gradient(to top, rgba(23,91,64,.96) 0%, rgba(8,34,24,.55) 58%, rgba(5,8,6,.16) 100%);
+}
+.filter-btn.active small { color: rgba(255,255,255,.82); }
 .filter-tools {
   min-height: 66px;
   display: flex;
@@ -605,7 +635,7 @@ a { color: inherit; text-decoration: none; }
   gap: .7rem;
   padding: .7rem .8rem;
   border: 1px solid rgba(255,255,255,.1);
-  border-top: 0;
+  margin-top: .7rem;
   background: rgba(0,0,0,.12);
 }
 .filter-tools label {
@@ -1611,19 +1641,19 @@ a { color: inherit; text-decoration: none; }
 }
 .alianzas-list {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 .alianza-item {
   min-width: 0;
-  display: grid;
-  grid-template-columns: 170px minmax(0, 1fr);
-  gap: 1.75rem;
-  align-items: center;
-  padding: 2.5rem 2.5rem 0 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1.35rem;
+  padding: 2.5rem 2rem 0;
 }
+.alianza-item:first-child { padding-left: 0; }
+.alianza-item:last-child { padding-right: 0; }
 .alianza-item + .alianza-item {
-  padding-left: 2.5rem;
-  padding-right: 0;
   border-left: 1px solid rgba(255,255,255,.1);
 }
 .alianza-logo {
@@ -1648,6 +1678,11 @@ a { color: inherit; text-decoration: none; }
   padding: 1rem .5rem;
   background: #090b09;
   border: 1px solid rgba(196,185,166,.28);
+}
+.alianza-logo-kutralkura {
+  padding: .8rem 1rem;
+  background: #fff;
+  border: 1px solid rgba(255,255,255,.75);
 }
 .alianza-logo img {
   display: block;
@@ -1916,8 +1951,7 @@ body.booking-open { overflow: hidden; }
   .nosotros-inner { gap: 3rem; }
   .clima-inner { gap: 3rem; }
   .act-filters { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-  .filter-btn:nth-child(3) { border-right: 0; }
-  .filter-btn:nth-child(-n + 3) { border-bottom: 1px solid rgba(255,255,255,.1); }
+  .filter-btn { min-height: 146px; }
 }
 
 @media (max-width: 768px) {
@@ -1936,10 +1970,8 @@ body.booking-open { overflow: hidden; }
   .act-header { padding: 0 1.5rem; }
   .experience-filter-wrap { padding: 0 1.5rem; }
   .act-filters { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .filter-btn { border-right: 1px solid rgba(255,255,255,.1); border-bottom: 1px solid rgba(255,255,255,.1); }
-  .filter-btn:nth-child(2n) { border-right: 0; }
+  .filter-btn { min-height: 138px; }
   .filter-btn:first-child { grid-column: 1 / -1; }
-  .filter-btn:nth-last-child(-n + 2) { border-bottom: 0; }
   .filter-tools { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: end; }
   .filter-tools label { min-width: 0; }
   .filter-results { margin-left: 0; justify-self: end; }
@@ -1968,7 +2000,6 @@ body.booking-open { overflow: hidden; }
   .alianzas-list { grid-template-columns: 1fr; }
   .alianza-item,
   .alianza-item + .alianza-item {
-    grid-template-columns: 150px minmax(0, 1fr);
     padding: 2rem 0;
     border-left: 0;
   }
@@ -1997,13 +2028,15 @@ body.booking-open { overflow: hidden; }
   .wc-right { width: 100%; }
   .clima-stats-grid { grid-template-columns: 1fr; gap: .8rem; }
   .nosotros-clima-card { flex-direction: column; align-items: flex-start; }
-  .filter-btn { min-height: 64px; padding: .55rem .6rem; font-size: .7rem; }
+  .filter-btn { min-height: 126px; padding: .8rem; font-size: .7rem; }
+  .filter-btn:first-child { min-height: 146px; }
+  .filter-btn > span { font-size: .92rem; }
   .filter-btn small { font-size: .5rem; }
   .filter-tools { grid-template-columns: 1fr; }
   .filter-results { justify-self: start; }
   .section-alianzas { padding: 4.5rem 0; }
   .alianza-item,
-  .alianza-item + .alianza-item { grid-template-columns: 1fr; gap: 1rem; }
+  .alianza-item + .alianza-item { gap: 1rem; }
   .alianza-logo { width: min(190px, 100%); height: 112px; }
   .booking-dialog { padding: 1.5rem 1.1rem 1.2rem; }
   .booking-close { top: .55rem; right: .55rem; }

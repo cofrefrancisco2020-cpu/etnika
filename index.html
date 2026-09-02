@@ -12,7 +12,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="preload" href="etnika-logo-walking-v19.mp4?v=19" as="video" type="video/mp4" fetchpriority="high" />
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:wght@300;400;500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css?v=22" />
+  <link rel="stylesheet" href="styles.css?v=23" />
 </head>
 <body>
 
@@ -176,11 +176,11 @@
   <!-- Experiencias y filtros -->
   <div class="experience-filter-wrap reveal d2">
     <div class="act-filters" role="tablist" aria-label="Tipo de experiencia">
-      <button class="filter-btn active" data-experience="featured" role="tab">Experiencias Etnika<small>Selección especial</small></button>
-      <button class="filter-btn" data-experience="nature" role="tab">Naturaleza<small>Bosques, lagunas y parques</small></button>
-      <button class="filter-btn" data-experience="adventure" role="tab">Aventura<small>Montaña, ríos y desafíos</small></button>
-      <button class="filter-btn" data-experience="relax" role="tab">Relax<small>Bienestar y descanso</small></button>
-      <button class="filter-btn" data-experience="snow" role="tab">Nieve<small>Invierno en la cordillera</small></button>
+      <button class="filter-btn active" data-experience="featured" role="tab" style="--filter-image: url('assets/fotocumbrevolcanlonquimaycon3personas.jpeg')"><span>Experiencias Etnika</span><small>Selección especial</small></button>
+      <button class="filter-btn" data-experience="nature" role="tab" style="--filter-image: url('assets/lagunablancayvolcantolhuaca.jpeg')"><span>Naturaleza</span><small>Bosques, lagunas y parques</small></button>
+      <button class="filter-btn" data-experience="adventure" role="tab" style="--filter-image: url('assets/raftingriocautin.jpeg')"><span>Aventura</span><small>Montaña, ríos y desafíos</small></button>
+      <button class="filter-btn" data-experience="relax" role="tab" style="--filter-image: url('assets/termasmalalcahuello.jpeg')"><span>Relax</span><small>Bienestar y descanso</small></button>
+      <button class="filter-btn" data-experience="snow" role="tab" style="--filter-image: url('assets/fotosnowboard.jpeg')"><span>Nieve</span><small>Invierno en la cordillera</small></button>
     </div>
     <div class="filter-tools" aria-label="Filtros de actividades">
       <label><span>Temporada</span><select id="filter-season"><option value="all">Todas</option><option value="summer">Verano</option><option value="autumn">Otoño</option><option value="winter">Invierno</option><option value="spring">Primavera</option></select></label>
@@ -1094,7 +1094,19 @@
         </div>
       </article>
 
-      <article class="alianza-item alianza-termas reveal d2">
+      <article class="alianza-item alianza-kutralkura reveal d2">
+        <a class="alianza-logo alianza-logo-kutralkura" href="https://www.kutralkura.cl/actividad?lang=es&amp;tipo=7" target="_blank" rel="noopener" aria-label="Explorar Kütralkura">
+          <img src="logo-kutralkura.png" alt="Geoparque Mundial UNESCO Kütralkura" loading="lazy" decoding="async" />
+        </a>
+        <div class="alianza-copy">
+          <span class="alianza-label">Colaboración territorial</span>
+          <h3>Geoparque Mundial UNESCO Kütralkura</h3>
+          <p>Etnika forma parte de su red de guías y operadores locales en Curacautín.</p>
+          <a class="alianza-link" href="https://www.kutralkura.cl/actividad?lang=es&amp;tipo=7" target="_blank" rel="noopener">Explorar Kütralkura <span aria-hidden="true">↗</span></a>
+        </div>
+      </article>
+
+      <article class="alianza-item alianza-termas reveal d3">
         <a class="alianza-logo alianza-logo-termas" href="https://www.termasdemalalcahuello.cl/" target="_blank" rel="noopener" aria-label="Visitar Termas de Malalcahuello">
           <img src="logo-termas-malalcahuello.png" alt="Malalcahuello Thermal Hotel" loading="lazy" decoding="async" />
         </a>
@@ -1161,6 +1173,6 @@
   </section>
 </div>
 
-<script src="script.js?v=21"></script>
+<script src="script.js?v=23"></script>
 </body>
 </html>
