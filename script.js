@@ -274,50 +274,152 @@
   }
 
   /* ─────────────────────────────────────────
-     FILTROS DE ACTIVIDADES
-     - "all" → solo cards con data-featured="true", ordenadas por data-order
-     - categoría específica → todas las cards de esa categoría
+     CLASIFICACIÓN TURÍSTICA Y FILTROS
   ───────────────────────────────────────── */
+  const ACTIVITY_CLASSIFICATION = {
+    'Araucaria Milenaria + Laguna Pehuenco': { experiences: 'nature snow', seasons: 'summer autumn winter spring', duration: 'short half' },
+    'Mirador Sierra del Colorado': { experiences: 'nature adventure snow', seasons: 'summer autumn winter spring', duration: 'short' },
+    'Trekking Piedra Santa': { experiences: 'nature adventure', seasons: 'summer autumn spring', duration: 'half' },
+    'Laguna Espejo + Glaciar Sierra Nevada': { experiences: 'nature adventure', seasons: 'summer spring', duration: 'full' },
+    'Laguna Captrén': { experiences: 'nature snow', seasons: 'winter spring', duration: 'full' },
+    'Cráter Navidad': { experiences: 'adventure snow', seasons: 'summer autumn winter spring', duration: 'short half' },
+    'Ascenso Volcán': { experiences: 'adventure snow', seasons: 'summer winter spring', duration: 'full' },
+    'Tour Parque Nacional Conguillío': { experiences: 'nature', seasons: 'summer autumn spring', duration: 'full' },
+    'Cuesta de Las Raíces': { experiences: 'nature snow', seasons: 'summer autumn winter spring', duration: 'full' },
+    'Saltos Andinos': { experiences: 'nature', seasons: 'summer autumn spring', duration: 'half' },
+    'Tour Lonquimay Full Day': { experiences: 'nature', seasons: 'summer autumn winter spring', duration: 'full' },
+    'Rafting Familiar': { experiences: 'adventure', seasons: 'summer spring', duration: 'short' },
+    'Kayak Río Cautín': { experiences: 'adventure', seasons: 'summer spring', duration: 'short' },
+    'Pesca Recreativa': { experiences: 'nature relax', seasons: 'summer autumn winter spring', duration: 'half' },
+    'Ciclovía': { experiences: 'nature adventure', seasons: 'summer autumn spring', duration: 'half' },
+    'Backcountry': { experiences: 'adventure snow', seasons: 'winter spring', duration: 'full' },
+    'Inducción Ski': { experiences: 'snow', seasons: 'winter', duration: 'full' },
+    'Hiking con Raquetas': { experiences: 'nature snow', seasons: 'winter', duration: 'half' },
+    'Mirador Laguna Blanca': { experiences: 'nature', seasons: 'summer autumn spring', duration: 'half' },
+    'Tour & Trekking Mirador de Volcanes': { experiences: 'nature adventure', seasons: 'summer autumn spring', duration: 'full' },
+    'Tour 2 Días': { experiences: 'nature adventure', seasons: 'summer autumn spring', duration: 'multiday' },
+    'Conguillío Camp 2 Días': { experiences: 'nature adventure', seasons: 'summer autumn spring', duration: 'multiday' },
+    'Cabalgatas': { experiences: 'nature adventure', seasons: 'summer autumn spring', duration: 'half' },
+    'Canopy': { experiences: 'adventure', seasons: 'summer autumn spring', duration: 'short' },
+    'Termas': { experiences: 'relax', seasons: 'summer autumn winter spring', duration: 'half' },
+    'Giras de Estudio': { experiences: 'nature relax', seasons: 'summer autumn winter spring', duration: 'full' },
+    'Traslado Aeropuerto': { experiences: 'relax', seasons: 'summer autumn winter spring', duration: 'half' }
+  };
+
+  function findActivityConfig(title, source) {
+    return Object.entries(source).find(([key]) => title.startsWith(key))?.[1] || null;
+  }
+
+  function deriveDifficulty(card) {
+    const value = normalizeText(card.querySelector('.act-diff')?.textContent || '').toLowerCase();
+    if (value.includes('alta')) return 'hard';
+    if (value.includes('media')) return 'moderate';
+    return 'easy';
+  }
+
+  function initActivityExperienceData() {
+    document.querySelectorAll('.act-card').forEach(card => {
+      const title = normalizeText(card.querySelector('h3')?.textContent || '');
+      const config = findActivityConfig(title, ACTIVITY_CLASSIFICATION);
+      const defaults = {
+        trekking: 'nature', volcanes: 'adventure snow', tours: 'nature',
+        rio: 'adventure', ciclo: 'nature adventure', invernal: 'snow',
+        paquetes: 'nature adventure', otros: 'relax'
+      };
+      card.dataset.activityTitle = title;
+      card.dataset.experiences = config?.experiences || defaults[card.dataset.cat] || 'nature';
+      card.dataset.seasons = config?.seasons || 'summer autumn winter spring';
+      card.dataset.duration = config?.duration || 'half';
+      card.dataset.difficulty = deriveDifficulty(card);
+    });
+  }
+
+  function updateFilterResultsLanguage() {
+    const results = document.getElementById('filter-results');
+    if (!results || !results.dataset.count) return;
+    const count = Number(results.dataset.count);
+    const lang = document.documentElement.lang;
+    if (lang.startsWith('en')) results.textContent = `${count} ${count === 1 ? 'experience' : 'experiences'}`;
+    else if (lang.startsWith('pt')) results.textContent = `${count} ${count === 1 ? 'experiência' : 'experiências'}`;
+    else results.textContent = `${count} ${count === 1 ? 'experiencia' : 'experiencias'}`;
+  }
+
   function initFilters() {
-    const filterBtns = document.querySelectorAll('.filter-btn');
-    const cards      = document.querySelectorAll('.act-card');
-    if (!filterBtns.length) return;
+    const filterBtns = document.querySelectorAll('.filter-btn[data-experience]');
+    const cards = Array.from(document.querySelectorAll('.act-card'));
+    const season = document.getElementById('filter-season');
+    const difficulty = document.getElementById('filter-difficulty');
+    const duration = document.getElementById('filter-duration');
+    const clear = document.getElementById('clear-activity-filters');
+    const results = document.getElementById('filter-results');
+    if (!filterBtns.length || !cards.length) return;
 
-    function applyFilter(cat) {
-      if (cat === 'all') {
-        const grid = document.getElementById('act-grid');
-        // Obtener solo las 7 cards destacadas y ordenarlas
-        const featured = Array.from(cards).filter(c => c.dataset.featured === 'true');
-        featured.sort((a, b) => parseInt(a.dataset.order) - parseInt(b.dataset.order));
+    let activeExperience = 'featured';
+    let externalCategory = null;
 
-        // Ocultar todas primero
-        cards.forEach(card => card.classList.add('hidden'));
-        // Mostrar y reordenar las destacadas en el DOM
-        featured.forEach(card => {
-          card.classList.remove('hidden');
-          if (grid) grid.appendChild(card);
-        });
-      } else {
-        cards.forEach(card => {
-          if (card.dataset.cat === cat) {
-            card.classList.remove('hidden');
-          } else {
-            card.classList.add('hidden');
-          }
-        });
+    function applyFilters() {
+      let visible = 0;
+      cards.forEach(card => {
+        const experienceMatch = externalCategory
+          ? card.dataset.cat === externalCategory
+          : activeExperience === 'featured'
+            ? card.dataset.featured === 'true'
+            : card.dataset.experiences.split(' ').includes(activeExperience);
+        const seasonMatch = season.value === 'all' || card.dataset.seasons.split(' ').includes(season.value);
+        const difficultyMatch = difficulty.value === 'all' || card.dataset.difficulty === difficulty.value;
+        const durationMatch = duration.value === 'all' || card.dataset.duration.split(' ').includes(duration.value);
+        const show = experienceMatch && seasonMatch && difficultyMatch && durationMatch;
+        card.classList.toggle('hidden', !show);
+        if (show) visible++;
+      });
+      if (results) {
+        results.dataset.count = String(visible);
+        updateFilterResultsLanguage();
       }
     }
 
-    // Estado inicial: mostrar solo las 7 destacadas
-    applyFilter('all');
-
     filterBtns.forEach(btn => {
       btn.addEventListener('click', () => {
-        filterBtns.forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        applyFilter(btn.dataset.cat);
+        activeExperience = btn.dataset.experience;
+        externalCategory = null;
+        filterBtns.forEach(item => {
+          const active = item === btn;
+          item.classList.toggle('active', active);
+          item.setAttribute('aria-selected', String(active));
+        });
+        applyFilters();
       });
     });
+
+    [season, difficulty, duration].forEach(select => select.addEventListener('change', applyFilters));
+    document.querySelectorAll('[data-nav-experience]').forEach(link => {
+      link.addEventListener('click', () => {
+        document.querySelector(`.filter-btn[data-experience="${link.dataset.navExperience}"]`)?.click();
+      });
+    });
+    document.querySelectorAll('[data-nav-cat]').forEach(link => {
+      link.addEventListener('click', () => {
+        externalCategory = link.dataset.navCat;
+        filterBtns.forEach(btn => {
+          btn.classList.remove('active');
+          btn.setAttribute('aria-selected', 'false');
+        });
+        season.value = difficulty.value = duration.value = 'all';
+        applyFilters();
+      });
+    });
+    clear?.addEventListener('click', () => {
+      activeExperience = 'featured';
+      externalCategory = null;
+      season.value = difficulty.value = duration.value = 'all';
+      filterBtns.forEach(btn => {
+        const active = btn.dataset.experience === 'featured';
+        btn.classList.toggle('active', active);
+        btn.setAttribute('aria-selected', String(active));
+      });
+      applyFilters();
+    });
+    applyFilters();
   }
 
   /* ─────────────────────────────────────────
@@ -612,6 +714,106 @@
     'Saltos Andinos': [160000, 90000, 67000, 56000, 48000, 45000]
   };
 
+  const MOUNTAIN_ASCENT_INCLUDES = [
+    'Transporte en van privada',
+    'Guía de montaña certificado ANGM local',
+    'Guía de montaña adicional para grupos de 4 a 6 personas',
+    'Snack y brunch',
+    'Equipo técnico: casco, arnés, piolet y crampones',
+    'Seguro de actividad para pasajeros chilenos',
+    'Fotografías de la experiencia',
+    'Interpretación natural y cultural'
+  ];
+
+  const TOUR_DETAILS = {
+    'Araucaria Milenaria + Laguna Pehuenco': {
+      facts: [['Lugar', 'Reserva Nacional Malalcahuello-Nalcas'], ['Distancia', '1,5 km Araucaria · 1,1 km Laguna'], ['Duración', '2 horas promedio'], ['Dificultad', 'Baja']],
+      inclusions: ['Transporte en van privada', 'Guía certificado local', 'Snack', 'Raquetas de nieve, bastones y polainas', 'Seguro de actividad para pasajeros chilenos', 'Fotografías', 'Interpretación natural y cultural']
+    },
+    'Mirador Sierra del Colorado': {
+      facts: [['Lugar', 'Reserva Nacional Malalcahuello-Nalcas'], ['Distancia', '7 km aprox.'], ['Duración', '3 horas promedio'], ['Dificultad', 'Media · media/alta en invierno']],
+      inclusions: ['Transporte en van privada', 'Guía certificado local', 'Snack', 'Raquetas de nieve, bastones y polainas', 'Seguro de actividad para pasajeros chilenos', 'Fotografías', 'Interpretación natural y cultural']
+    },
+    'Cráter Navidad': {
+      facts: [['Lugar', 'Reserva Nacional Malalcahuello-Nalcas'], ['Dificultad', 'Media · media/alta en invierno']],
+      modalities: [
+        ['Verano', '3–4 km aprox. · 3–4 horas ida y vuelta'],
+        ['Invierno', '6 km aprox. · 6 horas ida y vuelta']
+      ],
+      inclusions: ['Transporte en van privada', 'Guía certificado local', 'Snack', 'Raquetas de nieve, bastones, polainas y crampones', 'Seguro de actividad para pasajeros chilenos', 'Fotografías', 'Interpretación natural y cultural']
+    },
+    'Ascenso Volcán Lonquimay': { inclusions: MOUNTAIN_ASCENT_INCLUDES, note: 'Zapatos de montaña disponibles con costo adicional de $12.000.' },
+    'Ascenso Volcán Llaima': { inclusions: MOUNTAIN_ASCENT_INCLUDES, note: 'Requiere vestimenta adecuada y experiencia previa en al menos dos volcanes. Zapatos de montaña: $12.000 adicionales.' },
+    'Ascenso Volcán Tolhuaca': { inclusions: MOUNTAIN_ASCENT_INCLUDES, note: 'Requiere vestimenta adecuada y experiencia previa en al menos dos volcanes. Zapatos de montaña: $12.000 adicionales.' },
+    'Ascenso Volcán Sierra Nevada': {
+      inclusions: MOUNTAIN_ASCENT_INCLUDES,
+      note: 'Requiere vestimenta adecuada y experiencia previa en al menos dos volcanes. Zapatos de montaña: $12.000 adicionales.',
+      availability: 'Apertura de temporada desde el 15 de noviembre.', opening: [11, 15]
+    },
+    'Laguna Espejo + Glaciar Sierra Nevada': { availability: 'Apertura de temporada desde el 15 de noviembre.', opening: [11, 15] },
+    'Laguna Captrén': {
+      inclusions: ['Transporte en van', 'Guía certificado local', 'Snack', 'Entrada al Parque Nacional Conguillío', 'Raquetas de nieve, polainas y bastones de trekking', 'Seguro de actividad para pasajeros chilenos', 'Fotografías', 'Interpretación natural y cultural']
+    },
+    'Tour Parque Nacional Conguillío': { availability: 'Disponible desde noviembre, sujeto a la apertura de accesos por nieve.', opening: [11, 1] },
+    'Cuesta de Las Raíces': {
+      inclusions: ['Transporte en van', 'Guía certificado local', 'Snack', 'Entrada a Patachoique', 'Raquetas de nieve, polainas y bastones de trekking', 'Seguro de actividad para pasajeros chilenos', 'Fotografías', 'Interpretación natural y cultural'],
+      note: 'Se recomienda llevar efectivo para artesanía y comida tradicional pehuenche en el sector Arenales.'
+    },
+    'Inducción Ski & Snowboard': {
+      facts: [['Lugar', 'Centro de Ski Corralco'], ['Clases', '2 horas · 12:00 a 14:00']],
+      inclusions: ['Transporte en van', 'Guía local certificado', 'Ticket y clase', 'Equipo de ski: botas, skis, bastones y casco', 'Snack', 'Seguro de actividad', 'Fotografías']
+    },
+    'Backcountry — Randonnée & Splitboard': {
+      facts: [['Sectores', 'Cerro La Plancha · Cuesta de Las Raíces · Mirador Cráter Navidad']],
+      inclusions: ['Transporte en van', 'Guía local certificado', 'Guía adicional para grupos de 4 a 6 personas', 'Equipo de randonnée', 'Snack y brunch', 'Seguro de actividad', 'Fotografías', 'Interpretación natural y cultural']
+    },
+    'Saltos Andinos': {
+      inclusions: ['Transporte', 'Guía local de excursiones', 'Snack', 'Entrada a Salto del Indio', 'Seguro de actividad', 'Fotografías', 'Interpretación natural y cultural']
+    }
+  };
+
+  function cleanIncludeLabel(value) {
+    return normalizeText(value).replace(/^[^A-Za-zÀ-ÿ0-9]+/, '');
+  }
+
+  function initActivityIncludes() {
+    document.querySelectorAll('.act-card').forEach(card => {
+      const oldIncludes = card.querySelector('.act-includes');
+      if (!oldIncludes) return;
+      const title = card.dataset.activityTitle || normalizeText(card.querySelector('h3')?.textContent || '');
+      const config = findActivityConfig(title, TOUR_DETAILS) || {};
+      const originalItems = Array.from(oldIncludes.querySelectorAll('span'))
+        .map(item => cleanIncludeLabel(item.textContent))
+        .filter(Boolean);
+      const inclusions = config.inclusions || originalItems;
+      const details = document.createElement('details');
+      details.className = 'activity-includes';
+      details.innerHTML = `
+        <summary>
+          <span>Qué incluye</span>
+          <small><span>${inclusions.length}</span> <span>${inclusions.length === 1 ? 'servicio' : 'servicios'}</span></small>
+          <span class="includes-chevron" aria-hidden="true">+</span>
+        </summary>
+        <div class="includes-content">
+          ${config.facts ? `<dl class="activity-facts">${config.facts.map(([label, value]) => `<div><dt>${label}</dt><dd>${value}</dd></div>`).join('')}</dl>` : ''}
+          ${config.modalities ? `<div class="season-modalities">${config.modalities.map(([season, value]) => `<div><strong>${season}</strong><span>${value}</span></div>`).join('')}</div>` : ''}
+          <strong class="includes-label">Servicios incluidos</strong>
+          <ul>${inclusions.map(item => `<li>${item}</li>`).join('')}</ul>
+          ${config.note ? `<p class="activity-detail-note">${config.note}</p>` : ''}
+        </div>
+      `;
+      oldIncludes.replaceWith(details);
+
+      if (config.availability) {
+        const notice = document.createElement('p');
+        notice.className = 'activity-availability';
+        notice.textContent = config.availability;
+        details.before(notice);
+      }
+    });
+    resetI18nCache();
+  }
+
   function formatClp(value) {
     return '$' + new Intl.NumberFormat('es-CL').format(value);
   }
@@ -656,7 +858,7 @@
             const savingPercent = Math.max(0, Math.round((1 - price / soloPrice) * 100));
             const isBest = index === bestIndex;
             return `
-              <div class="tour-price-row${isBest ? ' is-best' : ''}">
+              <button type="button" class="tour-price-row${isBest ? ' is-best' : ''}" data-booking-people="${index + 1}" data-booking-price="${price}" aria-label="Seleccionar ${index + 1} ${index === 0 ? 'persona' : 'personas'} por ${formatClp(price)} por persona">
                 <span class="price-group"><b>${index + 1}</b> <span>${index === 0 ? 'persona' : 'personas'}</span></span>
                 <span class="price-value">
                   <strong>${formatClp(price)}</strong>
@@ -664,8 +866,9 @@
                   ${index === 0
                     ? '<span class="price-saving">Tarifa individual</span>'
                     : `<span class="price-saving"><b>-${savingPercent}%</b> · <span>Ahorras</span> ${formatClp(savingAmount)}${isBest ? ' <span class="best-price-label">Mejor precio</span>' : ''}</span>`}
+                  <span class="price-select">Elegir fecha</span>
                 </span>
-              </div>
+              </button>
             `;
           }).join('')}
         </div>
@@ -673,6 +876,132 @@
       card.querySelector('.act-body').insertBefore(pricing, button);
     });
     resetI18nCache();
+  }
+
+  /* ─────────────────────────────────────────
+     RESERVA: PERSONAS + FECHA + WHATSAPP
+  ───────────────────────────────────────── */
+  const bookingContext = { card: null, title: '', prices: null };
+
+  function toLocalISO(date) {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  }
+
+  function getBookingMinimumDate(config) {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    if (!config?.opening) return today;
+    const opening = new Date(today.getFullYear(), config.opening[0] - 1, config.opening[1]);
+    return today < opening ? opening : today;
+  }
+
+  function updateBookingPrice() {
+    const people = Number(document.getElementById('booking-people')?.value || 1);
+    const priceBox = document.getElementById('booking-price');
+    if (!priceBox) return;
+    const price = bookingContext.prices?.[people - 1];
+    priceBox.hidden = !price;
+    priceBox.innerHTML = price
+      ? `<span>Tarifa publicada</span><strong>${formatClp(price)} <small>por persona</small></strong>`
+      : '';
+  }
+
+  function openBookingModal(card, selectedPeople = 2) {
+    const modal = document.getElementById('booking-modal');
+    const titleEl = document.getElementById('booking-activity');
+    const peopleEl = document.getElementById('booking-people');
+    const dateEl = document.getElementById('booking-date');
+    const availabilityEl = document.getElementById('booking-availability');
+    if (!modal || !titleEl || !peopleEl || !dateEl || !availabilityEl) return;
+
+    const title = card.dataset.activityTitle || normalizeText(card.querySelector('h3')?.textContent || 'Experiencia ETNIKA');
+    const priceMatch = Object.entries(TOUR_PRICES).find(([key]) => title.startsWith(key));
+    const config = findActivityConfig(title, TOUR_DETAILS);
+    const minimumDate = getBookingMinimumDate(config);
+    bookingContext.card = card;
+    bookingContext.title = title;
+    bookingContext.prices = priceMatch?.[1] || null;
+
+    titleEl.textContent = title;
+    peopleEl.value = String(Math.max(1, Math.min(6, selectedPeople)));
+    dateEl.min = toLocalISO(minimumDate);
+    dateEl.value = '';
+    availabilityEl.hidden = !config?.availability;
+    availabilityEl.textContent = config?.availability || '';
+    updateBookingPrice();
+
+    modal.classList.add('open');
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.classList.add('booking-open');
+    setTimeout(() => dateEl.focus(), 80);
+  }
+
+  function closeBookingModal() {
+    const modal = document.getElementById('booking-modal');
+    if (!modal) return;
+    modal.classList.remove('open');
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.classList.remove('booking-open');
+  }
+
+  function bookingMessage(title, dateText, people, price, lang) {
+    if (lang === 'en') {
+      return `Hello ETNIKA! I am interested in ${title} for ${dateText}. We are ${people} people${price ? ` and saw the published rate of ${formatClp(price)} per person` : ''}. Is there availability?`;
+    }
+    if (lang === 'pt') {
+      return `Olá ETNIKA! Tenho interesse em ${title} para ${dateText}. Somos ${people} pessoas${price ? ` e vimos a tarifa publicada de ${formatClp(price)} por pessoa` : ''}. Há disponibilidade?`;
+    }
+    return `Hola ETNIKA! Estoy interesado/a en ${title} para el ${dateText}. Somos ${people} personas${price ? ` y vimos la tarifa publicada de ${formatClp(price)} por persona` : ''}. ¿Tienen disponibilidad?`;
+  }
+
+  function initBookingFlow() {
+    const modal = document.getElementById('booking-modal');
+    const form = document.getElementById('booking-form');
+    const peopleEl = document.getElementById('booking-people');
+    if (!modal || !form || !peopleEl) return;
+
+    document.addEventListener('click', event => {
+      const close = event.target.closest('[data-booking-close]');
+      if (close) {
+        closeBookingModal();
+        return;
+      }
+
+      const priceChoice = event.target.closest('.tour-price-row[data-booking-people]');
+      if (priceChoice) {
+        const card = priceChoice.closest('.act-card');
+        if (card) openBookingModal(card, Number(priceChoice.dataset.bookingPeople));
+        return;
+      }
+
+      const reserve = event.target.closest('.act-card .act-btn');
+      if (reserve) {
+        event.preventDefault();
+        openBookingModal(reserve.closest('.act-card'), 2);
+      }
+    });
+
+    peopleEl.addEventListener('change', updateBookingPrice);
+    document.addEventListener('keydown', event => {
+      if (event.key === 'Escape' && modal.classList.contains('open')) closeBookingModal();
+    });
+
+    form.addEventListener('submit', event => {
+      event.preventDefault();
+      if (!form.reportValidity()) return;
+      const dateValue = document.getElementById('booking-date').value;
+      const people = Number(peopleEl.value);
+      const lang = document.documentElement.lang.startsWith('pt') ? 'pt' : document.documentElement.lang.startsWith('en') ? 'en' : 'es';
+      const locale = lang === 'pt' ? 'pt-BR' : lang === 'en' ? 'en-GB' : 'es-CL';
+      const dateText = new Date(`${dateValue}T12:00:00`).toLocaleDateString(locale, { day: 'numeric', month: 'long', year: 'numeric' });
+      const price = bookingContext.prices?.[people - 1] || null;
+      const message = bookingMessage(bookingContext.title, dateText, people, price, lang);
+      window.open(`https://wa.me/56996278258?text=${encodeURIComponent(message)}`, '_blank', 'noopener');
+      closeBookingModal();
+    });
   }
 
   function initDifficultyLabels() {
@@ -1104,6 +1433,101 @@
     I18N[lang] = Object.assign(I18N[lang] || {}, EXTRA_I18N[lang]);
   });
 
+  const V20_I18N = {
+    en: {
+      '¿Qué experiencia buscas? Elige cómo quieres vivir la Araucanía Andina.': 'What experience are you looking for? Choose how you want to explore Andean Araucanía.',
+      'Experiencias Etnika': 'Etnika Experiences', 'Selección especial': 'Special selection',
+      'Naturaleza': 'Nature', 'Bosques, lagunas y parques': 'Forests, lagoons and parks',
+      'Aventura': 'Adventure', 'Montaña, ríos y desafíos': 'Mountains, rivers and challenges',
+      'Relax': 'Relax', 'Termas & Relax': 'Hot Springs & Relax', 'Bienestar y descanso': 'Wellness and rest',
+      'Nieve': 'Snow', 'Invierno en la cordillera': 'Winter in the mountains',
+      'Temporada': 'Season', 'Verano': 'Summer', 'Otoño': 'Autumn', 'Invierno': 'Winter', 'Primavera': 'Spring',
+      'Fácil': 'Easy', 'Moderada': 'Moderate', 'Difícil': 'Difficult', 'Duración': 'Duration',
+      '2–4 horas': '2–4 hours', 'Medio día': 'Half day', 'Limpiar filtros': 'Clear filters',
+      'Qué incluye': 'What is included', 'servicio': 'service', 'servicios': 'services', 'Servicios incluidos': 'Included services',
+      'Lugar': 'Location', 'Distancia': 'Distance', 'Dificultad': 'Difficulty', 'Sectores': 'Areas', 'Clases': 'Lessons',
+      'Apertura de temporada desde el 15 de noviembre.': 'Season opens on November 15.',
+      'Disponible desde noviembre, sujeto a la apertura de accesos por nieve.': 'Available from November, subject to snow-access openings.',
+      'Transporte en van privada': 'Private van transport', 'Transporte en van': 'Van transport', 'Transporte': 'Transport',
+      'Guía certificado local': 'Certified local guide', 'Guía local certificado': 'Certified local guide',
+      'Guía de montaña certificado ANGM local': 'Local ANGM-certified mountain guide',
+      'Guía de montaña adicional para grupos de 4 a 6 personas': 'Additional mountain guide for groups of 4 to 6 people',
+      'Guía adicional para grupos de 4 a 6 personas': 'Additional guide for groups of 4 to 6 people',
+      'Snack y brunch': 'Snack and brunch', 'Snack': 'Snack', 'Fotografías': 'Photos', 'Fotografías de la experiencia': 'Experience photos',
+      'Interpretación natural y cultural': 'Natural and cultural interpretation',
+      'Seguro de actividad': 'Activity insurance', 'Seguro de actividad para pasajeros chilenos': 'Activity insurance for Chilean passengers',
+      'Raquetas de nieve, bastones y polainas': 'Snowshoes, poles and gaiters',
+      'Raquetas de nieve, bastones, polainas y crampones': 'Snowshoes, poles, gaiters and crampons',
+      'Raquetas de nieve, polainas y bastones de trekking': 'Snowshoes, gaiters and trekking poles',
+      'Equipo técnico: casco, arnés, piolet y crampones': 'Technical gear: helmet, harness, ice axe and crampons',
+      'Equipo de randonnée': 'Randonnée equipment', 'Entrada al Parque Nacional Conguillío': 'Parque Nacional Conguillío entry',
+      'Entrada a Patachoique': 'Patachoique entry', 'Entrada a Salto del Indio': 'Salto del Indio entry',
+      'Ticket y clase': 'Lift ticket and lesson', 'Equipo de ski: botas, skis, bastones y casco': 'Ski equipment: boots, skis, poles and helmet',
+      'Elegir fecha': 'Choose date', 'Tarifa publicada': 'Published rate',
+      'Reserva tu experiencia': 'Book your experience', 'Planifica tu aventura': 'Plan your adventure',
+      'Número de personas': 'Number of people', 'Fecha de la experiencia': 'Experience date',
+      'Consultar disponibilidad por WhatsApp': 'Check availability on WhatsApp', 'Cerrar': 'Close',
+      '3–4 km aprox. · 3–4 horas ida y vuelta': 'Approx. 3–4 km · 3–4 hours round trip',
+      '6 km aprox. · 6 horas ida y vuelta': 'Approx. 6 km · 6 hours round trip',
+      'Verano · 3–4 hrs': 'Summer · 3–4 hrs', 'Invierno · 6 hrs': 'Winter · 6 hrs', '3–6 km aprox.': 'Approx. 3–6 km',
+      'Red turística': 'Tourism network', 'Respaldo y': 'Support and', 'colaboración local': 'local collaboration',
+      'Conectamos nuestras experiencias con instituciones y alojamientos que fortalecen el turismo en la Araucanía Andina.': 'We connect our experiences with institutions and lodging partners that strengthen tourism in Andean Araucanía.',
+      'Turismo formal': 'Formal tourism', 'Servicio Nacional de Turismo': 'National Tourism Service',
+      'SERNATUR promueve la formalización, la calidad y la seguridad de los servicios turísticos en Chile.': 'SERNATUR promotes formalization, quality and safety across tourism services in Chile.',
+      'Conocer SERNATUR': 'Learn about SERNATUR', 'Alojamiento colaborador': 'Lodging partner',
+      'Coordinamos experiencias locales para sus huéspedes, conectando descanso termal y aventura en la cordillera.': 'We coordinate local experiences for their guests, connecting thermal relaxation with mountain adventure.',
+      'Visitar el hotel': 'Visit the hotel'
+    },
+    pt: {
+      '¿Qué experiencia buscas? Elige cómo quieres vivir la Araucanía Andina.': 'Que experiência você procura? Escolha como quer viver a Araucanía Andina.',
+      'Experiencias Etnika': 'Experiências Etnika', 'Selección especial': 'Seleção especial',
+      'Naturaleza': 'Natureza', 'Bosques, lagunas y parques': 'Bosques, lagoas e parques',
+      'Aventura': 'Aventura', 'Montaña, ríos y desafíos': 'Montanhas, rios e desafios',
+      'Relax': 'Relax', 'Termas & Relax': 'Termas & Relax', 'Bienestar y descanso': 'Bem-estar e descanso',
+      'Nieve': 'Neve', 'Invierno en la cordillera': 'Inverno na cordilheira',
+      'Temporada': 'Temporada', 'Verano': 'Verão', 'Otoño': 'Outono', 'Invierno': 'Inverno', 'Primavera': 'Primavera',
+      'Fácil': 'Fácil', 'Moderada': 'Moderada', 'Difícil': 'Difícil', 'Duración': 'Duração',
+      '2–4 horas': '2–4 horas', 'Medio día': 'Meio dia', 'Limpiar filtros': 'Limpar filtros',
+      'Qué incluye': 'O que inclui', 'servicio': 'serviço', 'servicios': 'serviços', 'Servicios incluidos': 'Serviços incluídos',
+      'Lugar': 'Local', 'Distancia': 'Distância', 'Dificultad': 'Dificuldade', 'Sectores': 'Setores', 'Clases': 'Aulas',
+      'Apertura de temporada desde el 15 de noviembre.': 'Abertura da temporada em 15 de novembro.',
+      'Disponible desde noviembre, sujeto a la apertura de accesos por nieve.': 'Disponível a partir de novembro, sujeito à abertura dos acessos por neve.',
+      'Transporte en van privada': 'Transporte em van privativa', 'Transporte en van': 'Transporte em van', 'Transporte': 'Transporte',
+      'Guía certificado local': 'Guia local certificado', 'Guía local certificado': 'Guia local certificado',
+      'Guía de montaña certificado ANGM local': 'Guia de montanha local certificado pela ANGM',
+      'Guía de montaña adicional para grupos de 4 a 6 personas': 'Guia de montanha adicional para grupos de 4 a 6 pessoas',
+      'Guía adicional para grupos de 4 a 6 personas': 'Guia adicional para grupos de 4 a 6 pessoas',
+      'Snack y brunch': 'Snack e brunch', 'Snack': 'Snack', 'Fotografías': 'Fotografias', 'Fotografías de la experiencia': 'Fotografias da experiência',
+      'Interpretación natural y cultural': 'Interpretação natural e cultural',
+      'Seguro de actividad': 'Seguro da atividade', 'Seguro de actividad para pasajeros chilenos': 'Seguro da atividade para passageiros chilenos',
+      'Raquetas de nieve, bastones y polainas': 'Raquetes de neve, bastões e polainas',
+      'Raquetas de nieve, bastones, polainas y crampones': 'Raquetes de neve, bastões, polainas e crampons',
+      'Raquetas de nieve, polainas y bastones de trekking': 'Raquetes de neve, polainas e bastões de trekking',
+      'Equipo técnico: casco, arnés, piolet y crampones': 'Equipamento técnico: capacete, arnês, piolet e crampons',
+      'Equipo de randonnée': 'Equipamento de randonnée', 'Entrada al Parque Nacional Conguillío': 'Entrada do Parque Nacional Conguillío',
+      'Entrada a Patachoique': 'Entrada de Patachoique', 'Entrada a Salto del Indio': 'Entrada do Salto del Indio',
+      'Ticket y clase': 'Ticket e aula', 'Equipo de ski: botas, skis, bastones y casco': 'Equipamento de ski: botas, skis, bastões e capacete',
+      'Elegir fecha': 'Escolher data', 'Tarifa publicada': 'Tarifa publicada',
+      'Reserva tu experiencia': 'Reserve sua experiência', 'Planifica tu aventura': 'Planeje sua aventura',
+      'Número de personas': 'Número de pessoas', 'Fecha de la experiencia': 'Data da experiência',
+      'Consultar disponibilidad por WhatsApp': 'Consultar disponibilidade pelo WhatsApp', 'Cerrar': 'Fechar',
+      '3–4 km aprox. · 3–4 horas ida y vuelta': 'Aprox. 3–4 km · 3–4 horas ida e volta',
+      '6 km aprox. · 6 horas ida y vuelta': 'Aprox. 6 km · 6 horas ida e volta',
+      'Verano · 3–4 hrs': 'Verão · 3–4 h', 'Invierno · 6 hrs': 'Inverno · 6 h', '3–6 km aprox.': 'Aprox. 3–6 km',
+      'Red turística': 'Rede turística', 'Respaldo y': 'Apoio e', 'colaboración local': 'colaboração local',
+      'Conectamos nuestras experiencias con instituciones y alojamientos que fortalecen el turismo en la Araucanía Andina.': 'Conectamos nossas experiências a instituições e meios de hospedagem que fortalecem o turismo na Araucanía Andina.',
+      'Turismo formal': 'Turismo formal', 'Servicio Nacional de Turismo': 'Serviço Nacional de Turismo',
+      'SERNATUR promueve la formalización, la calidad y la seguridad de los servicios turísticos en Chile.': 'O SERNATUR promove a formalização, a qualidade e a segurança dos serviços turísticos no Chile.',
+      'Conocer SERNATUR': 'Conhecer o SERNATUR', 'Alojamiento colaborador': 'Hospedagem parceira',
+      'Coordinamos experiencias locales para sus huéspedes, conectando descanso termal y aventura en la cordillera.': 'Coordenamos experiências locais para seus hóspedes, conectando descanso termal e aventura na cordilheira.',
+      'Visitar el hotel': 'Visitar o hotel'
+    }
+  };
+
+  Object.keys(V20_I18N).forEach(lang => {
+    I18N[lang] = Object.assign(I18N[lang] || {}, V20_I18N[lang]);
+  });
+
   function normalizeText(value) {
     return String(value || '').replace(/\s+/g, ' ').trim();
   }
@@ -1178,6 +1602,7 @@
       translateAttribute(el, 'alt', selected);
       translateAttribute(el, 'placeholder', selected);
     });
+    updateFilterResultsLanguage();
     localStorage.setItem('etnika-lang', selected);
   }
 
@@ -1197,12 +1622,15 @@
     const loaderProgressTimer = startVisualLoaderProgress();
     sizeCanvas();
     initBurger();
+    initActivityExperienceData();
     initFilters();
     initSmoothScroll();
     initReveal();
     initGallery();
     initWeather();
     initTourPricing();
+    initActivityIncludes();
+    initBookingFlow();
     initDifficultyLabels();
     initMediaPerformance();
     initLanguageSwitcher();
