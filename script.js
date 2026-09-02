@@ -278,12 +278,12 @@
   ───────────────────────────────────────── */
   const ACTIVITY_CLASSIFICATION = {
     'Araucaria Milenaria + Laguna Pehuenco · Verano': { experiences: 'nature', seasons: 'summer autumn spring', duration: 'short half' },
-    'Araucaria Milenaria + Laguna Pehuenco · Invierno': { experiences: 'nature snow', seasons: 'winter', duration: 'short half' },
+    'Araucaria Milenaria + Laguna Pehuenco · Invierno': { experiences: 'snow', seasons: 'winter', duration: 'short half' },
     'Mirador Sierra del Colorado': { experiences: 'nature adventure', seasons: 'summer autumn spring', duration: 'short' },
     'Trekking Piedra Santa': { experiences: 'nature adventure', seasons: 'summer autumn spring', duration: 'half' },
     'Laguna Espejo + Glaciar Sierra Nevada': { experiences: 'nature adventure', seasons: 'summer spring', duration: 'full' },
     'Laguna Captrén — P.N. Conguillío · Verano': { experiences: 'nature', seasons: 'summer', duration: 'short half' },
-    'Laguna Captrén — P.N. Conguillío · Invierno': { experiences: 'nature snow', seasons: 'winter', duration: 'short half' },
+    'Laguna Captrén — P.N. Conguillío · Invierno': { experiences: 'snow', seasons: 'winter', duration: 'short half' },
     'Cráter Navidad': { experiences: 'adventure snow', seasons: 'summer autumn winter spring', duration: 'short half' },
     'Ascenso Volcán': { experiences: 'adventure snow', seasons: 'summer winter spring', duration: 'full' },
     'Tour Parque Nacional Conguillío': { experiences: 'nature', seasons: 'summer autumn spring', duration: 'full' },
@@ -366,7 +366,9 @@
           ? card.dataset.cat === externalCategory
           : activeExperience === 'featured'
             ? card.dataset.featured === 'true'
-            : card.dataset.experiences.split(' ').includes(activeExperience);
+            : activeExperience === 'summer'
+              ? card.dataset.seasons.split(' ').includes('summer')
+              : card.dataset.experiences.split(' ').includes(activeExperience);
         const seasonMatch = season.value === 'all' || card.dataset.seasons.split(' ').includes(season.value);
         const difficultyMatch = difficulty.value === 'all' || card.dataset.difficulty === difficulty.value;
         const durationMatch = duration.value === 'all' || card.dataset.duration.split(' ').includes(duration.value);
@@ -830,8 +832,6 @@
   }
 
   function initActivityCarousels() {
-    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
     document.querySelectorAll('[data-carousel]').forEach(carousel => {
       const slides = Array.from(carousel.querySelectorAll('.carousel-slide'));
       const previous = carousel.querySelector('.carousel-prev');
@@ -841,6 +841,7 @@
 
       let current = Math.max(0, slides.findIndex(slide => slide.classList.contains('is-active')));
       let timer = null;
+      let kickoff = null;
 
       const show = target => {
         current = (target + slides.length) % slides.length;
@@ -853,13 +854,19 @@
       };
 
       const stop = () => {
+        window.clearTimeout(kickoff);
         window.clearInterval(timer);
+        kickoff = null;
         timer = null;
       };
 
       const start = () => {
-        if (reduceMotion || timer) return;
-        timer = window.setInterval(() => show(current + 1), 2200);
+        if (kickoff || timer) return;
+        kickoff = window.setTimeout(() => {
+          show(current + 1);
+          kickoff = null;
+          timer = window.setInterval(() => show(current + 1), 2200);
+        }, 900);
       };
 
       previous.addEventListener('click', event => {
@@ -872,6 +879,8 @@
         stop();
         show(current + 1);
       });
+      carousel.addEventListener('pointerenter', start);
+      carousel.addEventListener('pointerleave', stop);
       carousel.addEventListener('mouseenter', start);
       carousel.addEventListener('mouseleave', stop);
       carousel.addEventListener('focusin', start);
@@ -1612,6 +1621,7 @@
 
   const V24_I18N = {
     en: {
+      'Vive el Verano': 'Live the Summer',
       'Araucaria Milenaria + Laguna Pehuenco · Verano': 'Araucaria Milenaria + Laguna Pehuenco · Summer',
       'Araucaria Milenaria + Laguna Pehuenco · Invierno': 'Araucaria Milenaria + Laguna Pehuenco · Winter',
       'Trekking verano': 'Summer trekking',
@@ -1633,6 +1643,7 @@
       'Nieve': 'Snow'
     },
     pt: {
+      'Vive el Verano': 'Viva o Verão',
       'Araucaria Milenaria + Laguna Pehuenco · Verano': 'Araucaria Milenaria + Laguna Pehuenco · Verão',
       'Araucaria Milenaria + Laguna Pehuenco · Invierno': 'Araucaria Milenaria + Laguna Pehuenco · Inverno',
       'Trekking verano': 'Trekking de verão',
