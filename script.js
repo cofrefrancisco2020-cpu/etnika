@@ -284,7 +284,8 @@
     'Laguna Espejo + Glaciar Sierra Nevada': { experiences: 'nature adventure', seasons: 'summer spring', duration: 'full' },
     'Laguna Captrén — P.N. Conguillío · Verano': { experiences: 'nature', seasons: 'summer', duration: 'short half' },
     'Laguna Captrén — P.N. Conguillío · Invierno': { experiences: 'snow', seasons: 'winter', duration: 'short half' },
-    'Cráter Navidad': { experiences: 'adventure snow', seasons: 'summer autumn winter spring', duration: 'short half' },
+    'Cráter Navidad — 1.827 msnm · Verano': { experiences: 'summer', seasons: 'summer', duration: 'half' },
+    'Cráter Navidad — 1.827 msnm · Invierno': { experiences: 'snow', seasons: 'winter', duration: 'half' },
     'Ascenso Volcán': { experiences: 'adventure snow', seasons: 'summer winter spring', duration: 'full' },
     'Tour Parque Nacional Conguillío': { experiences: 'nature', seasons: 'summer autumn spring', duration: 'full' },
     'Cuesta de Las Raíces': { experiences: 'nature snow', seasons: 'summer autumn winter spring', duration: 'full' },
@@ -707,7 +708,8 @@
     'Araucaria Milenaria + Laguna Pehuenco · Verano': [175000, 107000, 86000, 74000, 66000, 62000],
     'Araucaria Milenaria + Laguna Pehuenco · Invierno': [190000, 116000, 93000, 80000, 72000, 67000],
     'Mirador Sierra del Colorado': [200000, 126000, 103000, 90000, 82000, 77000],
-    'Cráter Navidad': [250000, 150000, 115000, 99000, 89000, 82000],
+    'Cráter Navidad — 1.827 msnm · Verano': [235000, 141000, 108000, 93000, 84000, 77000],
+    'Cráter Navidad — 1.827 msnm · Invierno': [250000, 150000, 115000, 99000, 89000, 82000],
     'Ascenso Volcán Lonquimay': [380000, 217000, 165000, 170000, 147000, 132000],
     'Ascenso Volcán Llaima': [595000, 324000, 233000, 245000, 205000, 179000],
     'Ascenso Volcán Tolhuaca': [552000, 302000, 219000, 213000, 182000, 160000],
@@ -744,12 +746,12 @@
       facts: [['Lugar', 'Reserva Nacional Malalcahuello-Nalcas'], ['Distancia', '7 km aprox.'], ['Duración', '3 horas promedio'], ['Dificultad', 'Media · media/alta en invierno']],
       inclusions: ['Transporte en van privada', 'Guía certificado local', 'Snack', 'Raquetas de nieve, bastones y polainas', 'Seguro de actividad para pasajeros chilenos', 'Fotografías', 'Interpretación natural y cultural']
     },
-    'Cráter Navidad': {
-      facts: [['Lugar', 'Reserva Nacional Malalcahuello-Nalcas'], ['Dificultad', 'Media · media/alta en invierno']],
-      modalities: [
-        ['Verano', '3–4 km aprox. · 3–4 horas ida y vuelta'],
-        ['Invierno', '6 km aprox. · 6 horas ida y vuelta']
-      ],
+    'Cráter Navidad — 1.827 msnm · Verano': {
+      facts: [['Lugar', 'Reserva Nacional Malalcahuello-Nalcas'], ['Distancia', '3–4 km aprox.'], ['Duración', '3–4 horas ida y vuelta'], ['Dificultad', 'Media']],
+      inclusions: ['Transporte en van privada', 'Guía certificado local', 'Snack', 'Seguro de actividad para pasajeros chilenos', 'Fotografías', 'Interpretación natural y cultural']
+    },
+    'Cráter Navidad — 1.827 msnm · Invierno': {
+      facts: [['Lugar', 'Reserva Nacional Malalcahuello-Nalcas'], ['Distancia', '6 km aprox.'], ['Duración', '6 horas ida y vuelta'], ['Dificultad', 'Media/Alta']],
       inclusions: ['Transporte en van privada', 'Guía certificado local', 'Snack', 'Raquetas de nieve, bastones, polainas y crampones', 'Seguro de actividad para pasajeros chilenos', 'Fotografías', 'Interpretación natural y cultural']
     },
     'Ascenso Volcán Lonquimay': { inclusions: MOUNTAIN_ASCENT_INCLUDES, note: 'Zapatos de montaña disponibles con costo adicional de $12.000.' },
@@ -1640,6 +1642,23 @@
       'Laguna Captrén entre bosques nevados, con vista al Volcán Llaima y equipo técnico para recorrer la nieve.': 'Laguna Captrén among snow-covered forests, with views of Volcán Llaima and technical gear for travelling over snow.',
       'Laguna Captrén en verano': 'Laguna Captrén in summer',
       'Laguna Captrén nevada en invierno': 'Snow-covered Laguna Captrén in winter',
+      'Cráter Navidad — 1.827 msnm · Verano': 'Cráter Navidad — 1,827 m a.s.l. · Summer',
+      'Cráter Navidad — 1.827 msnm · Invierno': 'Cráter Navidad — 1,827 m a.s.l. · Winter',
+      'Montañismo verano': 'Summer mountaineering',
+      'Montañismo invierno': 'Winter mountaineering',
+      'Dificultad media': 'Medium difficulty',
+      'Ruta con nieve': 'Snow route',
+      'Ruta de verano al cono parásito del Volcán Lonquimay, ideal para iniciarse en la montaña y observar sus gases volcánicos.': 'Summer route to the parasitic cone of Volcán Lonquimay, ideal for a first mountain experience and observing its volcanic gases.',
+      'Ascenso invernal al cono parásito del Volcán Lonquimay, con una ruta más extensa y equipo técnico para nieve.': 'Winter ascent to the parasitic cone of Volcán Lonquimay, with a longer route and technical snow equipment.',
+      'Galería de Cráter Navidad en invierno': 'Cráter Navidad winter gallery',
+      'Grupo en Cráter Navidad nevado': 'Group at snow-covered Cráter Navidad',
+      'Montañista en Cráter Navidad nevado': 'Mountaineer at snow-covered Cráter Navidad',
+      'Imagen anterior': 'Previous image',
+      'Imagen siguiente': 'Next image',
+      '3–4 km aprox.': 'Approx. 3–4 km',
+      '6 km aprox.': 'Approx. 6 km',
+      '3–4 horas ida y vuelta': '3–4 hours round trip',
+      '6 horas ida y vuelta': '6 hours round trip',
       'Nieve': 'Snow'
     },
     pt: {
@@ -1662,6 +1681,24 @@
       'Laguna Captrén entre bosques nevados, con vista al Volcán Llaima y equipo técnico para recorrer la nieve.': 'Laguna Captrén entre bosques nevados, com vista para o Volcán Llaima e equipamento técnico para percorrer a neve.',
       'Laguna Captrén en verano': 'Laguna Captrén no verão',
       'Laguna Captrén nevada en invierno': 'Laguna Captrén coberta de neve no inverno',
+      'Cráter Navidad — 1.827 msnm · Verano': 'Cráter Navidad — 1.827 m de altitude · Verão',
+      'Cráter Navidad — 1.827 msnm · Invierno': 'Cráter Navidad — 1.827 m de altitude · Inverno',
+      'Montañismo verano': 'Montanhismo de verão',
+      'Montañismo invierno': 'Montanhismo de inverno',
+      'Dificultad media': 'Dificuldade média',
+      'Media/Alta': 'Média/Alta',
+      'Ruta con nieve': 'Rota com neve',
+      'Ruta de verano al cono parásito del Volcán Lonquimay, ideal para iniciarse en la montaña y observar sus gases volcánicos.': 'Rota de verão até o cone parasita do Volcán Lonquimay, ideal para começar na montanha e observar seus gases vulcânicos.',
+      'Ascenso invernal al cono parásito del Volcán Lonquimay, con una ruta más extensa y equipo técnico para nieve.': 'Ascensão de inverno ao cone parasita do Volcán Lonquimay, com uma rota mais longa e equipamento técnico para neve.',
+      'Galería de Cráter Navidad en invierno': 'Galeria de inverno do Cráter Navidad',
+      'Grupo en Cráter Navidad nevado': 'Grupo no Cráter Navidad coberto de neve',
+      'Montañista en Cráter Navidad nevado': 'Montanhista no Cráter Navidad coberto de neve',
+      'Imagen anterior': 'Imagem anterior',
+      'Imagen siguiente': 'Próxima imagem',
+      '3–4 km aprox.': 'Aprox. 3–4 km',
+      '6 km aprox.': 'Aprox. 6 km',
+      '3–4 horas ida y vuelta': '3–4 horas ida e volta',
+      '6 horas ida y vuelta': '6 horas ida e volta',
       'Nieve': 'Neve'
     }
   };
