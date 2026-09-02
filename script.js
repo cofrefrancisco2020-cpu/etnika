@@ -277,11 +277,13 @@
      CLASIFICACIÓN TURÍSTICA Y FILTROS
   ───────────────────────────────────────── */
   const ACTIVITY_CLASSIFICATION = {
-    'Araucaria Milenaria + Laguna Pehuenco': { experiences: 'nature snow', seasons: 'summer autumn winter spring', duration: 'short half' },
-    'Mirador Sierra del Colorado': { experiences: 'nature adventure snow', seasons: 'summer autumn winter spring', duration: 'short' },
+    'Araucaria Milenaria + Laguna Pehuenco · Verano': { experiences: 'nature', seasons: 'summer autumn spring', duration: 'short half' },
+    'Araucaria Milenaria + Laguna Pehuenco · Invierno': { experiences: 'nature snow', seasons: 'winter', duration: 'short half' },
+    'Mirador Sierra del Colorado': { experiences: 'nature adventure', seasons: 'summer autumn spring', duration: 'short' },
     'Trekking Piedra Santa': { experiences: 'nature adventure', seasons: 'summer autumn spring', duration: 'half' },
     'Laguna Espejo + Glaciar Sierra Nevada': { experiences: 'nature adventure', seasons: 'summer spring', duration: 'full' },
-    'Laguna Captrén': { experiences: 'nature snow', seasons: 'winter spring', duration: 'full' },
+    'Laguna Captrén — P.N. Conguillío · Verano': { experiences: 'nature', seasons: 'summer', duration: 'short half' },
+    'Laguna Captrén — P.N. Conguillío · Invierno': { experiences: 'nature snow', seasons: 'winter', duration: 'short half' },
     'Cráter Navidad': { experiences: 'adventure snow', seasons: 'summer autumn winter spring', duration: 'short half' },
     'Ascenso Volcán': { experiences: 'adventure snow', seasons: 'summer winter spring', duration: 'full' },
     'Tour Parque Nacional Conguillío': { experiences: 'nature', seasons: 'summer autumn spring', duration: 'full' },
@@ -700,14 +702,16 @@
      INICIALIZACIÓN
   ───────────────────────────────────────── */
   const TOUR_PRICES = {
-    'Araucaria Milenaria + Laguna Pehuenco': [190000, 116000, 93000, 80000, 72000, 67000],
+    'Araucaria Milenaria + Laguna Pehuenco · Verano': [175000, 107000, 86000, 74000, 66000, 62000],
+    'Araucaria Milenaria + Laguna Pehuenco · Invierno': [190000, 116000, 93000, 80000, 72000, 67000],
     'Mirador Sierra del Colorado': [200000, 126000, 103000, 90000, 82000, 77000],
     'Cráter Navidad': [250000, 150000, 115000, 99000, 89000, 82000],
     'Ascenso Volcán Lonquimay': [380000, 217000, 165000, 170000, 147000, 132000],
     'Ascenso Volcán Llaima': [595000, 324000, 233000, 245000, 205000, 179000],
     'Ascenso Volcán Tolhuaca': [552000, 302000, 219000, 213000, 182000, 160000],
     'Ascenso Volcán Sierra Nevada': [525000, 290000, 235000, 225000, 190000, 170000],
-    'Laguna Captrén': [335000, 200000, 155000, 130000, 120000, 110000],
+    'Laguna Captrén — P.N. Conguillío · Verano': [320000, 191000, 148000, 124000, 115000, 105000],
+    'Laguna Captrén — P.N. Conguillío · Invierno': [335000, 200000, 155000, 130000, 120000, 110000],
     'Cuesta de Las Raíces': [290000, 171000, 155000, 130000, 120000, 110000],
     'Inducción Ski & Snowboard': [280000, 215000, 195000, 183000, 177000, 172000],
     'Backcountry — Randonnée & Splitboard': [340000, 209000, 168000, 175000, 156000, 145000],
@@ -726,8 +730,12 @@
   ];
 
   const TOUR_DETAILS = {
-    'Araucaria Milenaria + Laguna Pehuenco': {
-      facts: [['Lugar', 'Reserva Nacional Malalcahuello-Nalcas'], ['Distancia', '1,5 km Araucaria · 1,1 km Laguna'], ['Duración', '2 horas promedio'], ['Dificultad', 'Baja']],
+    'Araucaria Milenaria + Laguna Pehuenco · Verano': {
+      facts: [['Lugar', 'Reserva Nacional Malalcahuello-Nalcas'], ['Distancia', '1,5 km Araucaria · 1,1 km Laguna'], ['Duración', '2,5 horas promedio'], ['Dificultad', 'Baja']],
+      inclusions: ['Transporte en van privada', 'Guía certificado local', 'Snack', 'Seguro de actividad para pasajeros chilenos', 'Fotografías', 'Interpretación natural y cultural']
+    },
+    'Araucaria Milenaria + Laguna Pehuenco · Invierno': {
+      facts: [['Lugar', 'Reserva Nacional Malalcahuello-Nalcas'], ['Distancia', '1,5 km Araucaria · 1,1 km Laguna'], ['Duración', '2,5 horas promedio'], ['Dificultad', 'Baja']],
       inclusions: ['Transporte en van privada', 'Guía certificado local', 'Snack', 'Raquetas de nieve, bastones y polainas', 'Seguro de actividad para pasajeros chilenos', 'Fotografías', 'Interpretación natural y cultural']
     },
     'Mirador Sierra del Colorado': {
@@ -751,7 +759,10 @@
       availability: 'Apertura de temporada desde el 15 de noviembre.', opening: [11, 15]
     },
     'Laguna Espejo + Glaciar Sierra Nevada': { availability: 'Apertura de temporada desde el 15 de noviembre.', opening: [11, 15] },
-    'Laguna Captrén': {
+    'Laguna Captrén — P.N. Conguillío · Verano': {
+      inclusions: ['Transporte en van', 'Guía certificado local', 'Snack', 'Entrada al Parque Nacional Conguillío', 'Seguro de actividad para pasajeros chilenos', 'Fotografías', 'Interpretación natural y cultural']
+    },
+    'Laguna Captrén — P.N. Conguillío · Invierno': {
       inclusions: ['Transporte en van', 'Guía certificado local', 'Snack', 'Entrada al Parque Nacional Conguillío', 'Raquetas de nieve, polainas y bastones de trekking', 'Seguro de actividad para pasajeros chilenos', 'Fotografías', 'Interpretación natural y cultural']
     },
     'Tour Parque Nacional Conguillío': { availability: 'Disponible desde noviembre, sujeto a la apertura de accesos por nieve.', opening: [11, 1] },
@@ -816,6 +827,60 @@
 
   function formatClp(value) {
     return '$' + new Intl.NumberFormat('es-CL').format(value);
+  }
+
+  function initActivityCarousels() {
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    document.querySelectorAll('[data-carousel]').forEach(carousel => {
+      const slides = Array.from(carousel.querySelectorAll('.carousel-slide'));
+      const previous = carousel.querySelector('.carousel-prev');
+      const next = carousel.querySelector('.carousel-next');
+      const counter = carousel.querySelector('.carousel-counter');
+      if (slides.length < 2 || !previous || !next) return;
+
+      let current = Math.max(0, slides.findIndex(slide => slide.classList.contains('is-active')));
+      let timer = null;
+
+      const show = target => {
+        current = (target + slides.length) % slides.length;
+        slides.forEach((slide, index) => {
+          const active = index === current;
+          slide.classList.toggle('is-active', active);
+          slide.setAttribute('aria-hidden', String(!active));
+        });
+        if (counter) counter.textContent = `${current + 1} / ${slides.length}`;
+      };
+
+      const stop = () => {
+        window.clearInterval(timer);
+        timer = null;
+      };
+
+      const start = () => {
+        if (reduceMotion || timer) return;
+        timer = window.setInterval(() => show(current + 1), 2200);
+      };
+
+      previous.addEventListener('click', event => {
+        event.stopPropagation();
+        stop();
+        show(current - 1);
+      });
+      next.addEventListener('click', event => {
+        event.stopPropagation();
+        stop();
+        show(current + 1);
+      });
+      carousel.addEventListener('mouseenter', start);
+      carousel.addEventListener('mouseleave', stop);
+      carousel.addEventListener('focusin', start);
+      carousel.addEventListener('focusout', event => {
+        if (!carousel.contains(event.relatedTarget)) stop();
+      });
+
+      show(current);
+    });
   }
 
   function initTourPricing() {
@@ -1545,6 +1610,55 @@
     I18N[lang] = Object.assign(I18N[lang] || {}, V23_I18N[lang]);
   });
 
+  const V24_I18N = {
+    en: {
+      'Araucaria Milenaria + Laguna Pehuenco · Verano': 'Araucaria Milenaria + Laguna Pehuenco · Summer',
+      'Araucaria Milenaria + Laguna Pehuenco · Invierno': 'Araucaria Milenaria + Laguna Pehuenco · Winter',
+      'Trekking verano': 'Summer trekking',
+      'Trekking invierno': 'Winter trekking',
+      'Bosques milenarios y Laguna Pehuenco en una ruta de verano sin nieve, con vistas al Volcán Lonquimay.': 'Ancient forests and Laguna Pehuenco on a snow-free summer trail, with views of Volcán Lonquimay.',
+      'Bosques nevados y Laguna Pehuenco con raquetas de nieve, una experiencia invernal para toda la familia.': 'Snow-covered forests and Laguna Pehuenco on snowshoes, a winter experience for the whole family.',
+      'Galería de Araucaria Milenaria en invierno': 'Araucaria Milenaria winter gallery',
+      'Laguna Pehuenco nevada en invierno': 'Snow-covered Laguna Pehuenco in winter',
+      'Araucaria Milenaria nevada en invierno': 'Snow-covered Araucaria Milenaria in winter',
+      'Foto anterior': 'Previous photo',
+      'Foto siguiente': 'Next photo',
+      '2,5 horas promedio': '2.5 hours average',
+      'Laguna Captrén — P.N. Conguillío · Verano': 'Laguna Captrén — P.N. Conguillío · Summer',
+      'Laguna Captrén — P.N. Conguillío · Invierno': 'Laguna Captrén — P.N. Conguillío · Winter',
+      'Circuito familiar de verano en el Parque Nacional Conguillío con vista privilegiada al Volcán Llaima.': 'A family-friendly summer circuit in Parque Nacional Conguillío with privileged views of Volcán Llaima.',
+      'Laguna Captrén entre bosques nevados, con vista al Volcán Llaima y equipo técnico para recorrer la nieve.': 'Laguna Captrén among snow-covered forests, with views of Volcán Llaima and technical gear for travelling over snow.',
+      'Laguna Captrén en verano': 'Laguna Captrén in summer',
+      'Laguna Captrén nevada en invierno': 'Snow-covered Laguna Captrén in winter',
+      'Nieve': 'Snow'
+    },
+    pt: {
+      'Araucaria Milenaria + Laguna Pehuenco · Verano': 'Araucaria Milenaria + Laguna Pehuenco · Verão',
+      'Araucaria Milenaria + Laguna Pehuenco · Invierno': 'Araucaria Milenaria + Laguna Pehuenco · Inverno',
+      'Trekking verano': 'Trekking de verão',
+      'Trekking invierno': 'Trekking de inverno',
+      'Bosques milenarios y Laguna Pehuenco en una ruta de verano sin nieve, con vistas al Volcán Lonquimay.': 'Bosques milenares e Laguna Pehuenco em uma trilha de verão sem neve, com vista para o Volcán Lonquimay.',
+      'Bosques nevados y Laguna Pehuenco con raquetas de nieve, una experiencia invernal para toda la familia.': 'Bosques nevados e Laguna Pehuenco com raquetes de neve, uma experiência de inverno para toda a família.',
+      'Galería de Araucaria Milenaria en invierno': 'Galeria de inverno da Araucaria Milenaria',
+      'Laguna Pehuenco nevada en invierno': 'Laguna Pehuenco coberta de neve no inverno',
+      'Araucaria Milenaria nevada en invierno': 'Araucaria Milenaria coberta de neve no inverno',
+      'Foto anterior': 'Foto anterior',
+      'Foto siguiente': 'Próxima foto',
+      '2,5 horas promedio': 'Média de 2,5 horas',
+      'Laguna Captrén — P.N. Conguillío · Verano': 'Laguna Captrén — P.N. Conguillío · Verão',
+      'Laguna Captrén — P.N. Conguillío · Invierno': 'Laguna Captrén — P.N. Conguillío · Inverno',
+      'Circuito familiar de verano en el Parque Nacional Conguillío con vista privilegiada al Volcán Llaima.': 'Circuito familiar de verão no Parque Nacional Conguillío, com vista privilegiada para o Volcán Llaima.',
+      'Laguna Captrén entre bosques nevados, con vista al Volcán Llaima y equipo técnico para recorrer la nieve.': 'Laguna Captrén entre bosques nevados, com vista para o Volcán Llaima e equipamento técnico para percorrer a neve.',
+      'Laguna Captrén en verano': 'Laguna Captrén no verão',
+      'Laguna Captrén nevada en invierno': 'Laguna Captrén coberta de neve no inverno',
+      'Nieve': 'Neve'
+    }
+  };
+
+  Object.keys(V24_I18N).forEach(lang => {
+    I18N[lang] = Object.assign(I18N[lang] || {}, V24_I18N[lang]);
+  });
+
   function normalizeText(value) {
     return String(value || '').replace(/\s+/g, ' ').trim();
   }
@@ -1644,6 +1758,7 @@
     initSmoothScroll();
     initReveal();
     initGallery();
+    initActivityCarousels();
     initWeather();
     initTourPricing();
     initActivityIncludes();

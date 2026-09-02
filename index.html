@@ -6,13 +6,14 @@
   <meta name="description" content="ETNIKA Eco & Aventura — Agencia de turismo en Malalcahuello, Araucanía Andina. Trekking, volcanes, kayak, cicloturismo y más desde 2016." />
   <meta name="theme-color" content="#0b0d0b" />
   <title>ETNIKA Eco & Aventura · Malalcahuello · Araucanía</title>
-  <link rel="icon" type="image/png" href="assets/logo_etnika.png?v=19" />
-  <link rel="apple-touch-icon" href="assets/logo_etnika.png?v=19" />
+  <link rel="icon" href="/favicon.ico" sizes="any" />
+  <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="preload" href="etnika-logo-walking-v19.mp4?v=19" as="video" type="video/mp4" fetchpriority="high" />
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:wght@300;400;500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css?v=23" />
+  <link rel="stylesheet" href="styles.css?v=24" />
 </head>
 <body>
 
@@ -195,23 +196,47 @@
   <div class="act-grid" id="act-grid">
 
     <!-- TREKKING -->
-    <article class="act-card" data-cat="trekking" data-featured="true" data-order="1">
+    <article class="act-card" id="araucaria-verano" data-cat="trekking" data-featured="true" data-order="1">
       <div class="act-img-wrap">
-        <img src="assets/ARAUCARIAMILENARIA.jpg" alt="Araucaria Milenaria" loading="lazy" />
-        <span class="act-badge">Trekking</span>
+        <img src="assets/ARAUCARIAMILENARIA.jpg" alt="Araucaria Milenaria en verano" loading="lazy" />
+        <span class="act-badge">Trekking verano</span>
         <span class="act-diff baja">Baja</span>
       </div>
       <div class="act-body">
-        <h3>Araucaria Milenaria + Laguna Pehuenco</h3>
+        <h3>Araucaria Milenaria + Laguna Pehuenco · Verano</h3>
         <div class="act-meta">
-          <span>⏱ 2 hrs</span><span>📍 2,6 km aprox.</span><span>👨‍👩‍👧 Familiar</span>
+          <span>⏱ 2,5 hrs</span><span>📍 2,6 km aprox.</span><span>👨‍👩‍👧 Familiar</span>
         </div>
-        <p>Bosques milenarios hasta una laguna de origen volcánico, con vistas al Volcán Lonquimay.</p>
+        <p>Bosques milenarios y Laguna Pehuenco en una ruta de verano sin nieve, con vistas al Volcán Lonquimay.</p>
         <div class="act-includes">
           <span>🚐 Transporte</span><span>🧗 Guía certif.</span><span>🍎 Snack</span><span>📷 Fotos</span>
         </div>
         <div class="act-price">Desde <strong>$35.000</strong> p/p</div>
-        <a href="https://wa.me/56996278258?text=Hola%20ETNIKA!%20Quiero%20info%20sobre%20Araucaria%20Milenaria" target="_blank" class="act-btn">Reservar</a>
+        <a href="https://wa.me/56996278258?text=Hola%20ETNIKA!%20Quiero%20info%20sobre%20Araucaria%20Milenaria%20en%20verano" target="_blank" class="act-btn">Reservar</a>
+      </div>
+    </article>
+
+    <article class="act-card" id="araucaria-invierno" data-cat="invernal" data-featured="true" data-order="2">
+      <div class="act-img-wrap activity-carousel" data-carousel aria-label="Galería de Araucaria Milenaria en invierno">
+        <img class="carousel-slide is-active" src="laguna-pehuenco-invierno.webp" alt="Laguna Pehuenco nevada en invierno" loading="lazy" aria-hidden="false" />
+        <img class="carousel-slide is-portrait" src="araucaria-milenaria-invierno.webp" alt="Araucaria Milenaria nevada en invierno" loading="lazy" aria-hidden="true" />
+        <button type="button" class="carousel-control carousel-prev" aria-label="Foto anterior">‹</button>
+        <button type="button" class="carousel-control carousel-next" aria-label="Foto siguiente">›</button>
+        <span class="carousel-counter" aria-live="polite">1 / 2</span>
+        <span class="act-badge inv">Trekking invierno</span>
+        <span class="act-diff baja">Baja</span>
+      </div>
+      <div class="act-body">
+        <h3>Araucaria Milenaria + Laguna Pehuenco · Invierno</h3>
+        <div class="act-meta">
+          <span>⏱ 2,5 hrs</span><span>📍 2,6 km aprox.</span><span>👨‍👩‍👧 Familiar</span>
+        </div>
+        <p>Bosques nevados y Laguna Pehuenco con raquetas de nieve, una experiencia invernal para toda la familia.</p>
+        <div class="act-includes">
+          <span>🚐 Transporte</span><span>🧗 Guía certif.</span><span>❄ Raquetas</span><span>📷 Fotos</span>
+        </div>
+        <div class="act-price">Desde <strong>$67.000</strong> p/p</div>
+        <a href="https://wa.me/56996278258?text=Hola%20ETNIKA!%20Quiero%20info%20sobre%20Araucaria%20Milenaria%20en%20invierno" target="_blank" class="act-btn">Reservar</a>
       </div>
     </article>
 
@@ -275,23 +300,43 @@
       </div>
     </article>
 
-    <article class="act-card" data-cat="trekking">
+    <article class="act-card" id="laguna-captren-verano" data-cat="trekking">
       <div class="act-img-wrap">
-        <img src="assets/lagunaarcoirisparquenacionalconguillio.jpeg" alt="Laguna Captrén" loading="lazy" />
-        <span class="act-badge">Trekking</span>
+        <img src="assets/lagunaarcoirisparquenacionalconguillio.jpeg" alt="Laguna Captrén en verano" loading="lazy" />
+        <span class="act-badge">Trekking verano</span>
         <span class="act-diff baja">Baja</span>
       </div>
       <div class="act-body">
-        <h3>Laguna Captrén — P.N. Conguillío</h3>
+        <h3>Laguna Captrén — P.N. Conguillío · Verano</h3>
         <div class="act-meta">
           <span>⏱ 2 hrs</span><span>📍 3.5 km</span><span>🐦 Birdwatching</span>
         </div>
-        <p>Circuito familiar en el Parque Nacional Conguillío con vista privilegiada al Volcán Llaima.</p>
+        <p>Circuito familiar de verano en el Parque Nacional Conguillío con vista privilegiada al Volcán Llaima.</p>
         <div class="act-includes">
           <span>🚐 Transporte</span><span>🧗 Guía certif.</span><span>🎟 Entrada</span><span>📷 Fotos</span>
         </div>
         <div class="act-price">Desde <strong>$80.000</strong> p/p</div>
-        <a href="https://wa.me/56996278258?text=Hola%20ETNIKA!%20Quiero%20info%20sobre%20Laguna%20Captr%C3%A9n" target="_blank" class="act-btn">Reservar</a>
+        <a href="https://wa.me/56996278258?text=Hola%20ETNIKA!%20Quiero%20info%20sobre%20Laguna%20Captr%C3%A9n%20en%20verano" target="_blank" class="act-btn">Reservar</a>
+      </div>
+    </article>
+
+    <article class="act-card" id="laguna-captren-invierno" data-cat="invernal">
+      <div class="act-img-wrap">
+        <img src="laguna-captren-invierno.webp" alt="Laguna Captrén nevada en invierno" loading="lazy" />
+        <span class="act-badge inv">Trekking invierno</span>
+        <span class="act-diff baja">Baja</span>
+      </div>
+      <div class="act-body">
+        <h3>Laguna Captrén — P.N. Conguillío · Invierno</h3>
+        <div class="act-meta">
+          <span>⏱ 2 hrs</span><span>📍 3.5 km</span><span>❄ Nieve</span>
+        </div>
+        <p>Laguna Captrén entre bosques nevados, con vista al Volcán Llaima y equipo técnico para recorrer la nieve.</p>
+        <div class="act-includes">
+          <span>🚐 Transporte</span><span>🧗 Guía certif.</span><span>❄ Raquetas</span><span>📷 Fotos</span>
+        </div>
+        <div class="act-price">Desde <strong>$110.000</strong> p/p</div>
+        <a href="https://wa.me/56996278258?text=Hola%20ETNIKA!%20Quiero%20info%20sobre%20Laguna%20Captr%C3%A9n%20en%20invierno" target="_blank" class="act-btn">Reservar</a>
       </div>
     </article>
 
@@ -1173,6 +1218,6 @@
   </section>
 </div>
 
-<script src="script.js?v=23"></script>
+<script src="script.js?v=24"></script>
 </body>
 </html>
