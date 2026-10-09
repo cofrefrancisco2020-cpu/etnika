@@ -719,6 +719,24 @@
     'Laguna Captrén — P.N. Conguillío · Invierno': [335000, 200000, 155000, 130000, 120000, 110000],
     'Cuesta de Las Raíces — Mirador Patachoique · Verano': [275000, 162000, 147000, 123000, 114000, 104000],
     'Cuesta de Las Raíces — Mirador Patachoique · Invierno': [290000, 171000, 155000, 130000, 120000, 110000],
+    'Ciclovía Malalcahuello — Manzanar · Solo ida': {
+      tiers: [
+        { min: 1, max: 1, price: 111990 },
+        { min: 2, max: 2, price: 95689 },
+        { min: 3, max: 3, price: 86889 },
+        { min: 4, max: 4, price: 82489 },
+        { min: 5, max: 9, price: 80500, label: '5 a 9' }
+      ]
+    },
+    'Ciclovía Malalcahuello — Manzanar': {
+      tiers: [
+        { min: 1, max: 1, price: 86990 },
+        { min: 2, max: 2, price: 68189 },
+        { min: 3, max: 3, price: 59389 },
+        { min: 4, max: 4, price: 54989 },
+        { min: 5, max: 9, price: 51750, label: '5 a 9' }
+      ]
+    },
     'Inducción Ski & Snowboard': [280000, 215000, 195000, 183000, 177000, 172000],
     'Backcountry — Randonnée & Splitboard': [340000, 209000, 168000, 175000, 156000, 145000],
     'Saltos Andinos': [160000, 90000, 67000, 56000, 48000, 45000]
@@ -779,6 +797,15 @@
     'Cuesta de Las Raíces — Mirador Patachoique · Invierno': {
       inclusions: ['Transporte en van', 'Guía certificado local', 'Snack', 'Entrada a Patachoique', 'Raquetas de nieve, polainas y bastones de trekking', 'Seguro de actividad para pasajeros chilenos', 'Fotografías', 'Interpretación natural y cultural'],
       note: 'Se recomienda llevar efectivo para artesanía y comida tradicional pehuenche en el sector Arenales.'
+    },
+    'Ciclovía Malalcahuello — Manzanar · Solo ida': {
+      facts: [['Modalidad', 'Solo ida'], ['Distancia', '12 km totales'], ['Duración', '2 horas aprox.'], ['Dificultad', 'Baja'], ['Horarios', 'AM 10:00 hrs · PM 15:00 hrs']],
+      inclusions: ['Equipo técnico: bicicleta, casco y kit de reparación', 'Snack en ruta', 'Guía en ruta', 'Fotografías', 'Interpretación natural', 'Seguro de actividad', 'Asistencia completa', 'Transporte de regreso a Malalcahuello o Termas de Manzanar'],
+      note: 'Recomendada para familias con niños, personas mayores o quienes prefieren un recorrido más liviano. Al finalizar, los buscamos en camioneta para regresar a Malalcahuello o al Hotel Termas de Manzanar.'
+    },
+    'Ciclovía Malalcahuello — Manzanar': {
+      facts: [['Modalidad', 'Ida y vuelta'], ['Distancia', '24 km totales'], ['Duración', '4 horas aprox.'], ['Dificultad', 'Media/Baja'], ['Horarios', 'AM 10:00 hrs · PM 15:00 hrs']],
+      inclusions: ['Equipo técnico: bicicleta, casco y kit de reparación', 'Snack en ruta', 'Guía en ruta', 'Fotografías', 'Interpretación natural y cultural', 'Seguro de actividad', 'Asistencia completa']
     },
     'Inducción Ski & Snowboard': {
       facts: [['Lugar', 'Centro de Ski Corralco'], ['Clases', '2 horas · 12:00 a 14:00']],
@@ -900,22 +927,26 @@
     });
   }
 
-  function initTourPricing() {
-    document.querySelectorAll('.act-card').forEach(card => {
-      const heading = card.querySelector('h3');
-      if (!heading) return;
-      const cardTitle = normalizeText(heading.textContent);
-      const match = Object.entries(TOUR_PRICES).find(([title]) => cardTitle.startsWith(title));
-      if (!match) return;
+  function normalizePriceTiers(pricing) {
+    if (Array.isArray(pricing)) {
+      return pricing.map((price, index) => ({ min: index + 1, max: index + 1, price }));
+    }
+    return pricing?.tiers || [];
+  }
 
-      const [, prices] = match;
+  function getPriceForPeople(pricing, people) {
+    return normalizePriceTiers(pricing).find(tier => people >= tier.min && people <= tier.max)?.price || null;
+  }
+
+  function renderTourPricing(card, pricingConfig) {
+      const tiers = normalizePriceTiers(pricingConfig);
       const priceEl = card.querySelector('.act-price');
       const button = card.querySelector('.act-btn');
-      if (!priceEl || !button) return;
+      if (!tiers.length || !priceEl || !button) return;
 
-      const soloPrice = prices[0];
-      const minimum = Math.min(...prices);
-      const bestIndex = prices.indexOf(minimum);
+      const soloPrice = tiers[0].price;
+      const minimum = Math.min(...tiers.map(tier => tier.price));
+      const bestIndex = tiers.findIndex(tier => tier.price === minimum);
       const maximumSaving = Math.max(0, Math.round((1 - minimum / soloPrice) * 100));
       priceEl.innerHTML = `
         <span class="act-price-offer">
@@ -926,6 +957,7 @@
         </span>
       `;
 
+      card.querySelector('.tour-prices')?.remove();
       const pricing = document.createElement('section');
       pricing.className = 'tour-prices';
       pricing.setAttribute('aria-label', 'Precios por cantidad de personas');
@@ -935,13 +967,16 @@
           <small>Ahorro comparado con la tarifa individual</small>
         </div>
         <div class="tour-price-grid">
-          ${prices.map((price, index) => {
+          ${tiers.map((tier, index) => {
+            const price = tier.price;
             const savingAmount = Math.max(0, soloPrice - price);
             const savingPercent = Math.max(0, Math.round((1 - price / soloPrice) * 100));
             const isBest = index === bestIndex;
+            const groupLabel = tier.label || String(tier.min);
+            const peopleLabel = tier.min === 1 && tier.max === 1 ? 'persona' : 'personas';
             return `
-              <button type="button" class="tour-price-row${isBest ? ' is-best' : ''}" data-booking-people="${index + 1}" data-booking-price="${price}" aria-label="Seleccionar ${index + 1} ${index === 0 ? 'persona' : 'personas'} por ${formatClp(price)} por persona">
-                <span class="price-group"><b>${index + 1}</b> <span>${index === 0 ? 'persona' : 'personas'}</span></span>
+              <button type="button" class="tour-price-row${isBest ? ' is-best' : ''}" data-booking-people="${tier.min}" data-booking-price="${price}" aria-label="Seleccionar ${groupLabel} ${peopleLabel} por ${formatClp(price)} por persona">
+                <span class="price-group"><b>${groupLabel}</b> <span>${peopleLabel}</span></span>
                 <span class="price-value">
                   <strong>${formatClp(price)}</strong>
                   <small>por persona</small>
@@ -956,8 +991,85 @@
         </div>
       `;
       card.querySelector('.act-body').insertBefore(pricing, button);
+  }
+
+  function initTourPricing() {
+    document.querySelectorAll('.act-card').forEach(card => {
+      const heading = card.querySelector('h3');
+      if (!heading) return;
+      const cardTitle = normalizeText(heading.textContent);
+      const match = Object.entries(TOUR_PRICES).find(([title]) => cardTitle.startsWith(title));
+      if (!match) return;
+      renderTourPricing(card, match[1]);
     });
     resetI18nCache();
+  }
+
+  const CICLOVIA_MODE_CONTENT = {
+    roundtrip: {
+      title: 'Ciclovía Malalcahuello — Manzanar',
+      meta: ['⏱ 4 hrs', '📍 24 km', '🔁 Ida y vuelta'],
+      description: 'Recorrido completo de ida y vuelta por la antigua línea férrea, entre bosque nativo, túneles y miradores.',
+      difficulty: 'Media/Baja'
+    },
+    oneway: {
+      title: 'Ciclovía Malalcahuello — Manzanar · Solo ida',
+      meta: ['⏱ 2 hrs', '📍 12 km', '🚙 Regreso incluido'],
+      description: 'Una alternativa más liviana para familias con niños, personas mayores o quienes prefieren pedalear solo un tramo. Al terminar, los buscamos en camioneta y regresamos a Malalcahuello o al Hotel Termas de Manzanar.',
+      difficulty: 'Baja'
+    }
+  };
+
+  function updateActivityDetails(card, config) {
+    const details = card.querySelector('.activity-includes');
+    if (!details || !config) return;
+    const inclusions = config.inclusions || [];
+    const count = details.querySelector('summary small');
+    if (count) count.innerHTML = `<span>${inclusions.length}</span> <span>${inclusions.length === 1 ? 'servicio' : 'servicios'}</span>`;
+    const content = details.querySelector('.includes-content');
+    if (!content) return;
+    content.innerHTML = `
+      ${config.facts ? `<dl class="activity-facts">${config.facts.map(([label, value]) => `<div><dt>${label}</dt><dd>${value}</dd></div>`).join('')}</dl>` : ''}
+      <strong class="includes-label">Servicios incluidos</strong>
+      <ul>${inclusions.map(item => `<li>${item}</li>`).join('')}</ul>
+      ${config.note ? `<p class="activity-detail-note">${config.note}</p>` : ''}
+    `;
+  }
+
+  function initCicloviaModes() {
+    const card = document.querySelector('.ciclovia-card');
+    const select = card?.querySelector('.ciclovia-mode-select');
+    if (!card || !select) return;
+
+    const applyMode = mode => {
+      const selected = CICLOVIA_MODE_CONTENT[mode] || CICLOVIA_MODE_CONTENT.roundtrip;
+      const pricing = TOUR_PRICES[selected.title];
+      const details = TOUR_DETAILS[selected.title];
+      card.dataset.cicloviaMode = mode;
+      card.dataset.activityTitle = selected.title;
+      card.dataset.duration = mode === 'oneway' ? 'short' : 'half';
+      card.dataset.difficulty = mode === 'oneway' ? 'easy' : 'moderate';
+      card.querySelector('.ciclovia-meta').innerHTML = selected.meta.map(item => `<span>${item}</span>`).join('');
+      card.querySelector('.ciclovia-description').textContent = selected.description;
+
+      const badge = card.querySelector('.act-diff');
+      if (badge) {
+        badge.className = `act-diff ${mode === 'oneway' ? 'baja' : 'media'}`;
+        badge.innerHTML = badge.querySelector('strong')
+          ? `<small>Dificultad</small><strong>${selected.difficulty}</strong>`
+          : selected.difficulty;
+        badge.setAttribute('aria-label', `Dificultad: ${selected.difficulty}`);
+      }
+
+      renderTourPricing(card, pricing);
+      updateActivityDetails(card, details);
+      resetI18nCache();
+      const language = document.documentElement.lang.startsWith('pt') ? 'pt' : document.documentElement.lang.startsWith('en') ? 'en' : 'es';
+      applyLanguage(language);
+    };
+
+    select.addEventListener('change', () => applyMode(select.value));
+    applyMode(select.value);
   }
 
   /* ─────────────────────────────────────────
@@ -984,7 +1096,7 @@
     const people = Number(document.getElementById('booking-people')?.value || 1);
     const priceBox = document.getElementById('booking-price');
     if (!priceBox) return;
-    const price = bookingContext.prices?.[people - 1];
+    const price = getPriceForPeople(bookingContext.prices, people);
     priceBox.hidden = !price;
     priceBox.innerHTML = price
       ? `<span>Tarifa publicada</span><strong>${formatClp(price)} <small>por persona</small></strong>`
@@ -1008,7 +1120,7 @@
     bookingContext.prices = priceMatch?.[1] || null;
 
     titleEl.textContent = title;
-    peopleEl.value = String(Math.max(1, Math.min(6, selectedPeople)));
+    peopleEl.value = String(Math.max(1, Math.min(9, selectedPeople)));
     dateEl.min = toLocalISO(minimumDate);
     dateEl.value = '';
     availabilityEl.hidden = !config?.availability;
@@ -1079,7 +1191,7 @@
       const lang = document.documentElement.lang.startsWith('pt') ? 'pt' : document.documentElement.lang.startsWith('en') ? 'en' : 'es';
       const locale = lang === 'pt' ? 'pt-BR' : lang === 'en' ? 'en-GB' : 'es-CL';
       const dateText = new Date(`${dateValue}T12:00:00`).toLocaleDateString(locale, { day: 'numeric', month: 'long', year: 'numeric' });
-      const price = bookingContext.prices?.[people - 1] || null;
+      const price = getPriceForPeople(bookingContext.prices, people);
       const message = bookingMessage(bookingContext.title, dateText, people, price, lang);
       window.open(`https://wa.me/56996278258?text=${encodeURIComponent(message)}`, '_blank', 'noopener');
       closeBookingModal();
@@ -1769,6 +1881,49 @@
     I18N[lang] = Object.assign(I18N[lang] || {}, V24_I18N[lang]);
   });
 
+  const V25_I18N = {
+    en: {
+      'Modalidad': 'Route option',
+      'Ida y vuelta': 'Round trip',
+      'Solo ida': 'One way',
+      'Solo ida + regreso en camioneta': 'One way + return by van',
+      'Ciclovía Malalcahuello — Manzanar · Solo ida': 'Malalcahuello — Manzanar Bike Route · One way',
+      'Recorrido completo de ida y vuelta por la antigua línea férrea, entre bosque nativo, túneles y miradores.': 'Complete round trip along the old railway line, through native forest, tunnels and viewpoints.',
+      'Una alternativa más liviana para familias con niños, personas mayores o quienes prefieren pedalear solo un tramo. Al terminar, los buscamos en camioneta y regresamos a Malalcahuello o al Hotel Termas de Manzanar.': 'A lighter option for families with children, older adults or anyone who prefers to cycle only one leg. At the end, we pick you up by van and return to Malalcahuello or Hotel Termas de Manzanar.',
+      '24 km totales': '24 km total', '12 km totales': '12 km total',
+      '4 horas aprox.': 'Approx. 4 hours', '2 horas aprox.': 'Approx. 2 hours',
+      'Horarios': 'Departure times', 'AM 10:00 hrs · PM 15:00 hrs': 'AM 10:00 · PM 15:00',
+      'Equipo técnico: bicicleta, casco y kit de reparación': 'Technical equipment: bicycle, helmet and repair kit',
+      'Snack en ruta': 'Trail snack', 'Guía en ruta': 'Route guide',
+      'Interpretación natural': 'Nature interpretation', 'Asistencia completa': 'Full assistance',
+      'Transporte de regreso a Malalcahuello o Termas de Manzanar': 'Return transport to Malalcahuello or Termas de Manzanar',
+      'Recomendada para familias con niños, personas mayores o quienes prefieren un recorrido más liviano. Al finalizar, los buscamos en camioneta para regresar a Malalcahuello o al Hotel Termas de Manzanar.': 'Recommended for families with children, older adults or anyone who prefers a lighter route. At the end, we pick you up by van to return to Malalcahuello or Hotel Termas de Manzanar.',
+      'Regreso incluido': 'Return included'
+    },
+    pt: {
+      'Modalidad': 'Modalidade',
+      'Ida y vuelta': 'Ida e volta',
+      'Solo ida': 'Somente ida',
+      'Solo ida + regreso en camioneta': 'Somente ida + retorno de van',
+      'Ciclovía Malalcahuello — Manzanar · Solo ida': 'Ciclovia Malalcahuello — Manzanar · Somente ida',
+      'Recorrido completo de ida y vuelta por la antigua línea férrea, entre bosque nativo, túneles y miradores.': 'Percurso completo de ida e volta pela antiga linha ferroviária, entre bosque nativo, túneis e mirantes.',
+      'Una alternativa más liviana para familias con niños, personas mayores o quienes prefieren pedalear solo un tramo. Al terminar, los buscamos en camioneta y regresamos a Malalcahuello o al Hotel Termas de Manzanar.': 'Uma alternativa mais leve para famílias com crianças, pessoas idosas ou quem prefere pedalar apenas um trecho. No final, buscamos vocês de van e retornamos a Malalcahuello ou ao Hotel Termas de Manzanar.',
+      '24 km totales': '24 km no total', '12 km totales': '12 km no total',
+      '4 horas aprox.': 'Aprox. 4 horas', '2 horas aprox.': 'Aprox. 2 horas',
+      'Horarios': 'Horários', 'AM 10:00 hrs · PM 15:00 hrs': 'AM 10:00 · PM 15:00',
+      'Equipo técnico: bicicleta, casco y kit de reparación': 'Equipamento técnico: bicicleta, capacete e kit de reparo',
+      'Snack en ruta': 'Snack no percurso', 'Guía en ruta': 'Guia no percurso',
+      'Interpretación natural': 'Interpretação natural', 'Asistencia completa': 'Assistência completa',
+      'Transporte de regreso a Malalcahuello o Termas de Manzanar': 'Transporte de retorno a Malalcahuello ou Termas de Manzanar',
+      'Recomendada para familias con niños, personas mayores o quienes prefieren un recorrido más liviano. Al finalizar, los buscamos en camioneta para regresar a Malalcahuello o al Hotel Termas de Manzanar.': 'Recomendada para famílias com crianças, pessoas idosas ou quem prefere um percurso mais leve. No final, buscamos vocês de van para retornar a Malalcahuello ou ao Hotel Termas de Manzanar.',
+      'Regreso incluido': 'Retorno incluído'
+    }
+  };
+
+  Object.keys(V25_I18N).forEach(lang => {
+    I18N[lang] = Object.assign(I18N[lang] || {}, V25_I18N[lang]);
+  });
+
   function normalizeText(value) {
     return String(value || '').replace(/\s+/g, ' ').trim();
   }
@@ -1872,6 +2027,7 @@
     initWeather();
     initTourPricing();
     initActivityIncludes();
+    initCicloviaModes();
     initBookingFlow();
     initDifficultyLabels();
     initMediaPerformance();
